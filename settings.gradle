@@ -1,0 +1,3 @@
+rootProject.name = 'grostore'
+
+include 'grostore-persistence', 'grostore-ucozapi'
