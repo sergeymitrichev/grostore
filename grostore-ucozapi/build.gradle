@@ -1,1 +1,5 @@
 version =  '0.1.0'
+
+dependencies {
+    compile "com.github.scribejava:scribejava-apis:5.5.0"
+}
