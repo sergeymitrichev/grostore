@@ -1,6 +1,12 @@
+plugins {
+    id 'net.nemerosa.versioning' version '2.0.0'
+}
 apply plugin: "idea"
 apply plugin: "eclipse"
 
+allprojects {
+    version = versioning.info.full
+}
 subprojects {
     apply plugin: "java"
 
@@ -11,8 +17,10 @@ subprojects {
 
     repositories {
         mavenCentral()
+        jcenter() {url "http://jcenter.bintray.com"}
         maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
     }
+
 }
 
 task wrapper(type: Wrapper) {
