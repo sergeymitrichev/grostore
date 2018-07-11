@@ -1,4 +1,4 @@
 package ru.ftob.grostore.model;
 
-public class User {
+public class User extends AbstractEntity {
 }
