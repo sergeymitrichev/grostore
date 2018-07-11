@@ -6,7 +6,7 @@ mainClassName = "ru.ftob.grostore.Main"
 
 dependencies {
     compile "log4j:log4j:1.2.17"
-    compile project(":grostore-ucozapi")
+    compile project(":grostore-model")
 }
 
 jar {
