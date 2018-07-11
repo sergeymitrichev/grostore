@@ -1,0 +1,14 @@
+apply plugin: "application"
+
+version = "0.1.0"
+
+mainClassName = "ru.ftob.grostore.Main"
+
+dependencies {
+    compile "log4j:log4j:1.2.17"
+    compile project(":grostore-model")
+}
+
+jar {
+    manifest.attributes("Simple-Class": mainClassName)
+}
