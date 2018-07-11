@@ -2,6 +2,7 @@ version =  '0.1.0'
 
 dependencies {
     compile "com.github.scribejava:scribejava-apis:5.5.0"
+    compile group: 'org.springframework', name: 'spring-context', version: '3.0.2.RELEASE'
     compile project(":grostore-model")
     compile project(":grostore-persistence")
 }

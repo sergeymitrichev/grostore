@@ -1,26 +1,37 @@
-package ru.ftob.grostore.ucozapi.client;
+package ru.ftob.grostore.ucoz;
 
 import com.github.scribejava.apis.UcozApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth10aService;
-import ru.ftob.grostore.ucozapi.Parameters;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class ApiClient {
+public class UcozApiClient {
 
-    private static final String SITE_URL = "";
-    private static final OAuth10aService service = new ServiceBuilder("your_api_key")
-            .apiSecret("your_api_secret")
-            .debug()
-            .build(UcozApi.instance());
+    private final String SITE_URL;
+    private final OAuth10aService service;
 
-    private ApiClient() {
+    public UcozApiClient(
+            String apiKey,
+            String apiSecret,
+            String token,
+            String tokenSecret,
+            String siteUrl
+                         ) {
+        service = new ServiceBuilder(apiKey)
+                .apiSecret(apiSecret)
+                .debug()
+                .build(UcozApi.instance());
+        SITE_URL = siteUrl;
     }
 
-    public Response makeRequest(String path, Verb method, Parameters parameters) {
+    public Response makeRequest(String path, Verb method, Map<String,String> parameters) {
         try {
             final OAuth1RequestToken requestToken = service.getRequestToken();
             final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, "oauthVerifier");
@@ -34,6 +45,6 @@ public class ApiClient {
     }
 
     public Response makeRequest(String path, Verb method) {
-        return makeRequest(path, method, null);
+        return makeRequest(path, method, (HashMap<String, String>) Collections.EMPTY_MAP);
     }
 }

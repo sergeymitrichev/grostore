@@ -1,8 +1,8 @@
-package ru.ftob.grostore.ucozapi.dto;
+package ru.ftob.grostore.ucoz.to;
 
 import ru.ftob.grostore.model.AbstractEntity;
 
-public abstract class BaseDTO<T extends AbstractEntity> {
+public abstract class UcozTO<T extends AbstractEntity> {
 
     private int id;
 
@@ -22,4 +22,5 @@ public abstract class BaseDTO<T extends AbstractEntity> {
     public void setId(int id) {
         this.id = id;
     }
+
 }
