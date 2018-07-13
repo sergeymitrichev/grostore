@@ -1,11 +1,9 @@
-package ru.ftob.grostore.ucoz.api;
-
-import ru.ftob.grostore.ucoz.to.UcozTO;
+package ru.ftob.grostore.ucoz.repository;
 
 import java.io.IOException;
 import java.util.List;
 
-interface UcozApi<T extends UcozTO> {
+interface ApiBaseRepository<T> {
 
     public T save(T t);
 
