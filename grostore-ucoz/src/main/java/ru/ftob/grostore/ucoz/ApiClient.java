@@ -13,13 +13,13 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public class UcozApiClient {
+public class ApiClient {
 
     private final String SITE_URL;
     private final OAuth10aService service;
     private final OAuth1AccessToken accessToken;
 
-    public UcozApiClient(
+    public ApiClient(
             String apiKey,
             String apiSecret,
             String token,

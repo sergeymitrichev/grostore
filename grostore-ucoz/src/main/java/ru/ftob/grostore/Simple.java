@@ -1,15 +1,11 @@
 package ru.ftob.grostore;
 
-import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verb;
 import org.springframework.context.support.GenericXmlApplicationContext;
-import ru.ftob.grostore.ucoz.UcozApiClient;
-import ru.ftob.grostore.ucoz.api.UserUcozApi;
-import ru.ftob.grostore.ucoz.to.UserUcozTO;
+import ru.ftob.grostore.ucoz.ApiClient;
+import ru.ftob.grostore.ucoz.repository.ApiUserRepositoryImpl;
+import ru.ftob.grostore.ucoz.to.UcozUser;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 class Simple {
@@ -28,9 +24,17 @@ class Simple {
         appCtx.load("spring-app.xml");
         appCtx.refresh();
 
-        UcozApiClient client = appCtx.getBean(UcozApiClient.class);
-        UserUcozApi userUcozApi = appCtx.getBean(UserUcozApi.class);
-        List<UserUcozTO> users = userUcozApi.getAll();
-        System.out.println(users);
+        ApiClient client = appCtx.getBean(ApiClient.class);
+        ApiUserRepositoryImpl userRepository = appCtx.getBean(ApiUserRepositoryImpl.class);
+        UcozUser user = userRepository.get("1");
+        System.out.println(user);
+
+        List<UcozUser> users = userRepository.getAll();
+        users.forEach(System.out::println);
+
+//          {"error":{"msg":"Not supported method","code":"NOT_SUPPORTED_METHOD"}} <- NPE
+//        ApiOrderRepositoryImpl orderUcozApi = appCtx.getBean(ApiOrderRepositoryImpl.class);
+//        UcozOrder order = orderUcozApi.get("UqSsczak%3Bxyeq%5E%21DcMNjBvbsJZUqYK396iqO4vK4y%3Boo");
+//        System.out.println(order);
     }
 }

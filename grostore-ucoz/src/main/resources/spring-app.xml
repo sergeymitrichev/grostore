@@ -8,7 +8,7 @@
 
     <context:property-placeholder location="classpath:ucoz.properties" system-properties-mode="OVERRIDE" />
 
-    <bean id="ucozApiClient" class="ru.ftob.grostore.ucoz.UcozApiClient">
+    <bean id="ucozApiClient" class="ru.ftob.grostore.ucoz.ApiClient">
         <constructor-arg index="0" type="java.lang.String" value="${ucoz.apiKey}" />
         <constructor-arg index="1" type="java.lang.String" value="${ucoz.apiSecret}" />
         <constructor-arg index="2" type="java.lang.String" value="${ucoz.token}" />
