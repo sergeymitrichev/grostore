@@ -3,6 +3,9 @@ version =  '0.1.0'
 dependencies {
     compile "com.github.scribejava:scribejava-apis:5.5.0"
     compile group: 'org.springframework', name: 'spring-context', version: '3.0.2.RELEASE'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.5'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.9.5'
     compile project(":grostore-model")
     compile project(":grostore-persistence")
 }

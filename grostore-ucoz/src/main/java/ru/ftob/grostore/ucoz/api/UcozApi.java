@@ -2,6 +2,7 @@ package ru.ftob.grostore.ucoz.api;
 
 import ru.ftob.grostore.ucoz.to.UcozTO;
 
+import java.io.IOException;
 import java.util.List;
 
 interface UcozApi<T extends UcozTO> {
@@ -10,8 +11,8 @@ interface UcozApi<T extends UcozTO> {
 
     public boolean delete(int id);
 
-    public T get(String id);
+    public T get(String id) throws IOException;
 
-    public List<T> getAll(); // TODO add uAPI parameters
+    public List<T> getAll() throws IOException; // TODO add uAPI parameters
 
 }
