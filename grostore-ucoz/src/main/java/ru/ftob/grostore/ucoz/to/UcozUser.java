@@ -1,20 +1,19 @@
 package ru.ftob.grostore.ucoz.to;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.github.scribejava.core.model.Response;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UcozUser {
 
     @JsonProperty("user")
     private String login;
 
-    @JsonProperty("full_name")
+//    @JsonProperty("full_name")
     private String fullName;
 
     @JsonProperty("uid")
@@ -34,6 +33,9 @@ public class UcozUser {
 
     @JsonProperty("email")
     private String email;
+
+    @JsonProperty("password")
+    private String password;
 
     @JsonProperty("avatar")
     private String avatar;
@@ -56,6 +58,13 @@ public class UcozUser {
     public UcozUser() {
     }
 
+    public UcozUser(String login, String fullName, String email, String password) {
+        this.login = login;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getLogin() {
         return login;
     }
@@ -64,10 +73,12 @@ public class UcozUser {
         this.login = login;
     }
 
+    @JsonGetter("name")
     public String getFullName() {
         return fullName;
     }
 
+    @JsonSetter("full_name")
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -118,6 +129,14 @@ public class UcozUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAvatar() {

@@ -32,6 +32,10 @@ class Simple {
         List<UcozUser> users = userRepository.getAll();
         users.forEach(System.out::println);
 
+        user = new UcozUser("test123", "tester", "smmit30@mail.ru", "1q2w3e4r");
+        UcozUser savedUser = userRepository.save(user);
+        System.out.println(savedUser);
+
 //          {"error":{"msg":"Not supported method","code":"NOT_SUPPORTED_METHOD"}} <- NPE
 //        ApiOrderRepositoryImpl orderUcozApi = appCtx.getBean(ApiOrderRepositoryImpl.class);
 //        UcozOrder order = orderUcozApi.get("UqSsczak%3Bxyeq%5E%21DcMNjBvbsJZUqYK396iqO4vK4y%3Boo");
