@@ -1,5 +1,6 @@
 package ru.ftob.grostore.ucoz.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,7 +23,7 @@ public class ApiOrderRepositoryImpl implements ApiBaseRepository<UcozOrder> {
 
     private ObjectMapper mapper;
 
-    private final static String MODULE_PATH = "/shop/order/";
+    private final static String MODULE_PATH = "/shop";
 
     public ApiOrderRepositoryImpl() {
         mapper = new ObjectMapper()
@@ -47,7 +48,7 @@ public class ApiOrderRepositoryImpl implements ApiBaseRepository<UcozOrder> {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("order", id);
 
-        Response response = client.makeRequest(MODULE_PATH, Verb.GET, parameters);
+        Response response = client.makeRequest(MODULE_PATH + "/order/", Verb.GET, parameters);
         System.out.println();
         System.out.println(response.getBody());
         return mapper.readValue(
@@ -59,6 +60,13 @@ public class ApiOrderRepositoryImpl implements ApiBaseRepository<UcozOrder> {
 
     @Override
     public List<UcozOrder> getAll() throws IOException {
-        return null;
+        Response response = client.makeRequest(MODULE_PATH + "/invoices/", Verb.GET);
+        System.out.println();
+        System.out.println(response.getBody());
+        return mapper.readValue(
+                mapper.readTree(response.getBody())
+                        .findValue("success")
+                        .toString(),
+                new TypeReference<List<UcozOrder>>(){});
     }
 }

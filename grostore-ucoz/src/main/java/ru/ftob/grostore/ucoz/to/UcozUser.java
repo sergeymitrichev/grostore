@@ -1,8 +1,6 @@
 package ru.ftob.grostore.ucoz.to;
 
 import com.fasterxml.jackson.annotation.*;
-import com.github.scribejava.core.model.Response;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -13,15 +11,15 @@ public class UcozUser {
     @JsonProperty("user")
     private String login;
 
-//    @JsonProperty("full_name")
-    private String fullName;
+    private String name;
 
     @JsonProperty("uid")
-    private String id;
+    private Integer id;
 
     @JsonProperty("phone")
-    private String phone;
+    private String phone = "";
 
+    //TODO add location mapping
     @JsonProperty("country")
     private String country;
 
@@ -46,7 +44,7 @@ public class UcozUser {
 
     @JsonProperty("last_visit")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime lastVisit;
+    private LocalDateTime visited;
 
     //Caused by: java.time.format.DateTimeParseException: Text '0000-00-00'
     // could not be parsed: Invalid value for YearOfEra
@@ -54,15 +52,23 @@ public class UcozUser {
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 //    private LocalDate birthday;
 
-
     public UcozUser() {
     }
 
     public UcozUser(String login, String fullName, String email, String password) {
+        this(login, fullName, "", "", "", "", email, password, "");
+    }
+
+    public UcozUser(String login, String fullName, String phone, String country, String state, String city, String email, String password, String avatar) {
         this.login = login;
-        this.fullName = fullName;
+        this.name = fullName;
+        this.phone = phone;
+        this.country = country;
+        this.state = state;
+        this.city = city;
         this.email = email;
         this.password = password;
+        this.avatar = avatar;
     }
 
     public String getLogin() {
@@ -74,20 +80,20 @@ public class UcozUser {
     }
 
     @JsonGetter("name")
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
     @JsonSetter("full_name")
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String fullName) {
+        this.name = fullName;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -155,19 +161,19 @@ public class UcozUser {
         this.created = created;
     }
 
-    public LocalDateTime getLastVisit() {
-        return lastVisit;
+    public LocalDateTime getVisited() {
+        return visited;
     }
 
-    public void setLastVisit(LocalDateTime lastVisit) {
-        this.lastVisit = lastVisit;
+    public void setVisited(LocalDateTime visited) {
+        this.visited = visited;
     }
 
     @Override
     public String toString() {
         return "UcozUser{" +
                 "login='" + login + '\'' +
-                ", fullName='" + fullName + '\'' +
+                ", fullName='" + name + '\'' +
                 ", id='" + id + '\'' +
                 ", phone='" + phone + '\'' +
                 ", country=" + country +
@@ -176,7 +182,7 @@ public class UcozUser {
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", created=" + created +
-                ", lastVisit=" + lastVisit +
+                ", visited=" + visited +
                 '}';
     }
 }
