@@ -6,15 +6,19 @@ import './plugins/vuetify'
 import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
+import store from '@/store/index'
+import '@fortawesome/fontawesome-free/css/all.css'
 
-
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  iconfont: "fa"
+});
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
