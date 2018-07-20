@@ -1,15 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ProductList from '@/components/ProductList'
+import Products from '@/components/ProductList'
+import Orders from '@/components/OrderList'
+import Customers from '@/components/CustomerList'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/products',
       name: 'ProductList',
-      component: ProductList
-    }
+      component: Products
+    },
+    {
+      path: '/orders',
+      name: 'OrderList',
+      component: Orders
+    },
+    {
+      path: '/customers',
+      name: 'CustomerList',
+      component: Customers
+    },
   ]
 })
