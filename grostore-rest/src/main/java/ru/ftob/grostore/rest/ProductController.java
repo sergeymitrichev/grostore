@@ -19,6 +19,7 @@ public class ProductController {
     }
 
     @PostMapping("/import")
+    @CrossOrigin(origins = "http://localhost:8081")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
         storageService.store(file);
