@@ -11,6 +11,9 @@ export default {
   getProducts (cb) {
     setTimeout(() => cb(_products), 1000)
   },
+  getPriceList () {
+
+  },
 
   buyProducts (products, cb, errorCb) {
     setTimeout(() => {
