@@ -20,6 +20,10 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     }
 
+    public AbstractNamedEntity(@NotBlank @Size(min = 2, max = 100) String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
