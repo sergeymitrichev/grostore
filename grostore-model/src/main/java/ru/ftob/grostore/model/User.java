@@ -2,6 +2,7 @@ package ru.ftob.grostore.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
