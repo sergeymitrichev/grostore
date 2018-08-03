@@ -27,18 +27,18 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     @NotNull
     private LocalDateTime updated = LocalDateTime.now();
 
-    @CreatedBy
-    @ManyToOne
-    @JoinColumn(name="created_by", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @CreatedBy
+//    @ManyToOne
+//    @JoinColumn(name="created_by", nullable = false)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
 //    @NotNull
-    private User createdBy;
+//    private User createdBy;
 
-    @ManyToOne
-    @JoinColumn(name="updated_by", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @ManyToOne
+//    @JoinColumn(name="updated_by", nullable = false)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
 //    @NotNull
-    private User updatedBy;
+//    private User updatedBy;
 
     public AbstractBaseEntity() {
     }
@@ -49,7 +49,7 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @Override
     public boolean isNew() {
-        if (id == 0) {
+        if (id == null || id == 0) {
             return true;
         }
         return false;
@@ -75,21 +75,21 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
         this.updated = updated;
     }
 
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public User getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(User updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+//    public User getCreatedBy() {
+//        return createdBy;
+//    }
+//
+//    public void setCreatedBy(User createdBy) {
+//        this.createdBy = createdBy;
+//    }
+//
+//    public User getUpdatedBy() {
+//        return updatedBy;
+//    }
+//
+//    public void setUpdatedBy(User updatedBy) {
+//        this.updatedBy = updatedBy;
+//    }
 
     @Override
     public String toString() {
@@ -97,8 +97,8 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
                 "id=" + id +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", createdBy=" + createdBy +
-                ", updatedBy=" + updatedBy +
+//                ", createdBy=" + createdBy +
+//                ", updatedBy=" + updatedBy +
                 '}';
     }
 

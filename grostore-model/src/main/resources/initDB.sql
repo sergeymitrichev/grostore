@@ -13,6 +13,7 @@ CREATE TABLE product_imports
     name text NOT NULL,
     file text NOT NULL,
     type text,
+    fields text,
     identity_field text,
     PRIMARY KEY (id)
 )

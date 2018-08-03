@@ -28,7 +28,7 @@
               <v-icon>fa-list-ul</v-icon>
             </v-list-tile-action>
           </v-list-tile>
-          <v-list-tile :to="'import'">
+          <v-list-tile :to="'imports'">
             <v-list-tile-title>Import</v-list-tile-title>
             <v-list-tile-action>
               <v-icon>fa-file-import</v-icon>

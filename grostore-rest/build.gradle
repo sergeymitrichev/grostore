@@ -25,7 +25,4 @@ targetCompatibility = 1.8
 dependencies {
     compile project(":grostore-service")
     testCompile("junit:junit")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile "org.springframework.boot:spring-boot-configuration-processor"
-    compile group: 'org.apache.poi', name: 'poi', version: '3.9'
 }

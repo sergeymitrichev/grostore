@@ -14,6 +14,9 @@ export default {
   [Types.CLEAR_PRICE_LISTS] (state) {
     state.priceLists = []
   },
+  [Types.SET_PRODUCT_IMPORT] (state, payload) {
+    state.productImport = payload
+  },
   [Types.SET_LOADING] (state, payload) {
     state.loading = payload.loading
   }

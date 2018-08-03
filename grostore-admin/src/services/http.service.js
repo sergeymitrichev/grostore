@@ -18,6 +18,10 @@ export default class HttpService {
   }
 
   static getPriceLists() {
-    return axios.get(`${BASE_URL}imports`)
+    return axios.get(`${BASE_URL}imports/`)
+  }
+
+  static getPriceList(id) {
+    return axios.get(`${BASE_URL}imports/${id}`)
   }
 }

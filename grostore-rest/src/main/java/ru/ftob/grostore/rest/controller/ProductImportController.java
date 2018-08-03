@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ftob.grostore.rest.exception.StorageFileNotFoundException;
 import ru.ftob.grostore.rest.service.StorageService;
+import ru.ftob.grostore.service.ProductImportService;
 
 @RestController
 @RequestMapping("/imports")
@@ -17,15 +18,28 @@ public class ProductImportController {
 
     private ProductImportControllerHandler handler;
 
+    private ProductImportService service;
+
     @Autowired
-    public ProductImportController(StorageService storageService, ProductImportControllerHandler handler) {
+    public ProductImportController(StorageService storageService, ProductImportControllerHandler handler, ProductImportService service) {
         this.storageService = storageService;
+        this.service = service;
         this.handler = handler;
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
         return ResponseEntity.ok(handler.create(file, name));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable Integer id) {
+        return ResponseEntity.ok(service.get(id));
     }
 
     @GetMapping("/files/{filename:.+}")
