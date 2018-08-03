@@ -1,6 +1,6 @@
 version =  '0.1.0'
 
 dependencies {
-//    compile project(":grostore-model")
+    compile project(":grostore-model")
     compile project(":grostore-persistence")
 }

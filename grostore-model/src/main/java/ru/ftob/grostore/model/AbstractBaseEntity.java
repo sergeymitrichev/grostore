@@ -49,6 +49,9 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @Override
     public boolean isNew() {
+        if (id == 0) {
+            return true;
+        }
         return false;
     }
 
