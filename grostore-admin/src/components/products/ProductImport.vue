@@ -3,6 +3,7 @@
     <v-card-title><h1>Price Import #{{this.$route.params.id}}</h1></v-card-title>
     <div>
       <v-text-field :value="productImport.name"></v-text-field>
+      {{productImport.raw}}
     </div>
   </v-card>
 </template>

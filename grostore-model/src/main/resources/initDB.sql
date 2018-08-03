@@ -20,9 +20,15 @@ CREATE TABLE product_imports
 
 CREATE TABLE product_import_fields
 (
+    id serial NOT NULL,
+    created timestamp with time zone default now() NOT NULL,
+    updated timestamp with time zone default now()  NOT NULL,
+    created_by integer,
+    updated_by integer,
     product_import_id integer NOT NULL,
-    field text NOT NULL,
-    ordinal integer NOT NULL
+    name text NOT NULL,
+    column_number integer NOT NULL,
+    PRIMARY KEY (id)
 )
 
 CREATE TABLE products

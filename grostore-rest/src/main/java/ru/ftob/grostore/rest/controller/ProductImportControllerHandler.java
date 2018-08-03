@@ -22,7 +22,9 @@ public class ProductImportControllerHandler {
     }
 
     public ProductImport create(MultipartFile file, String name) {
+        //TODO set unique filename
         storageService.store(file);
+        //TODO save raw as JSON file or tmp SQL table
         XlsHandler xlsHandler = new XlsHandler(file);
         ProductImport productImport = new ProductImport();
         productImport.setName(name);
