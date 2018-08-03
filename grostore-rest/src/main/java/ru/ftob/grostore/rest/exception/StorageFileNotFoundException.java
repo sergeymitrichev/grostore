@@ -1,4 +1,4 @@
-package ru.ftob.grostore.rest;
+package ru.ftob.grostore.rest.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 

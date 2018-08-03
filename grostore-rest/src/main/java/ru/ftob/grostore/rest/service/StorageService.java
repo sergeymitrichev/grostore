@@ -1,4 +1,4 @@
-package ru.ftob.grostore.rest;
+package ru.ftob.grostore.rest.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
