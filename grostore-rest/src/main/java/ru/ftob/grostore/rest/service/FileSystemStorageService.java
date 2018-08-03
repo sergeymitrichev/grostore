@@ -1,4 +1,4 @@
-package ru.ftob.grostore.rest;
+package ru.ftob.grostore.rest.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ru.ftob.grostore.rest.exception.StorageException;
+import ru.ftob.grostore.rest.exception.StorageFileNotFoundException;
+import ru.ftob.grostore.rest.StorageProperties;
 
 @Service
 public class FileSystemStorageService implements StorageService {
