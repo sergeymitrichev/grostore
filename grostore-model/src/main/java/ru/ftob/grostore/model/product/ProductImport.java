@@ -18,12 +18,12 @@ public class ProductImport extends AbstractNamedEntity {
     @Column(name = "type")
     private ProductImportType type;
 
-    @OneToMany(mappedBy = "product_imports_id", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "productImport", fetch = FetchType.EAGER)
     private List<ProductImportField> fields = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "identityField")
-    private ProductImportField identityField;
+    @Column(name = "identity_field")
+    private ProductImportFieldType identityField;
 
     @Transient
     private List<List<String>> raw;
@@ -59,11 +59,11 @@ public class ProductImport extends AbstractNamedEntity {
         fields.add(field);
     }
 
-    public ProductImportField getIdentityField() {
+    public ProductImportFieldType getIdentityField() {
         return identityField;
     }
 
-    public void setIdentityField(ProductImportField identityField) {
+    public void setIdentityField(ProductImportFieldType identityField) {
         this.identityField = identityField;
     }
 

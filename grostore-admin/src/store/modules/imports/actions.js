@@ -37,6 +37,7 @@ export default {
           commit(MutationTypes.SET_LOADING, {loading: false});
           //TODO redirect to price list page /imports/{id}
           resolve();
+          this.$router.push(`/imports/${response.data.id}`);
         })
         .catch(reject)
         .finally(() => commit(MutationTypes.SET_LOADING, {loading: false}))

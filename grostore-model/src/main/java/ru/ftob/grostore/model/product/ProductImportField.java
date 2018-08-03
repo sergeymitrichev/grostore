@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Table(name = "product_import_fields")
 public class ProductImportField extends AbstractNamedEntity {
 
-    @Column(name = "column")
-    private Integer column;
+    @Column(name = "column_number")
+    private Integer columnNumber;
 
     @ManyToOne
     @JoinColumn(name = "product_import_id")
@@ -18,12 +18,12 @@ public class ProductImportField extends AbstractNamedEntity {
     public ProductImportField() {
     }
 
-    public Integer getColumn() {
-        return column;
+    public Integer getColumnNumber() {
+        return columnNumber;
     }
 
-    public void setColumn(Integer column) {
-        this.column = column;
+    public void setColumnNumber(Integer columnNumber) {
+        this.columnNumber = columnNumber;
     }
 
     public ProductImport getProductImport() {
