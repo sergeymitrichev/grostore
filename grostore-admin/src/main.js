@@ -6,7 +6,7 @@ import './plugins/vuetify'
 import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
-import store from '@/store/index'
+import {store} from './store'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 Vue.use(Vuetify, {
@@ -19,6 +19,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {App},
   template: '<App/>'
-})
+});

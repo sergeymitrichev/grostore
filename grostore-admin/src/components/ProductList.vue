@@ -1,26 +1,13 @@
 <template>
   <div>
     <v-card>
-      <v-card-title><h1>Import Product</h1></v-card-title>
-      <ProductImportXls></ProductImportXls>
-    </v-card>
-    <v-card>
       <v-card-title>
         <h1>Product List</h1>
-        <!--<v-spacer></v-spacer>-->
-        <!--<v-text-field-->
-          <!--v-model="search"-->
-          <!--append-icon="search"-->
-          <!--label="Search"-->
-          <!--single-line-->
-          <!--hide-details-->
-        <!--&gt;</v-text-field>-->
       </v-card-title>
       <v-data-table
         :headers="headers"
         :items="products"
         :loading="loading"
-        :search="search"
         hide-actions
         class="elevation-10"
       >
@@ -67,19 +54,13 @@
             </v-edit-dialog>
           </td>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
-          Your search for "{{ search }}" found no results.
-        </v-alert>
       </v-data-table>
     </v-card>
   </div>
 </template>
 
 <script>
-  import ProductImportXls from "./products/ProductImportXls";
-
   export default {
-    components: {ProductImportXls},
     data() {
       return {
         loading: false,
