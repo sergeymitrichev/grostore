@@ -3,6 +3,7 @@ package ru.ftob.grostore.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.ftob.grostore.handler.XlsHandler;
 import ru.ftob.grostore.model.product.ProductImport;
 import ru.ftob.grostore.rest.service.StorageService;
 import ru.ftob.grostore.service.ProductImportService;
@@ -22,9 +23,11 @@ public class ProductImportControllerHandler {
 
     public ProductImport create(MultipartFile file, String name) {
         storageService.store(file);
+        XlsHandler xlsHandler = new XlsHandler(file);
         ProductImport productImport = new ProductImport();
         productImport.setName(name);
         productImport.setFile(file.getOriginalFilename());
+        productImport.setRaw(xlsHandler.getRaw());
         return productImportService.create(productImport);
     }
 }

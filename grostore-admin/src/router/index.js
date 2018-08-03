@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Products from '@/components/ProductList'
-import ProductImportXls from '@/components/products/ProductImport'
+import ProductImportList from '@/components/products/ProductImportList'
+import ProductImport from '@/components/products/ProductImport'
 import Orders from '@/components/OrderList'
 import Customers from '@/components/CustomerList'
 
@@ -15,9 +16,13 @@ export default new Router({
       component: Products
     },
     {
-      path: '/import',
-      name: 'ProductImport',
-      component: ProductImportXls
+      path: '/imports',
+      name: 'ProductImportList',
+      component: ProductImportList
+    },
+    {
+      path: '/imports/:id',
+      component: ProductImport
     },
     {
       path: '/orders',
