@@ -17,6 +17,9 @@ export default {
   [Types.SET_PRODUCT_IMPORT] (state, payload) {
     state.productImport = payload
   },
+  [Types.SET_PRODUCT_IMPORT_FIELDS] (state, payload) {
+    state.productImportFields = payload
+  },
   [Types.SET_LOADING] (state, payload) {
     state.loading = payload.loading
   }

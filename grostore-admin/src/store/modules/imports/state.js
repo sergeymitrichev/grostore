@@ -1,5 +1,7 @@
 export default {
   priceLists: [],
   productImport: [],
-  loading: false
+  loading: false,
+  productImportFields: [],
+  headers: []
 }

@@ -1,21 +1,31 @@
 package ru.ftob.grostore.model.product;
 
-import ru.ftob.grostore.model.AbstractNamedEntity;
+import ru.ftob.grostore.model.AbstractBaseEntity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "product_import_fields")
-public class ProductImportField extends AbstractNamedEntity {
+@Table(name = "product_imports_fields")
+public class ProductImportField extends AbstractBaseEntity {
 
     @Column(name = "column_number")
     private Integer columnNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "product_import_id")
-    private ProductImport productImport;
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private ProductImportFieldType type;
+
+    @Column(name = "identity")
+    private boolean identity;
+
+    @Column(name = "product_import_id")
+    private Integer productImportId;
 
     public ProductImportField() {
+    }
+
+    public ProductImportField(ProductImportFieldType type) {
+        this.type = type;
     }
 
     public Integer getColumnNumber() {
@@ -26,11 +36,27 @@ public class ProductImportField extends AbstractNamedEntity {
         this.columnNumber = columnNumber;
     }
 
-    public ProductImport getProductImport() {
-        return productImport;
+    public ProductImportFieldType getType() {
+        return type;
     }
 
-    public void setProductImport(ProductImport productImport) {
-        this.productImport = productImport;
+    public void setType(ProductImportFieldType type) {
+        this.type = type;
+    }
+
+    public boolean isIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(boolean identity) {
+        this.identity = identity;
+    }
+
+    public Integer getProductImportId() {
+        return productImportId;
+    }
+
+    public void setProductImportId(Integer productImportId) {
+        this.productImportId = productImportId;
     }
 }
