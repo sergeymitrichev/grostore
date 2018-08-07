@@ -5,6 +5,7 @@ import ru.ftob.grostore.model.AbstractNamedEntity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "product_imports")
@@ -18,15 +19,16 @@ public class ProductImport extends AbstractNamedEntity {
     @Column(name = "type")
     private ProductImportType type;
 
-    @OneToMany(mappedBy = "productImport", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "product_import_id", referencedColumnName = "id")
     private List<ProductImportField> fields = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "identity_field")
-    private ProductImportFieldType identityField;
 
     @Transient
     private List<List<String>> raw;
+
+    @Transient
+    private int rowLength;
 
     public ProductImport() {
     }
@@ -55,18 +57,6 @@ public class ProductImport extends AbstractNamedEntity {
         this.fields = fields;
     }
 
-    public void addField(ProductImportField field) {
-        fields.add(field);
-    }
-
-    public ProductImportFieldType getIdentityField() {
-        return identityField;
-    }
-
-    public void setIdentityField(ProductImportFieldType identityField) {
-        this.identityField = identityField;
-    }
-
     public List<List<String>> getRaw() {
         return raw;
     }
@@ -75,13 +65,20 @@ public class ProductImport extends AbstractNamedEntity {
         this.raw = raw;
     }
 
+    public int getRowLength() {
+        return rowLength;
+    }
+
+    public void setRowLength(int rowLength) {
+        this.rowLength = rowLength;
+    }
+
     @Override
     public String toString() {
         return "ProductImport{" +
                 "file='" + file + '\'' +
                 ", type=" + type +
                 ", fields=" + fields +
-                ", identityField=" + identityField +
                 '}';
     }
 }

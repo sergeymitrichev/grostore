@@ -6,21 +6,32 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class XlsHandler {
 
-    private MultipartFile file;
-
     private HSSFWorkbook workbook;
 
+    private int maxNrCols;
+
     public XlsHandler(MultipartFile file) {
-        this.file = file;
         try {
             workbook = new HSSFWorkbook(file.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public XlsHandler(Path file) {
+        try {
+            FileInputStream fis = new FileInputStream(file.toFile());
+            workbook = new HSSFWorkbook(fis);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,6 +46,7 @@ public class XlsHandler {
 
             Iterator<Cell> cellIterator = row.cellIterator();
             List<String> rawRow = new ArrayList<>();
+            int nrCols = 0;
             while (cellIterator.hasNext()) {
                 //TODO if CELL is empty
                 Cell cell = cellIterator.next();
@@ -46,7 +58,6 @@ public class XlsHandler {
                     case Cell.CELL_TYPE_NUMERIC:
                         rawRow.add(String.valueOf(cell.getNumericCellValue()));
                         break;
-
                     case Cell.CELL_TYPE_FORMULA:
                         rawRow.add(String.valueOf(cell.getNumericCellValue()));
                         break;
@@ -54,9 +65,17 @@ public class XlsHandler {
                         rawRow.add("");
                         break;
                 }
+                maxNrCols = (++nrCols > maxNrCols) ? nrCols : maxNrCols;
             }
             raw.add(rawRow);
         }
         return raw;
+    }
+
+    public int getMaxNrCols() {
+        if (maxNrCols == 0) {
+            //TODO throw new unhandled or empty XLS file
+        }
+        return maxNrCols;
     }
 }

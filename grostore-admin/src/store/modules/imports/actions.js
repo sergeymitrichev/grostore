@@ -16,6 +16,9 @@ export default {
         .catch(reject)
     })
   },
+
+
+
   [ActionTypes.initProductImportById]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, {loading: true});
     return new Promise((resolve, reject) => {
@@ -28,6 +31,28 @@ export default {
         .catch(reject)
     })
   },
+  [ActionTypes.getProductImportFields]({commit}, payload) {
+    return new Promise((resolve, reject) => {
+      HttpService.getProductImportFields()
+        .then((response) => {
+          commit(MutationTypes.SET_PRODUCT_IMPORT_FIELDS, response.data);
+          resolve()
+        })
+        .catch(reject)
+    })
+  },
+  [ActionTypes.updateProductImport]({commit}, payload) {
+    return new Promise((resolve, reject) => {
+      HttpService.updateProductImport(payload.id, payload)
+        .then((response) => {
+          commit(MutationTypes.SET_PRODUCT_IMPORT, response.data);
+          resolve()
+        })
+        .catch(reject)
+    })
+  },
+
+
   [ActionTypes.createPriceList]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, {loading: true});
     return new Promise((resolve, reject) => {
@@ -37,7 +62,8 @@ export default {
           commit(MutationTypes.SET_LOADING, {loading: false});
           //TODO redirect to price list page /imports/{id}
           resolve();
-          this.$router.push(`/imports/${response.data.id}`);
+
+          router.push(`/imports/${response.data.id}`);
         })
         .catch(reject)
         .finally(() => commit(MutationTypes.SET_LOADING, {loading: false}))
