@@ -51,6 +51,16 @@ export default {
         .catch(reject)
     })
   },
+  [ActionTypes.uploadProductImport]({commit}, payload) {
+    return new Promise((resolve, reject) => {
+      HttpService.uploadProductImport(payload.id)
+        .then((response) => {
+          // commit(MutationTypes.SET_PRODUCT_IMPORT, response.data);
+          resolve()
+        })
+        .catch(reject)
+    })
+  },
 
 
   [ActionTypes.createPriceList]({commit}, payload) {

@@ -1,4 +1,14 @@
-package ru.ftob.grostore.rest.service;
+package ru.ftob.grostore.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import ru.ftob.grostore.service.util.exception.StorageException;
+import ru.ftob.grostore.service.util.exception.StorageFileNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,17 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-import ru.ftob.grostore.rest.exception.StorageException;
-import ru.ftob.grostore.rest.exception.StorageFileNotFoundException;
-import ru.ftob.grostore.rest.StorageProperties;
 
 @Service
 public class FileSystemStorageService implements StorageService {

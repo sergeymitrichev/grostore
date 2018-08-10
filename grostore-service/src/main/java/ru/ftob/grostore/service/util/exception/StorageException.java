@@ -1,4 +1,4 @@
-package ru.ftob.grostore.rest.exception;
+package ru.ftob.grostore.service.util.exception;
 
 public class StorageException extends RuntimeException {
 

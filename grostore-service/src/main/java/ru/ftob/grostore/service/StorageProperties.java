@@ -1,4 +1,4 @@
-package ru.ftob.grostore.rest;
+package ru.ftob.grostore.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -9,7 +9,13 @@ export default {
   },
   headers(state) {
     state.headers = [];
-    for(let i = 0; i < state.productImport.rowLength; i++) {
+    let maxRowLength = 0;
+    state.productImport.raw.map(l => {
+      if(maxRowLength < l.length) {
+        maxRowLength = l.length;
+      }
+    });
+    for(let i = 0; i < maxRowLength; i++) {
       state.headers.push({'columnNumber': i});
     }
     return state.headers
