@@ -1,4 +1,4 @@
-package ru.ftob.grostore.util.exception;
+package ru.ftob.grostore.service.util.exception;
 
 public class NotFoundException extends RuntimeException  {
     public NotFoundException(String message) {

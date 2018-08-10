@@ -1,4 +1,7 @@
 package ru.ftob.grostore.model.product;
 
-public class Product {
+import ru.ftob.grostore.model.AbstractNamedEntity;
+
+public class Product extends AbstractNamedEntity {
+
 }

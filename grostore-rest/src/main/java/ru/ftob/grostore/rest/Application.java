@@ -8,7 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import ru.ftob.grostore.rest.service.StorageService;
+import ru.ftob.grostore.service.StorageService;
+import ru.ftob.grostore.service.StorageProperties;
 
 import java.util.HashMap;
 import java.util.Map;

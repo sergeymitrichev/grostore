@@ -2,9 +2,16 @@
   <v-card>
     <v-card-title>
       <h1>{{productImport.name}}</h1>
+    </v-card-title>
+    <div class="container">
+      <v-text-field
+        label="Name"
+        v-model="productImport.name"
+      ></v-text-field>
+      <input type="file" multiple name="file" required v-on:change=""/>
       <v-btn color="info" @click="edit()">Save</v-btn>
       <v-btn color="error" @click="upload()">Upload</v-btn>
-    </v-card-title>
+    </div>
     <v-data-table
       :headers="headers"
       :items="productImport.raw"
@@ -15,7 +22,8 @@
       <v-progress-linear v-if="loading" slot="progress" color="blue" indeterminate></v-progress-linear>
       <template slot="headers" slot-scope="props">
         <td v-for="header in props.headers">
-          <v-select :items="productImportFields" item-text="type" item-value="type" v-model="productImport.fields[header.columnNumber]"></v-select>
+          <v-select :items="productImportFields" item-text="type" item-value="type"
+                    v-model="productImport.fields[header.columnNumber]"></v-select>
         </td>
       </template>
       <template slot="items" slot-scope="props">
@@ -34,7 +42,7 @@
     name: 'ProductImport',
     data() {
       return {
-
+        productImportFile: null
       }
     },
     computed: {
@@ -53,24 +61,24 @@
     },
     methods: {
       edit() {
-        this.productImport.fields = [];
-        this.selectedFields.map((f, i) => {
-          this.productImport.fields.push({
-            type: f,
-            columnNumber: i,
-            identity: false,
-            productImportId: this.productImport.id
-          })
-        })
+        // this.productImport.fields = [];
+        // this.selectedFields.map((f, i) => {
+        //   this.productImport.fields.push({
+        //     type: f,
+        //     columnNumber: i,
+        //     identity: false,
+        //     productImportId: this.productImport.id
+        //   })
+        // })
         return store.dispatch('updateProductImport', this.productImport);
       },
       upload() {
-
+        return store.dispatch('uploadProductImport', {id: this.productImport.id});
       }
     },
     beforeRouteEnter(to, form, next) {
       Promise.all([
-        store.dispatch('initProductImportById', {'id': to.params.id}),
+        store.dispatch('initProductImportById', {id: to.params.id}),
         store.dispatch('getProductImportFields')
       ]).then(() => next());
     },

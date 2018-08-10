@@ -7,5 +7,6 @@ export default {
 
   initProductImportById: 'initProductImportById',
   updateProductImport: 'updateProductImport',
+  uploadProductImport: 'uploadProductImport',
   getProductImportFields: 'getProductImportFields'
 }
