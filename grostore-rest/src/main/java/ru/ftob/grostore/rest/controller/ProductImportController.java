@@ -7,16 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ftob.grostore.model.product.ProductImport;
-import ru.ftob.grostore.model.product.ProductImportField;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
-import ru.ftob.grostore.service.util.exception.StorageFileNotFoundException;
-import ru.ftob.grostore.service.StorageService;
 import ru.ftob.grostore.service.ProductImportService;
+import ru.ftob.grostore.service.StorageService;
+import ru.ftob.grostore.service.util.exception.StorageFileNotFoundException;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/imports")
@@ -49,24 +45,37 @@ public class ProductImportController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(
-            @RequestParam("productImport") ProductImport productImport,
+            @RequestParam("file") MultipartFile file, @RequestParam("name") String name
+    ) {
+        storageService.store(file);
+        ProductImport productImport = new ProductImport();
+        productImport.setName(name);
+        productImport.setFile(file.getOriginalFilename());
+        return ResponseEntity.ok(productImportService.create(productImport));
+    }
+
+    @PostMapping("/{id}/file")
+    public ResponseEntity<?> update(
+            @PathVariable Integer id,
             @RequestParam("file") MultipartFile file
     ) {
         storageService.store(file);
-        productImport.setFile(file.getOriginalFilename());
-        return ResponseEntity.ok(productImportService.create(productImport));
+        try {
+            ProductImport productImport = productImportService.get(id);
+            productImportService.update(productImport);
+            productImport.setFile(file.getOriginalFilename());
+            return ResponseEntity.ok(productImportService.get(id));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/{id}")
     public ResponseEntity<?> update(
             @PathVariable Integer id,
-            @RequestParam("productImport") ProductImport productImport,
-            @RequestParam(value = "file") Optional<MultipartFile> file
+            @RequestBody ProductImport productImport
     ) {
-        file.ifPresent(v -> {
-            storageService.store(v);
-            productImport.setFile(v.getOriginalFilename());
-        });
         productImportService.update(productImport);
         try {
             return ResponseEntity.ok(productImportService.get(id));
@@ -84,13 +93,8 @@ public class ProductImportController {
 
     @GetMapping("/fields")
     public ResponseEntity<?> getProductFields() {
-        return ResponseEntity.ok(
-                Arrays.stream(ProductImportFieldType.values())
-                        .map(ProductImportField::new)
-                        .collect(Collectors.toList()));
+        return ResponseEntity.ok(ProductImportFieldType.values());
     }
-
-
 
 
 //    @PostMapping("/create/old")

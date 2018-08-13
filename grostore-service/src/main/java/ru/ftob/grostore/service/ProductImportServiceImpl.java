@@ -1,19 +1,17 @@
 package ru.ftob.grostore.service;
 
+import com.poiji.bind.Poiji;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.product.ProductImport;
 import ru.ftob.grostore.persistence.ProductImportRepository;
-import ru.ftob.grostore.service.util.ReflectionUtil;
 import ru.ftob.grostore.service.util.XlsHandlerUtil;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
+import ru.ftob.grostore.service.xlsto.XlsProduct;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
@@ -51,6 +49,13 @@ public class ProductImportServiceImpl implements ProductImportService {
     @Override
     public void update(ProductImport productImport) {
         Assert.notNull(productImport, "Product Import must not be null");
+        Assert.notNull(productImport.getFields(), "Product Import fields must not be null");
+        Assert.notNull(productImport.getFile(), "Product Import file must not be null");
+        try {
+            XlsHandlerUtil.addFieldsToHeader(storageService.load(productImport.getFile()), productImport.getFields());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         checkNotFoundWithId(repository.save(productImport), productImport.getId());
     }
 
@@ -67,16 +72,8 @@ public class ProductImportServiceImpl implements ProductImportService {
     @Override
     public void uploadProducts(int id) {
         ProductImport productImport = repository.get(id);
-        Product product = ReflectionUtil.createInstance(Product.class);
-        Map<String, String> map = new HashMap<>();
-        productImport.getFields().forEach(f -> {
-            map.put(f.getType().getValue(), "value");
-        });
-        try {
-            ReflectionUtil.setFields(product, map);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        productImport.setRowLength(1);
+        List<XlsProduct> products = Poiji.fromExcel(storageService.load(productImport.getFile()).toFile(), XlsProduct.class);
+        products.forEach(System.out::println);
+        return;
     }
 }

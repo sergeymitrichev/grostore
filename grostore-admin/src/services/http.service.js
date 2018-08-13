@@ -13,10 +13,6 @@ export default class HttpService {
     });
   }
 
-  static importPriceList(id) {
-    return axios.post(`${BASE_URL}imports/${id}`);
-  }
-
   static getPriceLists() {
     return axios.get(`${BASE_URL}imports/`)
   }
@@ -28,9 +24,19 @@ export default class HttpService {
   static getProductImportFields() {
     return axios.get(`${BASE_URL}imports/fields`)
   }
-  static updateProductImport(id, formData) {
-    return axios.post(`${BASE_URL}imports/${id}`, formData);
+
+  static updateProductImportFile(id, file) {
+    return axios.post(`${BASE_URL}imports/${id}/file`, file, {
+      headers: {
+        'Content-Type': undefined
+      }
+    });
   }
+
+  static updateProductImport(id, productImport) {
+    return axios.post(`${BASE_URL}imports/${id}`, productImport);
+  }
+
   static uploadProductImport(id) {
     return axios.post(`${BASE_URL}imports/${id}/upload`);
   }
