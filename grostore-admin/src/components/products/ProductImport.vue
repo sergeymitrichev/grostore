@@ -8,7 +8,7 @@
         label="Name"
         v-model="productImport.name"
       ></v-text-field>
-      <input type="file" multiple name="file" required v-on:change=""/>
+      <input type="file" multiple name="file" required v-on:change="updateProductImportFile($event)"/>
       <v-btn color="info" @click="edit()">Save</v-btn>
       <v-btn color="error" @click="upload()">Upload</v-btn>
     </div>
@@ -22,7 +22,7 @@
       <v-progress-linear v-if="loading" slot="progress" color="blue" indeterminate></v-progress-linear>
       <template slot="headers" slot-scope="props">
         <td v-for="header in props.headers">
-          <v-select :items="productImportFields" item-text="type" item-value="type"
+          <v-select :items="productImportFields" item-text="type" item-value="columnNumber"
                     v-model="productImport.fields[header.columnNumber]"></v-select>
         </td>
       </template>
@@ -74,6 +74,11 @@
       },
       upload() {
         return store.dispatch('uploadProductImport', {id: this.productImport.id});
+      },
+      updateProductImportFile(e) {
+        let formData = new FormData();
+        formData.append('file', e.target.files[0], e.target.files[0].name);
+        return store.dispatch('updateProductImportFile', {file: formData, id: this.productImport.id});
       }
     },
     beforeRouteEnter(to, form, next) {

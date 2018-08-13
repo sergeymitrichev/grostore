@@ -1,6 +1,8 @@
 import MutationTypes from './types/mutation'
 import ActionTypes from './types/action'
 import HttpService from '../../../services/http.service'
+import router from '../../../router';
+
 
 export default {
   [ActionTypes.initPriceLists]({commit}) {
@@ -16,7 +18,6 @@ export default {
         .catch(reject)
     })
   },
-
 
 
   [ActionTypes.initProductImportById]({commit}, payload) {
@@ -51,6 +52,16 @@ export default {
         .catch(reject)
     })
   },
+  [ActionTypes.updateProductImportFile]({commit}, payload) {
+    return new Promise((resolve, reject) => {
+      HttpService.updateProductImportFile(payload.id, payload.file)
+        .then((response) => {
+          commit(MutationTypes.SET_PRODUCT_IMPORT, response.data);
+          resolve()
+        })
+        .catch(reject)
+    })
+  },  
   [ActionTypes.uploadProductImport]({commit}, payload) {
     return new Promise((resolve, reject) => {
       HttpService.uploadProductImport(payload.id)
@@ -70,10 +81,10 @@ export default {
         .then((response) => {
           commit(MutationTypes.ADD_PRICE_LIST, response.data);
           commit(MutationTypes.SET_LOADING, {loading: false});
-          //TODO redirect to price list page /imports/{id}
+          router.push(`/imports/${response.data.id}`);
           resolve();
 
-          router.push(`/imports/${response.data.id}`);
+
         })
         .catch(reject)
         .finally(() => commit(MutationTypes.SET_LOADING, {loading: false}))
