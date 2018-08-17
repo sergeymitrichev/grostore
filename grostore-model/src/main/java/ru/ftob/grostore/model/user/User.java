@@ -1,11 +1,13 @@
-package ru.ftob.grostore.model;
+package ru.ftob.grostore.model.user;
+
+import ru.ftob.grostore.model.base.AbstractNamedEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "account")
 public class User extends AbstractNamedEntity {
 
     private String phone;

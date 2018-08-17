@@ -1,13 +1,13 @@
 package ru.ftob.grostore.model.product;
 
-import ru.ftob.grostore.model.AbstractNamedEntity;
+import ru.ftob.grostore.model.base.AbstractNamedEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product_imports")
+@Table(name = "product_import")
 //@Table(name="product_imports", uniqueConstraints = {@UniqueConstraint(columnNames = "file, name")})
 public class ProductImport extends AbstractNamedEntity {
 

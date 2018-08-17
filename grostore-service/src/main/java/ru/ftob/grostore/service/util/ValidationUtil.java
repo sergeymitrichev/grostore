@@ -1,6 +1,6 @@
 package ru.ftob.grostore.service.util;
 
-import ru.ftob.grostore.model.AbstractBaseEntity;
+import ru.ftob.grostore.model.base.AbstractBaseEntity;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
 public class ValidationUtil {

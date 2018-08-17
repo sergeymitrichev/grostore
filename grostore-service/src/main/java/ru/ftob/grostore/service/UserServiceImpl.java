@@ -1,9 +1,6 @@
 package ru.ftob.grostore.service;
 
-import ru.ftob.grostore.model.User;
 import ru.ftob.grostore.persistence.UserRepository;
-
-import java.util.List;
 
 public class UserServiceImpl  {
 

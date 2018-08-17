@@ -1,12 +1,8 @@
 package ru.ftob.grostore.service.xlsto;
 
 import com.poiji.annotation.ExcelCellName;
-import com.poiji.annotation.ExcelRow;
 
 public class XlsProduct {
-
-    @ExcelRow
-    private int rowIndex;
 
     @ExcelCellName("ID")
     private Integer id;

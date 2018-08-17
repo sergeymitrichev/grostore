@@ -1,6 +1,6 @@
 package ru.ftob.grostore.model.product;
 
-import ru.ftob.grostore.model.AbstractBaseEntity;
+import ru.ftob.grostore.model.base.AbstractBaseEntity;
 
 import javax.persistence.*;
 

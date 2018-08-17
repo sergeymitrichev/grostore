@@ -1,4 +1,4 @@
-package ru.ftob.grostore.model;
+package ru.ftob.grostore.model.base;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -36,6 +36,6 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     public String toString() {
         return "AbstractNamedEntity{" +
                 "name='" + name + '\'' +
-                '}';
+                "} " + super.toString();
     }
 }
