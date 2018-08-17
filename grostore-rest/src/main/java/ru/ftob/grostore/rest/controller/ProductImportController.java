@@ -37,7 +37,7 @@ public class ProductImportController {
     public ResponseEntity<?> get(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(productImportService.get(id));
-        } catch (IOException e) {
+        }  catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }

@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS product_imports_fields;
-DROP TABLE IF EXISTS product_imports;
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS product_import_fields;
+DROP TABLE IF EXISTS product_import;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS account;
 
-CREATE TABLE product_imports
+CREATE TABLE product_import
 (
     id serial NOT NULL,
     created timestamp with time zone default now() NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE product_imports
     PRIMARY KEY (id)
 )
 
-CREATE TABLE product_imports_fields
+CREATE TABLE product_import_field
 (
     id serial NOT NULL,
     created timestamp with time zone default now() NOT NULL,
@@ -28,11 +28,11 @@ CREATE TABLE product_imports_fields
     type text NOT NULL,
     column_number integer NOT NULL,
     identity boolean default FALSE,
-    product_import_id integer NOT NULL references product_imports(id),
+    product_import_id integer NOT NULL references product_import(id),
     PRIMARY KEY (id)
 )
 
-CREATE TABLE products
+CREATE TABLE product
 (
     id serial NOT NULL,
     created timestamp with time zone NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE products
     PRIMARY KEY (id)
 )
 
-CREATE TABLE users
+CREATE TABLE account
 (
     id serial NOT NULL,
     created timestamp with time zone NOT NULL,

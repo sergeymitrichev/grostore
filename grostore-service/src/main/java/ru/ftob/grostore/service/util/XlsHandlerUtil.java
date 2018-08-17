@@ -2,6 +2,7 @@ package ru.ftob.grostore.service.util;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
 
@@ -45,13 +46,18 @@ public class XlsHandlerUtil {
         HSSFWorkbook workbook = getWorkBook(file);
         HSSFSheet sheet = workbook.getSheetAt(0);
 
-        if ("#config".equals(sheet.getRow(0).getCell(0).getStringCellValue())) {
+        if (sheet.getRow(1) != null &&
+                sheet.getRow(1).getCell(1) != null &&
+                sheet.getRow(1).getCell(1).getCellTypeEnum().equals(CellType.STRING) &&
+                "#config".equals(sheet.getRow(1).getCell(1).getStringCellValue())) {
             sheet.shiftRows(2, sheet.getLastRowNum(), -2);
         }
         sheet.shiftRows(0, sheet.getLastRowNum(), 2);
-        sheet.getRow(0).createCell(0).setCellValue("#config");
-        sheet.getRow(0).createCell(1).setCellValue(LocalDateTime.now().toString());
-        Row header = sheet.getRow(1);
+        sheet.getRow(1).createCell(0).setCellValue("====");
+        sheet.getRow(1).createCell(1).setCellValue("#config");
+        sheet.getRow(1).createCell(2).setCellValue(LocalDateTime.now().toString());
+        sheet.getRow(1).createCell(3).setCellValue("====");
+        Row header = sheet.getRow(0);
 
         for (int i = 0; i < fields.size(); i++) {
             if (null == header.getCell(i)) {
