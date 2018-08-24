@@ -1,10 +1,8 @@
 <template>
   <v-content>
-    <v-container grid-list-md>
-      <v-layout row wrap>
-        <v-flex xs-12>
+    <v-container fluid>
+      <v-layout child-flex>
           <router-view/>
-        </v-flex>
       </v-layout>
     </v-container>
   </v-content>

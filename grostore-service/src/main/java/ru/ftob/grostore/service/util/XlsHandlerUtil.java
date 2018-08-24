@@ -32,12 +32,17 @@ public class XlsHandlerUtil {
     public static List<List<String>> getRaw(Path file) throws IOException {
         HSSFSheet sheet = getWorkBook(file).getSheetAt(0);
         List<List<String>> raw = new ArrayList<>();
+        int rowLimit = 50;
         for (Row row : sheet) {
             List<String> rawRow = new ArrayList<>();
+
             for (int i = 0; i < row.getLastCellNum(); i++) {
                 rawRow.add(String.format("%8s", row.getCell(i)));
             }
             raw.add(rawRow);
+            if(--rowLimit == 0) {
+                break;
+            }
         }
         return raw;
     }
