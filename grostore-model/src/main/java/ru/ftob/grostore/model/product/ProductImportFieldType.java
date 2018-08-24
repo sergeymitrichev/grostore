@@ -4,7 +4,16 @@ public enum ProductImportFieldType {
     ID("id"),
     PRICE_IN("priceIn"),
     SKU("sku"),
-    NAME("name");
+    NAME("name"),
+    CATEGORIES("categories"),
+    TITLE("title"),
+    URL("url"),
+    META_DESCRIPTION("metaDescription"),
+    META_KEYWORDS("metaKeywords"),
+    META_IMAGE("metaImageIndex"),
+    IMAGES("images"),
+    BRIEF("brief"),
+    DESCRIPTION("description");
 
     private String value;
     ProductImportFieldType(String value) {

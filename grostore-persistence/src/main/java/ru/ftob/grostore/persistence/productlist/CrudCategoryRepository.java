@@ -1,35 +1,35 @@
-package ru.ftob.grostore.persistence.product;
+package ru.ftob.grostore.persistence.productlist;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ftob.grostore.model.product.Product;
+import ru.ftob.grostore.model.productlist.Category;
 
 import java.util.List;
 
 @Transactional(readOnly = true)
-public interface CrudProductRepository extends JpaRepository<Product, Integer> {
+public interface CrudCategoryRepository extends JpaRepository<Category, Integer> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Product p WHERE p.id=:id")
+    @Query("DELETE FROM Category c WHERE c.id=:id")
     int delete(@Param("id") int id);
 
     @Override
     @Transactional
-    Product save(Product product);
+    Category save(Category product);
 
     @Override
-    Product getOne(Integer id);
+    Category getOne(Integer id);
 
     @Override
-    List<Product> findAll();
+    List<Category> findAll();
 
     @Override
     @Transactional
-    <S extends Product> List<S> saveAll(Iterable<S> entities);
+    <S extends Category> List<S> saveAll(Iterable<S> entities);
 
-//    boolean existsByNameOrId()
+    Category getByName(String name);
 }

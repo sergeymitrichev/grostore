@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.product.ProductImport;
-import ru.ftob.grostore.model.product.ProductImportFieldType;
+import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.persistence.ProductImportRepository;
-import ru.ftob.grostore.persistence.product.ProductRepository;
-import ru.ftob.grostore.service.util.ReflectionUtil;
+import ru.ftob.grostore.service.mapper.XlsToProductMapper;
+import ru.ftob.grostore.service.product.ProductService;
+import ru.ftob.grostore.service.productlist.CategoryService;
 import ru.ftob.grostore.service.util.XlsHandlerUtil;
 import ru.ftob.grostore.service.util.exception.ConfigurationException;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
@@ -17,9 +18,7 @@ import ru.ftob.grostore.service.xlsto.XlsProduct;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
@@ -28,15 +27,25 @@ public class ProductImportServiceImpl implements ProductImportService {
 
     private final ProductImportRepository productImportRepository;
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
+
+    private final CategoryService categoryService;
 
     private final StorageService storageService;
 
+    private final XlsToProductMapper xlsToProductMapper;
+
     @Autowired
-    public ProductImportServiceImpl(ProductImportRepository productImportRepository, ProductRepository productRepository, StorageService storageService) {
+    public ProductImportServiceImpl(ProductImportRepository productImportRepository,
+                                    ProductService productService,
+                                    CategoryService categoryService,
+                                    StorageService storageService,
+                                    XlsToProductMapper xlsToProductMapper) {
         this.productImportRepository = productImportRepository;
-        this.productRepository = productRepository;
+        this.productService = productService;
+        this.categoryService = categoryService;
         this.storageService = storageService;
+        this.xlsToProductMapper = xlsToProductMapper;
     }
 
     @Override
@@ -92,20 +101,17 @@ public class ProductImportServiceImpl implements ProductImportService {
         ProductImport productImport = productImportRepository.get(id);
         List<XlsProduct> xlsProducts = Poiji.fromExcel(storageService.load(productImport.getFile()).toFile(), XlsProduct.class);
         List<Product> products = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
         xlsProducts.forEach(xlsProduct -> {
             try {
-                Product product = null;
-                product = ReflectionUtil.createInstance(Product.class);
-                ReflectionUtil.copyFields(
-                        xlsProduct,
-                        product,
-                        Arrays.stream(ProductImportFieldType.values()).map(ProductImportFieldType::getValue).collect(Collectors.toList())
-                );
+                Product product = xlsToProductMapper.map(xlsProduct, Product::new);
                 products.add(product);
+                categories.addAll(product.getCategories());
             } catch (ConfigurationException e) {
                 e.printStackTrace();
             }
         });
-        productRepository.saveAll(products);
+        categoryService.updateAll(categories);
+        productService.updateAll(products);
     }
 }

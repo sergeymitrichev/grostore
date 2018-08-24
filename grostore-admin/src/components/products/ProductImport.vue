@@ -1,38 +1,42 @@
 <template>
-  <v-card>
-    <v-card-title>
-      <h1>{{productImport.name}}</h1>
-    </v-card-title>
-    <div class="container">
-      <v-text-field
-        label="Name"
-        v-model="productImport.name"
-      ></v-text-field>
-      <input type="file" multiple name="file" required v-on:change="updateProductImportFile($event)"/>
-      <v-btn color="info" @click="edit()">Save</v-btn>
-      <v-btn color="error" @click="upload()">Upload</v-btn>
-    </div>
-    <v-data-table
-      :headers="headers"
-      :items="productImport.raw"
-      :loading="loading"
-      hide-actions
-      class="elevation-10"
-    >
-      <v-progress-linear v-if="loading" slot="progress" color="blue" indeterminate></v-progress-linear>
-      <template slot="headers" slot-scope="props">
-        <td v-for="header in props.headers">
-          <v-select :items="productImportFields" item-text="type" item-value="columnNumber"
-                    v-model="productImport.fields[header.columnNumber]"></v-select>
-        </td>
-      </template>
-      <template slot="items" slot-scope="props">
-        <td v-for="cell in props.item">
-          {{cell}}
-        </td>
-      </template>
-    </v-data-table>
-  </v-card>
+  <v-container grid-list-md>
+    <v-layout row wrap>
+      <v-flex md12>
+        <h1>{{productImport.name}}</h1>
+        <v-text-field
+          label="Name"
+          v-model="productImport.name"
+        ></v-text-field>
+      </v-flex>
+      <v-flex md6><input type="file" multiple name="file" required v-on:change="updateProductImportFile($event)"/>
+      </v-flex>
+      <v-flex md6 text-xs-right>
+        <v-btn color="info" @click="edit()">Save</v-btn>
+        <v-btn color="error" @click="upload()">Upload</v-btn>
+      </v-flex>
+      <v-flex md12>
+        <v-data-table
+          :headers="headers"
+          :items="productImport.raw"
+          :loading="loading"
+          class="elevation-10"
+        >
+          <v-progress-linear v-if="loading" slot="progress" color="blue" indeterminate></v-progress-linear>
+          <template slot="headers" slot-scope="props">
+            <td v-for="header in props.headers">
+              <v-select :items="productImportFields" item-text="type" item-value="columnNumber"
+                        v-model="productImport.fields[header.columnNumber]"></v-select>
+            </td>
+          </template>
+          <template slot="items" slot-scope="props">
+            <td v-for="cell in props.item">
+              {{cell}}
+            </td>
+          </template>
+        </v-data-table>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

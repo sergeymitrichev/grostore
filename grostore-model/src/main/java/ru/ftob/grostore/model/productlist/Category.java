@@ -1,6 +1,6 @@
 package ru.ftob.grostore.model.productlist;
 
-import ru.ftob.grostore.model.base.AbstractProductListEntity;
+import ru.ftob.grostore.model.base.AbstractNamedEntity;
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.product.Product;
 
@@ -10,13 +10,13 @@ import java.util.Set;
 
 @Entity
 @Table(name = "category")
-public class Category extends AbstractProductListEntity {
+public class Category extends AbstractNamedEntity {
 
     //TODO Could not determine type for: ru.ftob.grostore.model.base.AbstractPublishedEntity, at table: category, for columns: [org.hibernate.mapping.Column(article)]
     @Transient
     private AbstractPublishedEntity article;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))

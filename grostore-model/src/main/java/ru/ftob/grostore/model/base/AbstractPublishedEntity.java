@@ -19,6 +19,7 @@ public abstract class AbstractPublishedEntity extends AbstractDescribedEntity {
     @NotBlank
     @Size(min = 1, max = 40)
     @Column(name = "url", nullable = false)
+    //TODO validate url symbols (encode)
     private String url;
 
     @Size(max = 256)
