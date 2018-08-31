@@ -31,5 +31,7 @@ public interface CrudProductRepository extends JpaRepository<Product, Integer> {
     @Transactional
     <S extends Product> List<S> saveAll(Iterable<S> entities);
 
+    Product getBySku(String sku);
+
 //    boolean existsByNameOrId()
 }
