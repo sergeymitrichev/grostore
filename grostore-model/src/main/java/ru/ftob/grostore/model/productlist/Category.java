@@ -5,8 +5,8 @@ import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.product.Product;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
@@ -20,7 +20,7 @@ public class Category extends AbstractNamedEntity {
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products = new HashSet<>();
+    private List<Product> products = new ArrayList<>();
 
     public Category() {
     }
@@ -33,11 +33,11 @@ public class Category extends AbstractNamedEntity {
         this.article = article;
     }
 
-    public Set<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
@@ -45,7 +45,6 @@ public class Category extends AbstractNamedEntity {
     public String toString() {
         return "Category{" +
                 "article=" + article +
-                ", products=" + products +
                 "} " + super.toString();
     }
 }

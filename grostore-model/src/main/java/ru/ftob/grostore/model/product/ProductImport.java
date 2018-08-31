@@ -1,6 +1,7 @@
 package ru.ftob.grostore.model.product;
 
 import ru.ftob.grostore.model.base.AbstractNamedEntity;
+import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,14 +15,19 @@ public class ProductImport extends AbstractNamedEntity {
     @Column(name = "file", nullable = false)
     private String file;
 
-    @Transient
+//    @Transient
+    @Enumerated
+    @ElementCollection(targetClass = ProductImportFieldType.class, fetch = FetchType.EAGER)
     private List<ProductImportFieldType> fields = new ArrayList<>();
 
     @Transient
     private List<List<String>> raw;
 
     @Transient
-    private int rowLength;
+    private List<Product> uploadedProducts;
+
+    @Transient
+    private List<Category> uploadedCategories;
 
     public ProductImport() {
     }
@@ -50,12 +56,20 @@ public class ProductImport extends AbstractNamedEntity {
         this.raw = raw;
     }
 
-    public int getRowLength() {
-        return rowLength;
+    public List<Product> getUploadedProducts() {
+        return uploadedProducts;
     }
 
-    public void setRowLength(int rowLength) {
-        this.rowLength = rowLength;
+    public void setUploadedProducts(List<Product> uploadedProducts) {
+        this.uploadedProducts = uploadedProducts;
+    }
+
+    public List<Category> getUploadedCategories() {
+        return uploadedCategories;
+    }
+
+    public void setUploadedCategories(List<Category> uploadedCategories) {
+        this.uploadedCategories = uploadedCategories;
     }
 
     @Override
@@ -64,7 +78,6 @@ public class ProductImport extends AbstractNamedEntity {
                 "file='" + file + '\'' +
                 ", fields=" + fields +
                 ", raw=" + raw +
-                ", rowLength=" + rowLength +
                 '}';
     }
 }

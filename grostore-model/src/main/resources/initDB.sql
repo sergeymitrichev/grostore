@@ -20,18 +20,20 @@ CREATE TABLE product_import
     PRIMARY KEY (id)
 )
 
-CREATE TABLE product_import_field
+DROP TABLE IF EXISTS product_import_fields;
+CREATE TABLE product_import_fields
 (
     id serial NOT NULL,
-    created timestamp with time zone default now() NOT NULL,
-    updated timestamp with time zone default now()  NOT NULL,
-    created_by integer,
-    updated_by integer,
-    type text NOT NULL,
-    column_number integer NOT NULL,
-    identity boolean default FALSE,
-    product_import_id integer NOT NULL references product_import(id),
-    PRIMARY KEY (id)
+    fields text NOT NULL,
+--     created timestamp with time zone default now() NOT NULL,
+--     updated timestamp with time zone default now()  NOT NULL,
+--     created_by integer,
+--     updated_by integer,
+--     type text NOT NULL,
+--     column_number integer NOT NULL,
+--     identity boolean default FALSE,
+    product_import_id integer NOT NULL references product_import(id) ON DELETE CASCADE
+--     PRIMARY KEY (id)
 )
 
 CREATE TABLE product

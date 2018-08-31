@@ -4,21 +4,20 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
 public abstract class AbstractPublishedEntity extends AbstractDescribedEntity {
 
-    @NotBlank
-    @Size(min = 10, max = 100)
-    @Column(name = "title", nullable = false)
+//    @NotBlank
+//    @Size(min = 10, max = 100)
+    @Column(name = "title")
     private String title;
 
-    @NotBlank
-    @Size(min = 1, max = 40)
-    @Column(name = "url", nullable = false)
+//    @NotBlank
+//    @Size(min = 1, max = 40)
+    @Column(name = "url")
     //TODO validate url symbols (encode)
     private String url;
 
