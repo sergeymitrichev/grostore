@@ -1,7 +1,12 @@
 export default {
   initPriceLists: 'initPriceLists',
-  importPriceList: 'importPriceList',
   createPriceList: 'createPriceList',
-  updatePriceList: 'updatePriceList',
-  deletePriceList: 'deletePriceList'
+
+  deleteProductImport: 'deleteProductImport',
+
+  initProductImportById: 'initProductImportById',
+  updateProductImport: 'updateProductImport',
+  updateProductImportFile: 'updateProductImportFile',
+  uploadProductImport: 'uploadProductImport',
+  getProductImportFields: 'getProductImportFields'
 }

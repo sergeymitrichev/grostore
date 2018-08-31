@@ -1,4 +1,11 @@
 export default {
   priceLists: [],
-  loading: false
+  productImport: [],
+  loading: false,
+  result: {
+    products: [],
+    categories: []
+  },
+  productImportFields: [],
+  headers: []
 }
