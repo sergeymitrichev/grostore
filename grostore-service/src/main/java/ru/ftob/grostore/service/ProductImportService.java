@@ -20,5 +20,5 @@ public interface ProductImportService {
 
     ProductImport getWithProducts(int id);
 
-    void uploadProducts(int id);
+    ProductImport uploadProducts(int id);
 }

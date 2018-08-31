@@ -18,4 +18,6 @@ public interface ProductService {
     void updateAll(List<Product> products);
 
     List<Product> getAll();
+
+    Product getBySku(String sku);
 }

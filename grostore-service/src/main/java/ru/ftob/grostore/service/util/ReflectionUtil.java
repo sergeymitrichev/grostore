@@ -47,7 +47,8 @@ public class ReflectionUtil {
                     fld.setAccessible(true);
                     Object value = fld.get(src);
                     Field fldDest = ReflectionUtils.findField(dest.getClass(), field);
-                    if (fldDest != null) {
+                    //TODO add parameter to product imports "overwrite null values": true/false
+                    if (fldDest != null && value != null) {
                         fldDest.setAccessible(true);
                         fldDest.set(dest, value);
                     }
