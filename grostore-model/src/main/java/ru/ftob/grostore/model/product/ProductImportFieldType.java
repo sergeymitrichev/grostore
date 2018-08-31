@@ -1,6 +1,7 @@
 package ru.ftob.grostore.model.product;
 
 public enum ProductImportFieldType {
+    _IGNORE("ignore"),
     ID("id"),
     PRICE_IN("priceIn"),
     SKU("sku"),

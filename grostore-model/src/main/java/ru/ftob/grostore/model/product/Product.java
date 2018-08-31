@@ -5,8 +5,8 @@ import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -25,7 +25,7 @@ public class Product extends AbstractPublishedEntity {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @NotNull(message = "Product category list must not be null")
-    private Set<Category> categories = new HashSet<>();
+    private List<Category> categories = new ArrayList<>();
 
     public Product() {
     }
@@ -46,11 +46,11 @@ public class Product extends AbstractPublishedEntity {
         this.unit = unit;
     }
 
-    public Set<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 

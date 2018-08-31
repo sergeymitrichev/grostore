@@ -1,7 +1,6 @@
 package ru.ftob.grostore.model.base;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @MappedSuperclass
@@ -15,7 +14,7 @@ public class AbstractDescribedEntity extends AbstractNamedEntity {
     @Column(name = "brief")
     private String brief;
 
-    @Size(max = 4000)
+//    @Size(max = 4000)
     @Column(name = "description")
     private String description;
 
