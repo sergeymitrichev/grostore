@@ -15,4 +15,6 @@ public interface ProductRepository {
     Product get(int id);
 
     List<Product> getAll();
+
+    Product getBySku(String sku);
 }

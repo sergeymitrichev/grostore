@@ -40,4 +40,9 @@ public class DataJpaProductRepository implements ProductRepository{
     public List<Product> getAll() {
         return crudRepository.findAll();
     }
+
+    @Override
+    public Product getBySku(String sku) {
+        return crudRepository.getBySku(sku);
+    }
 }
