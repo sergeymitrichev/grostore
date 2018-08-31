@@ -4,17 +4,17 @@
     dark
   >
     <Navbar></Navbar>
-    <Content></Content>
+    <AppContent></AppContent>
   </v-app>
 </template>
 
 <script>
   import Navbar from "./Navbar";
-  import Content from "./Content";
+  import AppContent from "./AppContent";
 
   export default {
     name: "Layout",
-    components: {Content, Navbar}
+    components: {AppContent, Navbar}
   }
 </script>
 

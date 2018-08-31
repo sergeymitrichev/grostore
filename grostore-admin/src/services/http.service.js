@@ -50,6 +50,10 @@ export default class HttpService {
     });
   }
 
+  static deleteProductImport(id) {
+    return axios.delete(`${BASE_URL}imports/${id}`);
+  }
+
   static updateProductImport(id, productImport) {
     return axios.post(`${BASE_URL}imports/${id}`, productImport);
   }

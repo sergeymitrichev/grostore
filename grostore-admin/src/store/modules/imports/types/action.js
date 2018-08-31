@@ -1,8 +1,8 @@
 export default {
   initPriceLists: 'initPriceLists',
   createPriceList: 'createPriceList',
-  
-  deletePriceList: 'deletePriceList',
+
+  deleteProductImport: 'deleteProductImport',
 
   initProductImportById: 'initProductImportById',
   updateProductImport: 'updateProductImport',

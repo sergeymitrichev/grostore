@@ -9,7 +9,7 @@ export default {
     state.priceLists.push(...payload)
   },
   [Types.REMOVE_PRICE_LIST] (state, payload) {
-    _.remove(state.priceLists, (e) => e.id === payload.id)
+    state.priceLists = state.priceLists.filter(e => e.id !== payload.id);
   },
   [Types.CLEAR_PRICE_LISTS] (state) {
     state.priceLists = []
@@ -18,9 +18,13 @@ export default {
     state.productImport = payload
   },
   [Types.SET_PRODUCT_IMPORT_FIELDS] (state, payload) {
-    state.productImportFields = payload
+    state.productImportFields = payload;
+    state.productImportFields.unshift("_IGNORE");
   },
   [Types.SET_LOADING] (state, payload) {
     state.loading = payload.loading
+  },
+  [Types.SET_UPLOAD_RESULTS] (state, payload) {
+    state.result = payload
   }
 }

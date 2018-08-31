@@ -19,6 +19,18 @@ export default {
     })
   },
 
+  [ActionTypes.deleteProductImport]({commit}, payload) {
+    commit(MutationTypes.SET_LOADING, {loading: true});
+    return new Promise((resolve, reject) => {
+      HttpService.deleteProductImport(payload)
+        .then((response) => {
+          commit(MutationTypes.SET_LOADING, {loading: false});
+          commit(MutationTypes.REMOVE_PRICE_LIST, {id: response.data});
+          resolve()
+        })
+        .catch(reject)
+    })
+  },
 
   [ActionTypes.initProductImportById]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, {loading: true});
@@ -32,7 +44,7 @@ export default {
         .catch(reject)
     })
   },
-  [ActionTypes.getProductImportFields]({commit}, payload) {
+  [ActionTypes.getProductImportFields]({commit}) {
     return new Promise((resolve, reject) => {
       HttpService.getProductImportFields()
         .then((response) => {
@@ -43,10 +55,12 @@ export default {
     })
   },
   [ActionTypes.updateProductImport]({commit}, payload) {
+    commit(MutationTypes.SET_LOADING, {loading: true});
     return new Promise((resolve, reject) => {
       HttpService.updateProductImport(payload.id, payload)
         .then((response) => {
           commit(MutationTypes.SET_PRODUCT_IMPORT, response.data);
+          commit(MutationTypes.SET_LOADING, {loading: false});
           resolve()
         })
         .catch(reject)
@@ -61,18 +75,23 @@ export default {
         })
         .catch(reject)
     })
-  },  
+  },
   [ActionTypes.uploadProductImport]({commit}, payload) {
+    commit(MutationTypes.SET_LOADING, {loading: true});
     return new Promise((resolve, reject) => {
       HttpService.uploadProductImport(payload.id)
         .then((response) => {
-          // commit(MutationTypes.SET_PRODUCT_IMPORT, response.data);
+          commit(MutationTypes.SET_UPLOAD_RESULTS, response.data)
           resolve()
         })
-        .catch(reject)
+        .catch(reject => {
+          commit(MutationTypes.SET_UPLOAD_RESULTS, reject)
+        })
+        .finally(() => {
+          commit(MutationTypes.SET_LOADING, {loading: false})
+        })
     })
   },
-
 
   [ActionTypes.createPriceList]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, {loading: true});
@@ -83,13 +102,12 @@ export default {
           commit(MutationTypes.SET_LOADING, {loading: false});
           router.push(`/imports/${response.data.id}`);
           resolve();
-
-
         })
         .catch(reject)
         .finally(() => commit(MutationTypes.SET_LOADING, {loading: false}))
     })
   },
+
   [ActionTypes.importPriceList]({commit}, payload) {
     return new Promise((resolve, reject) => {
       HttpService.createPriceList({
