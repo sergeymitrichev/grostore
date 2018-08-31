@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ftob.grostore.model.product.ProductImport;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
+import ru.ftob.grostore.rest.webmodel.GuiCategory;
+import ru.ftob.grostore.rest.webmodel.GuiProduct;
+import ru.ftob.grostore.rest.webmodel.GuiProductImport;
 import ru.ftob.grostore.service.ProductImportService;
 import ru.ftob.grostore.service.StorageService;
 import ru.ftob.grostore.service.util.exception.StorageFileNotFoundException;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/imports")
@@ -85,23 +89,25 @@ public class ProductImportController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        productImportService.delete(id);
+        return ResponseEntity.ok(id);
+    }
+
     @PostMapping("/{id}/upload")
     public ResponseEntity<?> upload(@PathVariable Integer id) {
-        productImportService.uploadProducts(id);
-        return ResponseEntity.ok().build();
+        ProductImport productImport = productImportService.uploadProducts(id);
+        GuiProductImport guiProductImport = new GuiProductImport();
+        guiProductImport.setCategories(productImport.getUploadedCategories().stream().map(c-> new GuiCategory(c.getName())).collect(Collectors.toList()));
+        guiProductImport.setProducts(productImport.getUploadedProducts().stream().map(p-> new GuiProduct(p.getName(), p.getSku(), p.getCategories().stream().map(c-> c.getName()).collect(Collectors.joining(", ")))).collect(Collectors.toList()));
+        return ResponseEntity.ok(guiProductImport);
     }
 
     @GetMapping("/fields")
     public ResponseEntity<?> getProductFields() {
         return ResponseEntity.ok(ProductImportFieldType.values());
     }
-
-
-//    @PostMapping("/create/old")
-//    public ResponseEntity<?> create(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
-//        return ResponseEntity.ok(handler.create(file, name));
-//    }
-
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
@@ -116,7 +122,4 @@ public class ProductImportController {
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
     }
-
-
-    // TODO upload files http://spring.io/guides/gs/uploading-files/
 }
