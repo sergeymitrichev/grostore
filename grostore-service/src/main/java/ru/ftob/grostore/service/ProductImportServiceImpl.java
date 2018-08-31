@@ -1,6 +1,7 @@
 package ru.ftob.grostore.service;
 
 import com.poiji.bind.Poiji;
+import com.poiji.option.PoijiOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -17,8 +18,8 @@ import ru.ftob.grostore.service.util.exception.NotFoundException;
 import ru.ftob.grostore.service.xlsto.XlsProduct;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
@@ -97,21 +98,46 @@ public class ProductImportServiceImpl implements ProductImportService {
     }
 
     @Override
-    public void uploadProducts(int id) {
+    public ProductImport uploadProducts(int id) {
         ProductImport productImport = productImportRepository.get(id);
-        List<XlsProduct> xlsProducts = Poiji.fromExcel(storageService.load(productImport.getFile()).toFile(), XlsProduct.class);
+        PoijiOptions options = PoijiOptions.PoijiOptionsBuilder.settings()
+                .preferNullOverDefault(true)
+                .skip(2)
+                .build();
+        List<XlsProduct> xlsProducts = Poiji.fromExcel(storageService.load(productImport.getFile()).toFile(), XlsProduct.class, options);
         List<Product> products = new ArrayList<>();
-        List<Category> categories = new ArrayList<>();
         xlsProducts.forEach(xlsProduct -> {
             try {
-                Product product = xlsToProductMapper.map(xlsProduct, Product::new);
-                products.add(product);
-                categories.addAll(product.getCategories());
+                Product product = new Product();
+                if (xlsProduct.getId() != null) {
+                    product = productService.get(xlsProduct.getId());
+                } else if (xlsProduct.getSku() != null) {
+                    product = productService.getBySku(xlsProduct.getSku());
+                }
+                if (product == null) {
+                    product = new Product();
+                }
+                product = xlsToProductMapper.map(xlsProduct, product);
+                if (product != null) {
+                    List<Category> categories = product.getCategories().stream().distinct().map(category -> {
+                        Category persisted = categoryService.getByName(category.getName());
+                        if (persisted != null) {
+                            return persisted;
+                        }
+                        return category;
+                    }).collect(Collectors.toList());
+                    product.setCategories(categories);
+                    categoryService.updateAll(categories);
+                    productImport.setUploadedCategories(categories);
+                    products.add(product);
+                }
             } catch (ConfigurationException e) {
                 e.printStackTrace();
             }
         });
-        categoryService.updateAll(categories);
+//        categoryService.updateAll(categories);
         productService.updateAll(products);
+        productImport.setUploadedProducts(products);
+        return productImport;
     }
 }
