@@ -1,31 +1,33 @@
 package ru.ftob.grostore.model.product;
 
-import ru.ftob.grostore.model.AbstractNamedEntity;
+import ru.ftob.grostore.model.base.AbstractNamedEntity;
+import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="product_imports")
+@Table(name = "product_import")
 //@Table(name="product_imports", uniqueConstraints = {@UniqueConstraint(columnNames = "file, name")})
 public class ProductImport extends AbstractNamedEntity {
 
     @Column(name = "file", nullable = false)
     private String file;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private ProductImportType type;
+//    @Transient
+    @Enumerated
+    @ElementCollection(targetClass = ProductImportFieldType.class, fetch = FetchType.EAGER)
+    private List<ProductImportFieldType> fields = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "product_import_fields", joinColumns = @JoinColumn(name = "product_import_id"))
-    @Column(name = "field")
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<ProductImportField> fields;
+    @Transient
+    private List<List<String>> raw;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "identityField")
-    private ProductImportField identityField;
+    @Transient
+    private List<Product> uploadedProducts;
+
+    @Transient
+    private List<Category> uploadedCategories;
 
     public ProductImport() {
     }
@@ -38,37 +40,44 @@ public class ProductImport extends AbstractNamedEntity {
         this.file = file;
     }
 
-    public ProductImportType getType() {
-        return type;
-    }
-
-    public void setType(ProductImportType type) {
-        this.type = type;
-    }
-
-    public List<ProductImportField> getFields() {
+    public List<ProductImportFieldType> getFields() {
         return fields;
     }
 
-    public void setFields(List<ProductImportField> fields) {
+    public void setFields(List<ProductImportFieldType> fields) {
         this.fields = fields;
     }
 
-    public ProductImportField getIdentityField() {
-        return identityField;
+    public List<List<String>> getRaw() {
+        return raw;
     }
 
-    public void setIdentityField(ProductImportField identityField) {
-        this.identityField = identityField;
+    public void setRaw(List<List<String>> raw) {
+        this.raw = raw;
+    }
+
+    public List<Product> getUploadedProducts() {
+        return uploadedProducts;
+    }
+
+    public void setUploadedProducts(List<Product> uploadedProducts) {
+        this.uploadedProducts = uploadedProducts;
+    }
+
+    public List<Category> getUploadedCategories() {
+        return uploadedCategories;
+    }
+
+    public void setUploadedCategories(List<Category> uploadedCategories) {
+        this.uploadedCategories = uploadedCategories;
     }
 
     @Override
     public String toString() {
         return "ProductImport{" +
                 "file='" + file + '\'' +
-                ", type=" + type +
                 ", fields=" + fields +
-                ", identityField=" + identityField +
+                ", raw=" + raw +
                 '}';
     }
 }

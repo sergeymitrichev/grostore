@@ -1,6 +1,6 @@
 package ru.ftob.grostore.persistence;
 
-import ru.ftob.grostore.model.User;
+import ru.ftob.grostore.model.user.User;
 
 import java.util.List;
 
