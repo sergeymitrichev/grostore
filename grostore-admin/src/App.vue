@@ -1,14 +1,14 @@
 <template>
-  <Layout></Layout>
+  <AppFrame></AppFrame>
 </template>
 
 <script>
-  import Layout from "./layouts/Layout";
+  import AppFrame from "./layouts/AppFrame";
 
   export default {
     name: 'App',
     components: {
-      Layout
+      AppFrame
     }
   }
 </script>

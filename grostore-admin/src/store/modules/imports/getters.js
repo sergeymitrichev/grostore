@@ -10,12 +10,15 @@ export default {
   headers(state) {
     state.headers = [];
     let maxRowLength = 0;
+    if (!state.productImport.raw) {
+      return;
+    }
     state.productImport.raw.map(l => {
-      if(maxRowLength < l.length) {
+      if (maxRowLength < l.length) {
         maxRowLength = l.length;
       }
     });
-    for(let i = 0; i < maxRowLength; i++) {
+    for (let i = 0; i < maxRowLength; i++) {
       state.headers.push({'columnNumber': i});
     }
     return state.headers
@@ -25,5 +28,8 @@ export default {
   },
   productImportFields(state) {
     return state.productImportFields
+  },
+  result(state) {
+    return state.result
   }
 }
