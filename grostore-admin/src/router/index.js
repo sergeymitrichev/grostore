@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Products from '@/components/ProductList'
+import Products from '@/components/products/ProductList'
 import ProductImportList from '@/components/products/ProductImportList'
 import ProductImport from '@/components/products/ProductImport'
 import Orders from '@/components/OrderList'
