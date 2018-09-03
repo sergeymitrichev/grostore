@@ -5,6 +5,9 @@ public class GuiProduct {
     private String sku;
     private String categories;
 
+    public GuiProduct() {
+    }
+
     public GuiProduct(String name, String sku, String categories) {
         this.name = name;
         this.sku = sku;
