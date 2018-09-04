@@ -1,6 +1,8 @@
 package ru.ftob.grostore.rest.webmodel;
 
 public class GuiProduct {
+
+    private Integer id;
     private String name;
     private String sku;
     private String categories;
@@ -12,6 +14,14 @@ public class GuiProduct {
         this.name = name;
         this.sku = sku;
         this.categories = categories;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
