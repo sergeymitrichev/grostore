@@ -60,7 +60,7 @@ export default {
   [ActionTypes.updateProduct]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, true);
     return new Promise((resolve, reject) => {
-      ProductService.getProductList(payload)
+      ProductService.updateProduct(payload, payload.id)
         .then((response) => {
           commit(MutationTypes.REMOVE_PRODUCT, response.data.id);
           commit(MutationTypes.ADD_PRODUCT, response.data);

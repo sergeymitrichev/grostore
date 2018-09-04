@@ -47,9 +47,9 @@ public class ProductController {
     @PostMapping("/{id}")
     public ResponseEntity<?> update(
             @PathVariable Integer id,
-            @RequestBody Product product
+            @RequestBody GuiProduct product
     ) {
-        productService.update(product);
+        productService.update(modelMapper.map(product, Product.class));
         return ResponseEntity.ok(product);
     }
 

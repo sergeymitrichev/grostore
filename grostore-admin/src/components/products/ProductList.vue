@@ -30,6 +30,7 @@
                   label="Edit"
                   single-line
                   counter
+                  @input="change(props.item)"
                 ></v-text-field>
               </v-edit-dialog>
             </td>
@@ -39,7 +40,7 @@
                 lazy
                 @save="save"
                 @cancel="cancel"
-                @open="open()"
+                @open="open"
                 @close="close"
               >
                 {{props.item.sku}}
@@ -55,17 +56,18 @@
             </td>
           </template>
         </v-data-table>
+        <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+          {{ snackText }}
+          <v-btn flat @click="snack = false">Close</v-btn>
+        </v-snackbar>
       </v-flex>
     </v-layout>
-    <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-      {{ snackText }}
-      <v-btn flat @click="snack = false">Close</v-btn>
-    </v-snackbar>
   </v-container>
 </template>
 
 <script>
   import {store} from '../../store'
+  import * as _ from "lodash";
 
   export default {
     name: "ProductList",
@@ -92,10 +94,15 @@
       }
     },
     methods: {
-      save() {
+      change(product) {
+         _.debounce(this.save, 1000)(product);
+      },
+      save(product) {
+        console.log("save");
         this.snack = true;
         this.snackColor = 'success';
         this.snackText = 'Data saved';
+        return store.dispatch('updateProduct', product);
       },
       cancel() {
         this.snack = true;
