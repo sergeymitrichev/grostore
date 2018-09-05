@@ -20,6 +20,6 @@ dependencies {
     compile group: 'org.apache.poi', name: 'poi', version: '3.17'
     compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
     compile "org.springframework.boot:spring-boot-configuration-processor"
-    compile 'com.github.ozlerhakan:poiji:1.16-list'
+    compile 'com.github.ozlerhakan:poiji:1.16'
 
 }
