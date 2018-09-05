@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAll() {
-        return productRepository.getAll().subList(0, 50);
+        return productRepository.getAll();//.subList(0, 50);
     }
 
     @Override
