@@ -3,6 +3,37 @@
     <v-layout row wrap>
       <v-flex md12>
         <h1>Products</h1>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-btn slot="activator" color="success" dark @click="editedItem = defaultItem; editedIndex = -1" class="mb-2">New Item</v-btn>
+          <v-card>
+            <v-card-title>
+              <span class="headline">{{ formTitle }}</span>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <input type="hidden" :v-model="editedItem.id">
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field v-model="editedItem.name" label="Item name"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field v-model="editedItem.categories" label="Categories"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field v-model="editedItem.sku" label="SKU"></v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="darken-1" flat @click.native="close">Cancel</v-btn>
+              <v-btn color="success darken-1" flat @click.native="save">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-flex>
       <v-flex md12>
         <v-data-table
@@ -13,53 +44,22 @@
         >
           <v-progress-linear v-if="loading" slot="progress" color="danger" indeterminate></v-progress-linear>
           <template slot="items" slot-scope="props">
-            <td>
-              <v-edit-dialog
-                :return-value.sync="props.item.name"
-                lazy
-                @save="save"
-                @cancel="cancel"
-                @open="open"
-                @close="close"
-              >
+            <tr @click="editItem(props.item)" class="active-row">
+              <td>
+                {{props.item.id}}
+              </td>
+              <td>
                 {{props.item.name}}
-                <v-text-field
-                  slot="input"
-                  v-model="props.item.name"
-                  :rules="[max160chars]"
-                  label="Edit"
-                  single-line
-                  counter
-                  @input="change(props.item)"
-                ></v-text-field>
-              </v-edit-dialog>
-            </td>
-            <td>
-              <v-edit-dialog
-                :return-value.sync="props.item.sku"
-                lazy
-                @save="save"
-                @cancel="cancel"
-                @open="open"
-                @close="close"
-              >
+              </td>
+              <td>
                 {{props.item.sku}}
-                <v-text-field
-                  slot="input"
-                  v-model="props.item.sku"
-                  :rules="[max160chars]"
-                  label="Edit"
-                  single-line
-                  counter
-                ></v-text-field>
-              </v-edit-dialog>
-            </td>
+              </td>
+              <td>
+                {{props.item.categories}}
+              </td>
+            </tr>
           </template>
         </v-data-table>
-        <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-          {{ snackText }}
-          <v-btn flat @click="snack = false">Close</v-btn>
-        </v-snackbar>
       </v-flex>
     </v-layout>
   </v-container>
@@ -73,10 +73,18 @@
     name: "ProductList",
     data() {
       return {
-        snack: false,
-        snackColor: '',
-        snackText: 'ENTER - save, ESC - cancel',
-        max160chars: (v) => v.length <= 160 || 'Input too long!',
+        dialog: false,
+        editedIndex: -1,
+        editedItem: {
+          name: '',
+          sku: '',
+          categories: ''
+        },
+        defaultItem: {
+          name: '',
+          sku: '',
+          categories: ''
+        }
       }
     },
     computed: {
@@ -91,43 +99,54 @@
       },
       loading() {
         return store.getters.loading
+      },
+      formTitle() {
+        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       }
     },
     methods: {
-      change(product) {
-         _.debounce(this.save, 1000)(product);
+      editItem(item) {
+        this.editedIndex = this.products.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
       },
-      save(product) {
-        console.log("save");
-        this.snack = true;
-        this.snackColor = 'success';
-        this.snackText = 'Data saved';
-        return store.dispatch('updateProduct', product);
+
+      deleteItem(item) {
+        const index = this.products.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.products.splice(index, 1)
       },
-      cancel() {
-        this.snack = true;
-        this.snackColor = 'error';
-        this.snackText = 'Canceled';
-      },
-      open() {
-        console.log("open");
-        this.snack = true;
-        this.snackColor = 'info';
-        this.snackText = 'Dialog opened';
-      },
+
       close() {
-        console.log('Dialog closed');
+        this.dialog = false;
+      },
+      save() {
+        this.close();
+        let action = this.editedIndex ? 'updateProduct' : 'createProduct';
+        return store.dispatch(action, this.editedItem).then(r => {
+          alert('success');
+          console.log(r);
+        }).catch(e => {
+          alert('fail');
+          console.log(e);
+        })
       }
     },
-    beforeRouteEnter(to, form, next) {
+    watch: {
+      dialog(val) {
+        val || this.close()
+      }
+    },
+    created() {
       Promise.all([
         store.dispatch('getProductFields'),
         store.dispatch('initProductList')
-      ]).then(() => next());
-    }
+      ]).then();
+    },
   }
 </script>
 
 <style scoped>
-
+  .active-row {
+    cursor: pointer;
+  }
 </style>
