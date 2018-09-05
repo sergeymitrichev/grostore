@@ -7,7 +7,6 @@ mainClassName = "ru.ftob.grostore.Main"
 dependencies {
     compile "log4j:log4j:1.2.17"
     compile project(":grostore-model")
-    compile project(":grostore-ucoz")
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.4'
     compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: '9.0.10'
 }
