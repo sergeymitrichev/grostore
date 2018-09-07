@@ -1,4 +1,4 @@
-package ru.ftob.grostore.service;
+package ru.ftob.grostore.rest.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -91,6 +91,11 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    @Override
+    public String getRootLocation() {
+        return rootLocation.toString();
     }
 
     @Override
