@@ -1,0 +1,8 @@
+dependencies {
+    compile project(":grostore-model")
+    compile project(":grostore-persistence")
+    compile group: 'org.apache.poi', name: 'poi', version: '3.17'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+    compile 'com.github.ozlerhakan:poiji:1.16'
+
+}
