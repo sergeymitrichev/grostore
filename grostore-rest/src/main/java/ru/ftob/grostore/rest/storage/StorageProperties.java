@@ -1,4 +1,4 @@
-package ru.ftob.grostore.service;
+package ru.ftob.grostore.rest.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -8,7 +8,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "storage/imports";
+    private String location = "storage/imports/";
 
     public String getLocation() {
         return location;

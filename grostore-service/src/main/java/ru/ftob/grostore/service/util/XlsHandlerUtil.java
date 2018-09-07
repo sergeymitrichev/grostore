@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,7 @@ public class XlsHandlerUtil {
     private XlsHandlerUtil() {
     }
 
-    public static Workbook getWorkBook(Path path) throws IOException {
-        File file = path.toFile();
+    public static Workbook getWorkBook(File file) throws IOException {
         String fileName = file.getName();
         String extension = fileName.substring(fileName.indexOf("."));
         if (extension.equals(".xls")) {
@@ -35,14 +33,14 @@ public class XlsHandlerUtil {
         throw new NotOfficeXmlFileException("Unsupported file extension in file: " + fileName + ". Allowed: xls, xlsx.");
     }
 
-    public static void saveWorkBook(Workbook workbook, Path file) throws IOException {
-        FileOutputStream fos = new FileOutputStream(file.toFile());
+    public static void saveWorkBook(Workbook workbook, File file) throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
         workbook.write(fos);
         fos.close();
 
     }
 
-    public static List<List<String>> getRaw(Path file) throws IOException {
+    public static List<List<String>> getRaw(File file) throws IOException {
         Sheet sheet = getWorkBook(file).getSheetAt(0);
         List<List<String>> raw = new ArrayList<>();
         int rowLimit = 50;
@@ -68,7 +66,7 @@ public class XlsHandlerUtil {
         return raw;
     }
 
-    public static boolean isFileConfigured(Path file) throws IOException {
+    public static boolean isFileConfigured(File file) throws IOException {
         Workbook workbook = getWorkBook(file);
         Sheet sheet = workbook.getSheetAt(0);
         if (sheet.getRow(1) != null &&
@@ -80,7 +78,7 @@ public class XlsHandlerUtil {
         return false;
     }
 
-    public static void addFieldsToHeader(Path file, List<ProductImportFieldType> fields) throws IOException {
+    public static void addFieldsToHeader(File file, List<ProductImportFieldType> fields) throws IOException {
         Workbook workbook = getWorkBook(file);
         Sheet sheet = workbook.getSheetAt(0);
 
