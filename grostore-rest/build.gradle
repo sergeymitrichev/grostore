@@ -26,4 +26,6 @@ dependencies {
     compile project(":grostore-service")
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0'
     testCompile("junit:junit")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile "org.springframework.boot:spring-boot-configuration-processor"
 }
