@@ -17,6 +17,7 @@ import ru.ftob.grostore.service.util.exception.ConfigurationException;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 import ru.ftob.grostore.service.xlsto.XlsProduct;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,20 +33,16 @@ public class ProductImportServiceImpl implements ProductImportService {
 
     private final CategoryService categoryService;
 
-    private final StorageService storageService;
-
     private final XlsToProductMapper xlsToProductMapper;
 
     @Autowired
     public ProductImportServiceImpl(ProductImportRepository productImportRepository,
                                     ProductService productService,
                                     CategoryService categoryService,
-                                    StorageService storageService,
                                     XlsToProductMapper xlsToProductMapper) {
         this.productImportRepository = productImportRepository;
         this.productService = productService;
         this.categoryService = categoryService;
-        this.storageService = storageService;
         this.xlsToProductMapper = xlsToProductMapper;
     }
 
@@ -64,7 +61,7 @@ public class ProductImportServiceImpl implements ProductImportService {
     public ProductImport get(int id) throws NotFoundException {
         ProductImport productImport = checkNotFoundWithId(productImportRepository.get(id), id);
         try {
-            productImport.setRaw(XlsHandlerUtil.getRaw(storageService.load(productImport.getFile())));
+            productImport.setRaw(XlsHandlerUtil.getRaw(new File(productImport.getFile())));
         } catch (IOException e) {
             List<List<String>> raw = new ArrayList<>();
             raw.add(new ArrayList<>());
@@ -80,7 +77,7 @@ public class ProductImportServiceImpl implements ProductImportService {
         Assert.notNull(productImport.getFields(), "Product Import fields must not be null");
         Assert.notNull(productImport.getFile(), "Product Import file must not be null");
         try {
-            XlsHandlerUtil.addFieldsToHeader(storageService.load(productImport.getFile()), productImport.getFields());
+            XlsHandlerUtil.addFieldsToHeader(new File(productImport.getFile()), productImport.getFields());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +101,7 @@ public class ProductImportServiceImpl implements ProductImportService {
                 .preferNullOverDefault(true)
                 .skip(2)
                 .build();
-        List<XlsProduct> xlsProducts = Poiji.fromExcel(storageService.load(productImport.getFile()).toFile(), XlsProduct.class, options);
+        List<XlsProduct> xlsProducts = Poiji.fromExcel(new File(productImport.getFile()), XlsProduct.class, options);
         List<Product> products = new ArrayList<>();
         xlsProducts.forEach(xlsProduct -> {
             try {

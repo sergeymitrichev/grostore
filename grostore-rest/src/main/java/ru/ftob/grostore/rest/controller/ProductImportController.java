@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ftob.grostore.model.product.ProductImport;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
+import ru.ftob.grostore.rest.storage.StorageService;
 import ru.ftob.grostore.rest.webmodel.GuiCategory;
 import ru.ftob.grostore.rest.webmodel.GuiProduct;
 import ru.ftob.grostore.rest.webmodel.GuiProductImport;
 import ru.ftob.grostore.service.ProductImportService;
-import ru.ftob.grostore.service.StorageService;
 import ru.ftob.grostore.service.util.exception.StorageFileNotFoundException;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class ProductImportController {
         storageService.store(file);
         ProductImport productImport = new ProductImport();
         productImport.setName(name);
-        productImport.setFile(file.getOriginalFilename());
+        productImport.setFile(storageService.getRootLocation() + "/" + file.getOriginalFilename());
         return ResponseEntity.ok(productImportService.create(productImport));
     }
 
@@ -67,7 +67,7 @@ public class ProductImportController {
         try {
             ProductImport productImport = productImportService.get(id);
             productImportService.update(productImport);
-            productImport.setFile(file.getOriginalFilename());
+            productImport.setFile(storageService.getRootLocation() + "/" + file.getOriginalFilename());
             return ResponseEntity.ok(productImportService.get(id));
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,6 +99,7 @@ public class ProductImportController {
     public ResponseEntity<?> upload(@PathVariable Integer id) {
         ProductImport productImport = productImportService.uploadProducts(id);
         GuiProductImport guiProductImport = new GuiProductImport();
+        //TODO Add validate
         guiProductImport.setCategories(productImport.getUploadedCategories().stream().map(c-> new GuiCategory(c.getName())).collect(Collectors.toList()));
         guiProductImport.setProducts(productImport.getUploadedProducts().stream().map(p-> new GuiProduct(p.getName(), p.getSku(), p.getCategories().stream().map(c-> c.getName()).collect(Collectors.joining(", ")))).collect(Collectors.toList()));
         return ResponseEntity.ok(guiProductImport);

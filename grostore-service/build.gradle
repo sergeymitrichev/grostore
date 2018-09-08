@@ -1,25 +1,8 @@
-version =  '0.1.0'
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
-    }
-}
-
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'org.springframework.boot'
-
 dependencies {
     compile project(":grostore-model")
     compile project(":grostore-persistence")
-    compile("org.springframework.boot:spring-boot-starter-web")
     compile group: 'org.apache.poi', name: 'poi', version: '3.17'
     compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
-    compile "org.springframework.boot:spring-boot-configuration-processor"
     compile 'com.github.ozlerhakan:poiji:1.16'
 
 }

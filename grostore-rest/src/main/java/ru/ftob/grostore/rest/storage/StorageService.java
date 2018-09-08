@@ -1,4 +1,4 @@
-package ru.ftob.grostore.service;
+package ru.ftob.grostore.rest.storage;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,5 +19,7 @@ public interface StorageService {
     Resource loadAsResource(String filename);
 
     void deleteAll();
+
+    String getRootLocation();
 
 }

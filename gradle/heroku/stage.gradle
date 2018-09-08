@@ -1,2 +1,6 @@
 task stage(dependsOn: ['build', 'clean'])
+<<<<<<< HEAD
 build.mustRunAfter clean
+=======
+build.mustRunAfter clean
+>>>>>>> 7e75d8ed1abcbfa266a5b7d41deba31af11fcd03
