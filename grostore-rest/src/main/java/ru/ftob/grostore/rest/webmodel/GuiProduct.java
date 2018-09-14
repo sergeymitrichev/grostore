@@ -1,16 +1,18 @@
 package ru.ftob.grostore.rest.webmodel;
 
+import java.util.List;
+
 public class GuiProduct {
 
     private Integer id;
     private String name;
     private String sku;
-    private String categories;
+    private List<GuiCategory> categories;
 
     public GuiProduct() {
     }
 
-    public GuiProduct(String name, String sku, String categories) {
+    public GuiProduct(String name, String sku, List<GuiCategory> categories) {
         this.name = name;
         this.sku = sku;
         this.categories = categories;
@@ -40,11 +42,11 @@ public class GuiProduct {
         this.sku = sku;
     }
 
-    public String getCategories() {
+    public List<GuiCategory> getCategories() {
         return categories;
     }
 
-    public void setCategories(String categories) {
+    public void setCategories(List<GuiCategory> categories) {
         this.categories = categories;
     }
 }

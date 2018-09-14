@@ -60,6 +60,7 @@ CREATE TABLE product
 CREATE TABLE category
 (
     id serial NOT NULL,
+    parent_id integer REFERENCES category(id) ON DELETE CASCADE,
     created timestamp with time zone default now() NOT NULL,
     updated timestamp with time zone default now()  NOT NULL,
     created_by integer,

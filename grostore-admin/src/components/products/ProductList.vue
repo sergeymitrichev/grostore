@@ -18,7 +18,16 @@
                     <v-text-field v-model="editedItem.name" label="Item name"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="editedItem.categories" label="Categories"></v-text-field>
+                    <v-select
+                      v-model="editedItem.categories"
+                      :items="editedItem.categories"
+                      item-text="name"
+                      item-value="id"
+                      attach
+                      chips
+                      label="Categories"
+                      multiple
+                    ></v-select>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
                     <v-text-field v-model="editedItem.sku" label="SKU"></v-text-field>
@@ -78,12 +87,12 @@
         editedItem: {
           name: '',
           sku: '',
-          categories: ''
+          categories: []
         },
         defaultItem: {
           name: '',
           sku: '',
-          categories: ''
+          categories: []
         }
       }
     },
@@ -121,13 +130,11 @@
       },
       save() {
         this.close();
-        let action = this.editedIndex ? 'updateProduct' : 'createProduct';
-        return store.dispatch(action, this.editedItem).then(r => {
+        let action = this.editedItem.id ? 'updateProduct' : 'createProduct';
+        return store.dispatch(action, {editedItem: this.editedItem, editedIndex: this.editedIndex}).then(r => {
           alert('success');
-          console.log(r);
         }).catch(e => {
           alert('fail');
-          console.log(e);
         })
       }
     },
