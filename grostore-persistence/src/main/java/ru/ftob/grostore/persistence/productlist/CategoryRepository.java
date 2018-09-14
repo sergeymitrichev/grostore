@@ -1,20 +1,35 @@
 package ru.ftob.grostore.persistence.productlist;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ftob.grostore.model.productlist.Category;
 
 import java.util.List;
 
-public interface CategoryRepository {
+@Transactional(readOnly = true)
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
-    Category save(Category category);
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Category c WHERE c.id=:id")
+    int delete(@Param("id") int id);
 
-    List<Category> saveAll(List<Category> categories);
+    @Override
+    @Transactional
+    Category save(Category product);
 
-    boolean delete(int id);
+    @Override
+    Category getOne(Integer id);
 
-    Category get(int id);
+    @Override
+    List<Category> findAll();
 
-    List<Category> getAll();
+    @Override
+    @Transactional
+    <S extends Category> List<S> saveAll(Iterable<S> entities);
 
     Category getByName(String name);
 }

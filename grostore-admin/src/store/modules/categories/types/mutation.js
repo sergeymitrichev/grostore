@@ -1,0 +1,3 @@
+export default {
+  CHANGE_SELECTED_PATH: 'CHANGE_SELECTED_PATH'
+}

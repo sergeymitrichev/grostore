@@ -8,7 +8,7 @@ export default {
   [ActionTypes.createProduct]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, true);
     return new Promise((resolve, reject) => {
-      ProductService.createProduct(payload)
+      ProductService.createProduct(payload.editedItem)
         .then((response) => {
           commit(MutationTypes.ADD_PRODUCT, response.data);
           commit(MutationTypes.SET_LOADING, false);
@@ -60,9 +60,10 @@ export default {
   [ActionTypes.updateProduct]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, true);
     return new Promise((resolve, reject) => {
-      ProductService.updateProduct(payload, payload.id)
+      ProductService.updateProduct(payload.editedItem, payload.editedItem.id)
         .then(() => {
           commit(MutationTypes.SET_LOADING, false);
+          commit(MutationTypes.UPDATE_PRODUCT, payload)
           resolve();
         })
         .catch(reject)
