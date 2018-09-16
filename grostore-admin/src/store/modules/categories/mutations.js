@@ -1,6 +1,9 @@
 import Types from "./types/mutation";
 
 export default {
+  [Types.INIT_CATEGORIES](state, payload) {
+    state.allCategories = payload;
+  },
   [Types.CHANGE_SELECTED_PATH](state, payload) {
     let cnt = 0, index;
 
@@ -17,5 +20,5 @@ export default {
     if(payload.child && payload.child.length > 0) {
       state.selectedPath.push(payload);
     }
-  },
+  }
 }

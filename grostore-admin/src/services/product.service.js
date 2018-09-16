@@ -1,9 +1,8 @@
-import HttpService from "./http.service";
 import axios from 'axios';
 
 const BASE_URL = '/';
 
-export default class ProductService extends HttpService {
+export default class ProductService {
 
   static createProduct(formData) {
     const url = `${BASE_URL}products/create`;

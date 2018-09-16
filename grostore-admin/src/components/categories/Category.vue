@@ -8,14 +8,14 @@
             <v-flex
               xs6 sm4 md-2 d-flex
               v-for="parent in selectedPath"
-              v-bind:data="parent.child"
               v-bind:key="parent.id"
             >
               <v-select
                 :items="parent.child"
                 item-text="name"
+                item-value=""
                 solo
-                label="Box style"
+                label="Select category"
                 v-on:change="changePath($event)"
               ></v-select>
 
@@ -30,7 +30,6 @@
             <v-chip close
                     v-for="(children, index) in selectedCategory.child"
                     v-bind:key="children.id"
-                    v-model="selectedCategory.child[index]"
             >{{children.name}}</v-chip>
             <v-chip @click><v-avatar color="red"><v-icon color="white">fa-plus</v-icon></v-avatar>Add new</v-chip>
           </v-card-text>
@@ -48,6 +47,9 @@
     computed: {
       selectedPath() {
         return store.getters.selectedPath
+      },
+      allCategories() {
+        return store.getters.categories
       }
     },
     data() {
@@ -57,6 +59,7 @@
     },
     methods: {
       changePath(event) {
+        console.log(event);
         if (event) {
           this.selectedCategory = event;
           return store.dispatch('changeSelectedPath', event)

@@ -1,5 +1,3 @@
-import {ICategory} from "../../../model/category";
-
 export default {
   selectedPath: [
     {
@@ -12,5 +10,6 @@ export default {
         {id: 2, name: "Category 2"}
       ]
     }
-  ]
+  ],
+  allCategories: []
 }
