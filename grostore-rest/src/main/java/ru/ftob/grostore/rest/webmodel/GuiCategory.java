@@ -1,15 +1,11 @@
 package ru.ftob.grostore.rest.webmodel;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class GuiCategory {
 
     private Integer id;
-    @JsonProperty("parent.id")
-    private Integer parentId;
-    private List<GuiCategory> child;
+    private List<GuiCategory> children;
     private String description;
     private String name;
     private Integer entriesCount;
@@ -17,20 +13,12 @@ public class GuiCategory {
     public GuiCategory() {
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public List<GuiCategory> getChildren() {
+        return children;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public List<GuiCategory> getChild() {
-        return child;
-    }
-
-    public void setChild(List<GuiCategory> child) {
-        this.child = child;
+    public void setChildren(List<GuiCategory> children) {
+        this.children = children;
     }
 
     public Integer getId() {

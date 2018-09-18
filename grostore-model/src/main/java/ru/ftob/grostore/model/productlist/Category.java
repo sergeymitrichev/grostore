@@ -22,7 +22,7 @@ public class Category extends AbstractPublishedEntity {
     private Category parent;
 
     @OneToMany(mappedBy="parent")
-    private Set<Category> child;
+    private Set<Category> children;
 
     public Category() {
     }
@@ -35,12 +35,12 @@ public class Category extends AbstractPublishedEntity {
         this.parent = parent;
     }
 
-    public Set<Category> getChild() {
-        return child;
+    public Set<Category> getChildren() {
+        return children;
     }
 
-    public void setChild(Set<Category> child) {
-        this.child = child;
+    public void setChildren(Set<Category> children) {
+        this.children = children;
     }
 
     public List<Product> getProducts() {

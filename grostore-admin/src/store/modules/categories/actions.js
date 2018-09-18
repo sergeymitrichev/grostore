@@ -8,9 +8,9 @@ export default {
   },
   [ActionTypes.initCategories]({commit}, payload) {
     return new Promise((resolve, reject) => {
-      CategoryService.getAll()
+      CategoryService.getAllRoot()
         .then((response) => {
-          commit(MutationTypes.INIT_CATEGORIES, response);
+          commit(MutationTypes.INIT_CATEGORIES, response.data);
           resolve();
         })
         .catch(reject)

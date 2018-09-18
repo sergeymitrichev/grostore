@@ -32,4 +32,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     <S extends Category> List<S> saveAll(Iterable<S> entities);
 
     Category getByName(String name);
+
+    List<Category> findAllByParent(Category category);
 }

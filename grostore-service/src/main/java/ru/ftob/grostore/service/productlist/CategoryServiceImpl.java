@@ -62,6 +62,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<Category> getAllRoot() {
+        return repository.findAllByParent(null);
+    }
+
+    @Override
     public Category getByName(String name) {
         Assert.notNull(name, "Category name must not be null");
         return repository.getByName(name);

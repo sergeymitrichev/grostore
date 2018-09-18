@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.rest.webmodel.GuiCategory;
+import ru.ftob.grostore.rest.webmodel.GuiCategoryNode;
 import ru.ftob.grostore.service.productlist.CategoryService;
 
 import java.util.List;
@@ -30,6 +31,15 @@ public class CategoryController {
     public ResponseEntity<?> getAll() {
         List<GuiCategory> categories = categoryService.getAll().stream().map(
                 p -> modelMapper.map(p, GuiCategory.class)
+        ).collect(Collectors.toList());
+
+        return ResponseEntity.ok(categories);
+    }
+
+    @GetMapping("/tree")
+    public ResponseEntity<?> getTree() {
+        List<GuiCategoryNode> categories = categoryService.getAllRoot().stream().map(
+                p -> modelMapper.map(p, GuiCategoryNode.class)
         ).collect(Collectors.toList());
 
         return ResponseEntity.ok(categories);

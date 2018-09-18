@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "lodash": "latest",
+    "sl-vue-tree": "^1.7.1",
     "vue": "^2.5.2",
+    "vue-drag-tree": "^1.1.0",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.19",
-    "vuex": "^3.0.1",
-    "lodash": "latest"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0-beta.49",
