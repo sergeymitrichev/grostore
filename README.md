@@ -4,3 +4,6 @@
 
 ## v0.1.0
 **Admin module**. Provide import of products and categories from .xls/.xlsx files.
+
+## v0.2.0
+**Admin module**. Web application for managing products and categories
