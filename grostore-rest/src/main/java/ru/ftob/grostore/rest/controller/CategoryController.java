@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.rest.webmodel.GuiCategory;
-import ru.ftob.grostore.rest.webmodel.GuiCategoryNode;
+import ru.ftob.grostore.rest.webmodel.GuiNodeCategory;
 import ru.ftob.grostore.service.productlist.CategoryService;
 
 import java.util.List;
@@ -21,10 +21,11 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
+        modelMapper = new ModelMapper();
     }
 
     @GetMapping("/")
@@ -38,8 +39,8 @@ public class CategoryController {
 
     @GetMapping("/tree")
     public ResponseEntity<?> getTree() {
-        List<GuiCategoryNode> categories = categoryService.getAllRoot().stream().map(
-                p -> modelMapper.map(p, GuiCategoryNode.class)
+        List<GuiNodeCategory> categories = categoryService.getAllRoot().stream().map(
+                p -> modelMapper.map(p, GuiNodeCategory.class)
         ).collect(Collectors.toList());
 
         return ResponseEntity.ok(categories);
@@ -52,7 +53,16 @@ public class CategoryController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.create(category));
+        categoryService.create(category);
+        return ResponseEntity.ok(categoryService.getAllRoot().stream().map(
+                p -> modelMapper.map(p, GuiNodeCategory.class)
+        ).collect(Collectors.toList()));
+    }
+
+    @PostMapping("/tree")
+    public ResponseEntity<?> saveAll(@RequestBody List<Category> categories) {
+        categoryService.updateAll(categories);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}")
@@ -61,7 +71,10 @@ public class CategoryController {
             @RequestBody Category category
     ) {
         categoryService.update(category);
-        return ResponseEntity.ok(categoryService.get(category.getId()));
+        //TODO move to util or converter class
+        return ResponseEntity.ok(categoryService.getAllRoot().stream().map(
+                p -> modelMapper.map(p, GuiNodeCategory.class)
+        ).collect(Collectors.toList()));
     }
 
     @DeleteMapping("/{id}")

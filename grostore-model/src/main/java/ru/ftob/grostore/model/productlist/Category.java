@@ -5,6 +5,7 @@ import ru.ftob.grostore.model.product.Product;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,11 +19,13 @@ public class Category extends AbstractPublishedEntity {
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private Category parent;
 
-    @OneToMany(mappedBy="parent")
-    private Set<Category> children;
+    @OneToMany(mappedBy="parent", cascade = CascadeType.DETACH, fetch = FetchType.EAGER, orphanRemoval = true)
+    private final Set<Category> children = new HashSet<>();
+
+//    private Integer orderSequence;
 
     public Category() {
     }
@@ -40,7 +43,8 @@ public class Category extends AbstractPublishedEntity {
     }
 
     public void setChildren(Set<Category> children) {
-        this.children = children;
+        this.children.clear();
+        this.children.addAll(children);
     }
 
     public List<Product> getProducts() {

@@ -1,5 +1,6 @@
 package ru.ftob.grostore.model.base;
 
+import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.domain.Persistable;
 
@@ -104,16 +105,15 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
             return false;
         }
         AbstractBaseEntity that = (AbstractBaseEntity) o;
-        //TODO what about created and updated fields?
         return id != null && id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return  id == null ? 0 : id;
+        return id == null ? 0 : id;
     }
 }

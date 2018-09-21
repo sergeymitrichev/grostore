@@ -60,7 +60,7 @@ CREATE TABLE product
 CREATE TABLE category
 (
     id serial NOT NULL,
-    parent_id integer REFERENCES category(id) ON DELETE CASCADE,
+    parent_id integer REFERENCES category(id) ON DELETE CASCADE default 1,
     created timestamp with time zone default now() NOT NULL,
     updated timestamp with time zone default now()  NOT NULL,
     created_by integer,
@@ -73,8 +73,10 @@ CREATE TABLE category
     meta_image_index text,
     brief text,
     description text,
-    PRIMARY KEY (id)
-)
+    PRIMARY KEY (id),
+    UNIQUE(name)
+);
+INSERT INTO category (id, parent_id, name) VALUES (1, null, 'Root category');
 
 CREATE TABLE product_category
 (

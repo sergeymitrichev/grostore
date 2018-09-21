@@ -3,6 +3,8 @@ package ru.ftob.grostore.service.productlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.persistence.productlist.CategoryRepository;
@@ -45,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void update(Category category) {
         Assert.notNull(category, "Product must not be null");
         checkNotFoundWithId(repository.save(category), category.getId());

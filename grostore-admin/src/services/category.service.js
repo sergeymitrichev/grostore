@@ -11,4 +11,15 @@ export default class CategoryService {
     const url = `${BASE_URL}categories/tree`;
     return axios.get(url);
   }
+
+  static saveAll(categories = []) {
+    const url = `${BASE_URL}categories/tree`;
+    return axios.post(url, categories);
+  }
+
+  static save(category) {
+    let id = category.id || 'create';
+    const url = `${BASE_URL}categories/${id}`;
+    return axios.post(url, category);
+  }
 }

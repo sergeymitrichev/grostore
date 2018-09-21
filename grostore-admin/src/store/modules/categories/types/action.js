@@ -1,4 +1,5 @@
 export default {
-  changeSelectedPath: 'changeSelectedPath',
+  saveCategories: 'saveCategories',
+  saveCategory: 'saveCategory',
   initCategories: 'initCategories'
 }
