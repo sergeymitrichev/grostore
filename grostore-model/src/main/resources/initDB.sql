@@ -43,7 +43,6 @@ CREATE TABLE product
     updated timestamp with time zone default now()  NOT NULL,
     created_by integer,
     updated_by integer,
-    price_in integer,
     sku text,
     unit text,
     name text NOT NULL,
@@ -84,6 +83,20 @@ CREATE TABLE product_category
     category_id int references category(id) on update cascade on delete cascade,
     constraint product_category_pkey primary key (product_id, category_id)
 )
+
+CREATE TABLE price
+(
+    id serial NOT NULL,
+    created timestamp with time zone default now() NOT NULL,
+    updated timestamp with time zone default now()  NOT NULL,
+    created_by integer,
+    updated_by integer,
+    product_id int references product(id) on update cascade on delete cascade,
+    type text NOT NULL,
+    value int NOT NULL,
+    condition_value text,
+    PRIMARY KEY (id)
+);
 
 CREATE TABLE account
 (

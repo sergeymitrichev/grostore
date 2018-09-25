@@ -2,6 +2,7 @@ package ru.ftob.grostore.rest.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ftob.grostore.model.product.Product;
@@ -26,8 +27,8 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<?> getAll() {
-        List<GuiProduct> guiProducts = productService.getAll().stream().map(
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        List<GuiProduct> guiProducts = productService.getAll(pageable).stream().map(
                 p -> modelMapper.map(p, GuiProduct.class)
         ).collect(Collectors.toList());
 

@@ -4,7 +4,9 @@
       <v-flex md12>
         <h1>Products</h1>
         <v-dialog v-model="dialog" max-width="500px">
-          <v-btn slot="activator" color="success" dark @click="editedItem = defaultItem; editedIndex = -1" class="mb-2">New Item</v-btn>
+          <v-btn slot="activator" color="success" dark @click="editedItem = defaultItem; editedIndex = -1" class="mb-2">
+            New Item
+          </v-btn>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -31,6 +33,11 @@
                   </v-flex>
                   <v-flex xs12 sm6 md4>
                     <v-text-field v-model="editedItem.sku" label="SKU"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <input type="hidden" :v-model="editedItem.prices[0].productId">
+                    <v-text-field v-model="editedItem.prices[0].type" label="Price in"></v-text-field>
+                    <v-text-field v-model="editedItem.prices[0].value" label="Price in"></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -64,7 +71,18 @@
                 {{props.item.sku}}
               </td>
               <td>
-                {{props.item.categories}}
+                <div v-if="props.item.categories !== null">
+                  <div v-for="category in props.item.categories">
+                    {{category.name}}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div v-if="props.item.prices !== null">
+                  <div v-for="price in props.item.prices">
+                    {{price.type}}: {{price.value}}
+                  </div>
+                </div>
               </td>
             </tr>
           </template>
@@ -83,25 +101,43 @@
     data() {
       return {
         dialog: false,
+        headers: [
+          {text: 'ID', value: 'id'},
+          {text: 'Name', value: 'name'},
+          {text: 'SKU', value: 'sku'},
+          {text: 'Categories', value: 'categories'},
+          {text: 'Prices', value: 'prices'},
+        ],
         editedIndex: -1,
         editedItem: {
           name: '',
           sku: '',
-          categories: []
+          categories: [],
+          prices: [
+            {
+              type: 'PRICE_TYPE_IN',
+              value: 0,
+              productId: 0
+            }
+          ]
         },
         defaultItem: {
           name: '',
           sku: '',
-          categories: []
+          categories: [],
+          prices: [
+            {
+              type: 'PRICE_TYPE_IN',
+              value: 0,
+              productId: 0
+            }
+          ]
         }
       }
     },
     computed: {
       products() {
         return store.getters.products;
-      },
-      headers() {
-        return store.getters.headers;
       },
       productFields() {
         return store.getters.productFields;

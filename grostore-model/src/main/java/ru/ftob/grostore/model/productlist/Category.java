@@ -22,7 +22,7 @@ public class Category extends AbstractPublishedEntity {
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private Category parent;
 
-    @OneToMany(mappedBy="parent", cascade = CascadeType.DETACH, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.DETACH, fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<Category> children = new HashSet<>();
 
 //    private Integer orderSequence;

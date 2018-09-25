@@ -1,16 +1,19 @@
 package ru.ftob.grostore.persistence.product;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ftob.grostore.model.product.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface CrudProductRepository extends JpaRepository<Product, Integer> {
+public interface CrudProductRepository extends PagingAndSortingRepository<Product, Integer> {
 
     @Transactional
     @Modifying
@@ -19,13 +22,13 @@ public interface CrudProductRepository extends JpaRepository<Product, Integer> {
 
     @Override
     @Transactional
-    Product save(Product product);
+    <S extends Product> S save(S product);
 
     @Override
-    Product getOne(Integer id);
+    Optional<Product> findById(Integer integer);
 
     @Override
-    List<Product> findAll();
+    Page<Product> findAll(Pageable pageable);
 
     @Override
     @Transactional

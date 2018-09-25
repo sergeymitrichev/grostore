@@ -1,6 +1,8 @@
 package ru.ftob.grostore.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.ftob.grostore.model.product.Product;
@@ -32,6 +34,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product create(Product product) {
         Assert.notNull(product, "Product must not be null");
+        product.getPrices().stream().forEach(price -> {
+            price.setProduct(product);
+        });
+
         return productRepository.save(product);
     }
 
@@ -58,8 +64,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.getAll();//.subList(0, 50);
+    public Page<Product> getAll(Pageable pageable) {
+        return productRepository.getAll(pageable);
     }
 
     @Override

@@ -8,6 +8,7 @@ public class GuiProduct {
     private String name;
     private String sku;
     private List<GuiCategory> categories;
+    private List<GuiPrice> prices;
 
     public GuiProduct() {
     }
@@ -48,5 +49,13 @@ public class GuiProduct {
 
     public void setCategories(List<GuiCategory> categories) {
         this.categories = categories;
+    }
+
+    public List<GuiPrice> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<GuiPrice> prices) {
+        this.prices = prices;
     }
 }
