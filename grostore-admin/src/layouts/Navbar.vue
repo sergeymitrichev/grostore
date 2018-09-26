@@ -22,7 +22,7 @@
               <v-icon>fa-boxes</v-icon>
             </v-list-tile-action>
           </v-list-tile>
-          <v-list-tile :to="'/collections'">
+          <v-list-tile :to="'/categories'">
             <v-list-tile-title>Collections</v-list-tile-title>
             <v-list-tile-action>
               <v-icon>fa-list-ul</v-icon>

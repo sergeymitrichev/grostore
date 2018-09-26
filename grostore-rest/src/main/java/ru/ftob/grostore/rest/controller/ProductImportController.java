@@ -16,6 +16,7 @@ import ru.ftob.grostore.service.ProductImportService;
 import ru.ftob.grostore.service.util.exception.StorageFileNotFoundException;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @RestController
@@ -101,7 +102,7 @@ public class ProductImportController {
         GuiProductImport guiProductImport = new GuiProductImport();
         //TODO Add validate
         guiProductImport.setCategories(productImport.getUploadedCategories().stream().map(c-> new GuiCategory(c.getName())).collect(Collectors.toList()));
-        guiProductImport.setProducts(productImport.getUploadedProducts().stream().map(p-> new GuiProduct(p.getName(), p.getSku(), p.getCategories().stream().map(c-> c.getName()).collect(Collectors.joining(", ")))).collect(Collectors.toList()));
+        guiProductImport.setProducts(productImport.getUploadedProducts().stream().map(p-> new GuiProduct(p.getName(), p.getSku(), Collections.emptyList())).collect(Collectors.toList()));
         return ResponseEntity.ok(guiProductImport);
     }
 

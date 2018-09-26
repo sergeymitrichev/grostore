@@ -1,5 +1,7 @@
 package ru.ftob.grostore.persistence.product;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.ftob.grostore.model.product.Product;
 
 import java.util.List;
@@ -12,9 +14,11 @@ public interface ProductRepository {
 
     boolean delete(int id);
 
+    void deleteAll(List<Product> products);
+
     Product get(int id);
 
-    List<Product> getAll();
+    Page<Product> getAll(Pageable pageable);
 
     Product getBySku(String sku);
 }

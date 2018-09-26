@@ -16,7 +16,7 @@
                :loading="loading">Upload</v-btn>
       </v-flex>
       <v-flex md12>
-        <v-tabs v-model="active" slider-color="error">
+        <v-tabs slider-color="error">
           <v-tab>
             Settings
           </v-tab>
