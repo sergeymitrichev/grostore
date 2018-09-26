@@ -7,6 +7,10 @@ export default {
   [Types.REMOVE_PRODUCT] (state, payload) {
     state.products = state.products.filter(e => e.id !== payload.id);
   },
+  [Types.REMOVE_PRODUCTS] (state, payload) {
+    console.log(payload);
+    state.products.content = _.difference(state.products.content, payload);
+  },
   [Types.UPDATE_PRODUCT] (state, payload) {
     state.products[payload.editedIndex] = payload.editedItem;
   },

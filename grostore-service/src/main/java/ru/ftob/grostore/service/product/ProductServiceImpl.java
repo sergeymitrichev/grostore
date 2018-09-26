@@ -47,6 +47,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void deleteAll(List<Product> products) throws NotFoundException {
+        productRepository.deleteAll(products);
+    }
+
+    @Override
     public Product get(int id) throws NotFoundException {
         return checkNotFoundWithId(productRepository.get(id), id);
     }

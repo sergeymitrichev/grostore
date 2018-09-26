@@ -2,6 +2,9 @@ export default {
   products(state) {
     return state.products
   },
+  pagination(state) {
+    return state.pagination
+  },
   loading(state) {
     return state.loading
   },

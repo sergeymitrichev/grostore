@@ -10,8 +10,9 @@ export default class ProductService {
   }
 
   static getProductList(formData) {
-    const url = `${BASE_URL}products/`;
-    return axios.get(url, formData);
+    console.log(formData);
+    const url = `${BASE_URL}products/?page=${formData.page}&size=${formData.size}&sort=${formData.sort},${formData.desc}`;
+    return axios.get(url);
   }
 
   static getProductFields() {
@@ -27,5 +28,10 @@ export default class ProductService {
   static deleteProduct(id) {
     const url = `${BASE_URL}products/${id}`;
     return axios.delete(url);
+  }
+
+  static deleteProducts(items) {
+    const url = `${BASE_URL}products/`;
+    return axios.delete(url, {data: items});
   }
 }

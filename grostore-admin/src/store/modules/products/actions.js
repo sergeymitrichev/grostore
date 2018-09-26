@@ -31,6 +31,19 @@ export default {
     });
   },
 
+  [ActionTypes.deleteProducts]({commit}, payload) {
+    commit(MutationTypes.SET_LOADING, true);
+    return new Promise((resolve, reject) => {
+      ProductService.deleteProducts(payload)
+        .then(() => {
+          commit(MutationTypes.REMOVE_PRODUCTS, payload);
+          commit(MutationTypes.SET_LOADING, false);
+          resolve();
+        })
+        .catch(reject)
+    });
+  },
+
   [ActionTypes.getProductFields]({commit}) {
     commit(MutationTypes.SET_LOADING, true);
     return new Promise((resolve, reject) => {
@@ -44,10 +57,23 @@ export default {
     });
   },
 
-  [ActionTypes.initProductList]({commit}) {
+  [ActionTypes.initProductList]({commit}, payload) {
     commit(MutationTypes.SET_LOADING, true);
     return new Promise((resolve, reject) => {
-      ProductService.getProductList()
+      ProductService.getProductList(payload)
+        .then((response) => {
+          commit(MutationTypes.SET_PRODUCT_LIST, response.data.content);
+          commit(MutationTypes.SET_LOADING, false);
+          resolve();
+        })
+        .catch(reject)
+    });
+  },
+
+  [ActionTypes.getProductList]({commit}, payload) {
+    commit(MutationTypes.SET_LOADING, true);
+    return new Promise((resolve, reject) => {
+      ProductService.getProductList(payload)
         .then((response) => {
           commit(MutationTypes.SET_PRODUCT_LIST, response.data);
           commit(MutationTypes.SET_LOADING, false);

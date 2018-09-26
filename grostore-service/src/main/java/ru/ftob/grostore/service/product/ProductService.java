@@ -13,6 +13,8 @@ public interface ProductService {
 
     void delete(int id) throws NotFoundException;
 
+    void deleteAll(List<Product> products) throws NotFoundException;
+
     Product get(int id) throws NotFoundException;
 
     void update(Product product);

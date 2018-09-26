@@ -14,6 +14,8 @@ public interface ProductRepository {
 
     boolean delete(int id);
 
+    void deleteAll(List<Product> products);
+
     Product get(int id);
 
     Page<Product> getAll(Pageable pageable);

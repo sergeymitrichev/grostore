@@ -2,6 +2,8 @@ package ru.ftob.grostore.rest.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +30,13 @@ public class ProductController {
 
     @GetMapping("/")
     public ResponseEntity<?> getAll(Pageable pageable) {
-        List<GuiProduct> guiProducts = productService.getAll(pageable).stream().map(
+        Page<Product> products = productService.getAll(pageable);
+        List<GuiProduct> guiProducts = products.stream().map(
                 p -> modelMapper.map(p, GuiProduct.class)
         ).collect(Collectors.toList());
+        PageImpl page = new PageImpl(guiProducts, pageable, products.getTotalElements());
 
-        return ResponseEntity.ok(guiProducts);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
@@ -52,6 +56,12 @@ public class ProductController {
     ) {
         productService.update(modelMapper.map(product, Product.class));
         return ResponseEntity.ok(product);
+    }
+
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteAll(@RequestBody List<GuiProduct> products) {
+        productService.deleteAll(products.stream().map(g -> modelMapper.map(g, Product.class)).collect(Collectors.toList()));
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

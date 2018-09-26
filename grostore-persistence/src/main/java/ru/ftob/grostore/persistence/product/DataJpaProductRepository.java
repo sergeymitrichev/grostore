@@ -34,6 +34,11 @@ public class DataJpaProductRepository implements ProductRepository{
     }
 
     @Override
+    public void deleteAll(List<Product> products) {
+        crudRepository.deleteAll(products);
+    }
+
+    @Override
     public Product get(int id) {
         return crudRepository.findById(id).get();
     }
