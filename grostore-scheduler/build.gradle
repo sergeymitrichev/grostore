@@ -28,5 +28,5 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
 
     testCompile("junit:junit")
-//    compile "org.springframework.boot:spring-boot-configuration-processor"
+    compile "org.springframework.boot:spring-boot-configuration-processor"
 }

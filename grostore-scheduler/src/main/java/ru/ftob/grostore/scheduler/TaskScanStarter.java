@@ -27,7 +27,7 @@ public class TaskScanStarter implements Runnable {
     @Override
     public void run() {
 
-        executorService.schedule(new ScheduledTask<>(), 1, TimeUnit.SECONDS);
+        executorService.schedule(new ScheduledTask<>(productService), 1, TimeUnit.SECONDS);
 
 
         // Get all task config from DB

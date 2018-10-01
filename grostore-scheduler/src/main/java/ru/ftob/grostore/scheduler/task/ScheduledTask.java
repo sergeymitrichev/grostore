@@ -16,8 +16,12 @@ import java.util.stream.Collectors;
 @Component
 public class ScheduledTask<V> implements RunnableScheduledFuture<V> {
 
+    private final ProductService productService;
+
     @Autowired
-    private ProductService productService;
+    public ScheduledTask(ProductService productService) {
+        this.productService = productService;
+    }
 
     @Override
     public boolean isPeriodic() {

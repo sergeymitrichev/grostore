@@ -10,14 +10,14 @@ import java.util.List;
 
 public class MetroProductParseResult {
 
-    private String title;
+    private String name;
     private String sku;
     private String image;
     private List<MetroPrice> prices = new ArrayList<>();
 
     public MetroProductParseResult(String html) {
         Document doc = Jsoup.parse(html);
-        this.title = doc.select("span.title").get(0).html();
+        this.name = doc.select("span.title").get(0).html();
         this.sku = doc.select(".add2list").get(0).attr("data-article");
 
         // https://static.metro-cc.ru/data/public/image/cache/7/2016/12/02/8f270af5f576b381e58a8c8c3a9add00-150x150.jpg
@@ -54,12 +54,12 @@ public class MetroProductParseResult {
         //TODO parse category or get it from parse config
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSku() {
@@ -90,7 +90,7 @@ public class MetroProductParseResult {
     @Override
     public String toString() {
         return "MetroProductParseResult{" +
-                "title='" + title + '\'' +
+                "name='" + name + '\'' +
                 ", sku='" + sku + '\'' +
                 ", image='" + image + '\'' +
                 ", prices=" + prices +

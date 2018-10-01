@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.ftob.grostore.service.product.ProductService;
 
 @SpringBootApplication
-@ComponentScan({"ru.ftob.grostore.service", "ru.ftob.grostore.persistence"})
+@ComponentScan({"ru.ftob.grostore.service", "ru.ftob.grostore.persistence", "ru.ftob.grostore.scheduler.*"})
 @EnableJpaRepositories({"ru.ftob.grostore.persistence"})
 @EntityScan({"ru.ftob.grostore.model"})
 public class SchedulerApplication {
