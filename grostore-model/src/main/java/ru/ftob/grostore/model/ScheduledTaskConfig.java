@@ -18,9 +18,12 @@ public class ScheduledTaskConfig extends AbstractNamedEntity {
     @Column(name = "cancelled")
     private boolean cancelled;
 
+    @Column(name = "type")
+    private ScheduleTaskConfigType type;
+
     @ElementCollection
     @CollectionTable(name = "scheduled_task_config_url", joinColumns = @JoinColumn(name = "scheduled_task_config_id"))
-    private List<String> urlList;
+    private List<String> url;
 
     public ScheduledTaskConfig() {
     }
@@ -49,11 +52,19 @@ public class ScheduledTaskConfig extends AbstractNamedEntity {
         this.cancelled = cancelled;
     }
 
-    public List<String> getUrlList() {
-        return urlList;
+    public List<String> getUrl() {
+        return url;
     }
 
-    public void setUrlList(List<String> urlList) {
-        this.urlList = urlList;
+    public void setUrl(List<String> urlList) {
+        this.url = urlList;
+    }
+
+    public ScheduleTaskConfigType getType() {
+        return type;
+    }
+
+    public void setType(ScheduleTaskConfigType type) {
+        this.type = type;
     }
 }

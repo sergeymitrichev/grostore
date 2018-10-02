@@ -10,6 +10,7 @@ import ru.ftob.grostore.persistence.ScheduledTaskConfigRepository;
 import ru.ftob.grostore.service.account.AccountService;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
+import static ru.ftob.grostore.service.util.ValidationUtil.checkExist;
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -47,8 +48,9 @@ public class ScheduledTaskConfigServiceImpl implements ScheduledTaskConfigServic
     @Override
     public ScheduledTaskConfig update(ScheduledTaskConfig config) {
         Assert.notNull(config, "Scheduled task config must not be null");
+        checkExist(config);
         config.setUpdatedBy(accountService.get(ROBOT_ACCOUNT_ID));
-        return checkNotFoundWithId(repository.save(config), config.getId());
+        return repository.save(config);
     }
 
     @Override

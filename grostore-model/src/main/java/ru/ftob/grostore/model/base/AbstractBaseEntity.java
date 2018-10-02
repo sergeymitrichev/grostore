@@ -1,8 +1,6 @@
 package ru.ftob.grostore.model.base;
 
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.domain.Persistable;
@@ -31,13 +29,11 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @CreatedBy
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name="created_by", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name="created_by")
     private Account createdBy;
 
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name="updated_by", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name="updated_by")
     private Account updatedBy;
 
     public AbstractBaseEntity() {

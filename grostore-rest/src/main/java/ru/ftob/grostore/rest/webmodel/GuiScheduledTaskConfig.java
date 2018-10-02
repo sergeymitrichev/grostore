@@ -4,42 +4,28 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class GuiScheduledTaskConfig {
-    private int id;
-    private LocalDateTime created;
-    private LocalDateTime updated;
-    private GuiAccount createdBy;
-    private GuiAccount updatedBy;
+    private Integer id;
     private String name;
     private boolean periodic;
-    private int delay;
+    priqvate int delay;
     private boolean cancelled;
-    private List<String> urlList;
+    private List<String> url;
+    private String type;
+
+    private GuiAccount createdBy;
+    private GuiAccount updatedBy;
+    private LocalDateTime created;
+    private LocalDateTime updated = LocalDateTime.now();
 
     public GuiScheduledTaskConfig() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(LocalDateTime updated) {
-        this.updated = updated;
     }
 
     public boolean isPeriodic() {
@@ -66,6 +52,22 @@ public class GuiScheduledTaskConfig {
         this.cancelled = cancelled;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> getUrl() {
+        return url;
+    }
+
+    public void setUrl(List<String> url) {
+        this.url = url;
+    }
+
     public GuiAccount getCreatedBy() {
         return createdBy;
     }
@@ -82,19 +84,27 @@ public class GuiScheduledTaskConfig {
         this.updatedBy = updatedBy;
     }
 
-    public String getName() {
-        return name;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
-    public List<String> getUrlList() {
-        return urlList;
+    public LocalDateTime getUpdated() {
+        return updated;
     }
 
-    public void setUrlList(List<String> urlList) {
-        this.urlList = urlList;
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

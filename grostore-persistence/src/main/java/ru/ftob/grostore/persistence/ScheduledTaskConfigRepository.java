@@ -7,4 +7,7 @@ import ru.ftob.grostore.model.ScheduledTaskConfig;
 @Transactional(readOnly = true)
 public interface ScheduledTaskConfigRepository extends PagingAndSortingRepository<ScheduledTaskConfig, Integer> {
 
+    @Override
+    @Transactional
+    <S extends ScheduledTaskConfig> S save(S entity);
 }

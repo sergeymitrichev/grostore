@@ -2,6 +2,8 @@ package ru.ftob.grostore.rest.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,8 @@ import ru.ftob.grostore.rest.webmodel.GuiScheduledTaskConfig;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -27,7 +31,13 @@ public class ScheduledTaskConfigController {
 
     @GetMapping("/")
     public ResponseEntity<?> getAll(Pageable pageable) {
-        return ResponseEntity.ok(scheduledTaskConfigService.getAll(pageable));
+        Page<ScheduledTaskConfig> tasks = scheduledTaskConfigService.getAll(pageable);
+        List<GuiScheduledTaskConfig> guiProducts = tasks.stream().map(
+                t -> modelMapper.map(t, GuiScheduledTaskConfig.class)
+        ).collect(Collectors.toList());
+        PageImpl page = new PageImpl(guiProducts, pageable, tasks.getTotalElements());
+
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
@@ -44,7 +54,7 @@ public class ScheduledTaskConfigController {
     public ResponseEntity<?> create(
             @RequestBody GuiScheduledTaskConfig guiScheduledTaskConfig
     ) {
-        return ResponseEntity.ok(scheduledTaskConfigService.create(modelMapper.map(guiScheduledTaskConfig, ScheduledTaskConfig.class)));
+        return ResponseEntity.ok(modelMapper.map(scheduledTaskConfigService.create(modelMapper.map(guiScheduledTaskConfig, ScheduledTaskConfig.class)), GuiScheduledTaskConfig.class));
     }
 
     @PostMapping("/{id}")
@@ -54,7 +64,7 @@ public class ScheduledTaskConfigController {
     ) {
         scheduledTaskConfigService.update(modelMapper.map(guiScheduledTaskConfig, ScheduledTaskConfig.class));
         try {
-            return ResponseEntity.ok(scheduledTaskConfigService.get(id));
+            return ResponseEntity.ok(modelMapper.map(scheduledTaskConfigService.get(id), GuiScheduledTaskConfig.class));
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
