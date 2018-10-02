@@ -20,7 +20,6 @@ public class Product extends AbstractPublishedEntity {
     private String unit;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-//    @ManyToMany
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -28,7 +27,7 @@ public class Product extends AbstractPublishedEntity {
     private List<Category> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    @NotNull(message = "Product price list must not be null")
+    @NotNull(message = "Product prices must not be null")
     private List<Price> prices;
 
     @Transient

@@ -28,14 +28,14 @@ class Simple {
 //
 //        ApiClient client = appCtx.getBean(ApiClient.class);
 //        ApiUserRepositoryImpl userRepository = appCtx.getBean(ApiUserRepositoryImpl.class);
-//        UcozUser user = userRepository.get("1");
-//        System.out.println(user);
+//        UcozUser account = userRepository.get("1");
+//        System.out.println(account);
 //
 ////        List<UcozUser> users = userRepository.getAll();
 ////        users.forEach(System.out::println);
 //
-//        user = new UcozUser("test123", "tester", "smmit30@mail.ru", "1q2w3e4r");
-//        UcozUser savedUser = userRepository.save(user);
+//        account = new UcozUser("test123", "tester", "smmit30@mail.ru", "1q2w3e4r");
+//        UcozUser savedUser = userRepository.save(account);
 //        System.out.println(savedUser);
 //
 ////          {"error":{"msg":"Not supported method","code":"NOT_SUPPORTED_METHOD"}} <- NPE

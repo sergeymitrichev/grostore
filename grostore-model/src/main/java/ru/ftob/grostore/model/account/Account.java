@@ -1,30 +1,40 @@
-package ru.ftob.grostore.model.user;
+package ru.ftob.grostore.model.account;
 
 import ru.ftob.grostore.model.base.AbstractNamedEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "account")
-public class User extends AbstractNamedEntity {
+public class Account extends AbstractNamedEntity {
 
+    @Column(name = "phone")
     private String phone;
 
+    @Column(name = "email")
+    @Email
+    @NotNull
     private String email;
 
+    @Column(name = "password")
+    @NotNull
     private String password;
 
+    @Column(name = "visited", nullable = false, columnDefinition = "timestamp default now()")
     private LocalDateTime visited;
 
-    public User(String name, String email, String password) {
+    public Account(String name, String email, String password) {
         super(name);
         this.email = email;
         this.password = password;
     }
 
-    public User() {
+    public Account() {
     }
 
     public String getPhone() {

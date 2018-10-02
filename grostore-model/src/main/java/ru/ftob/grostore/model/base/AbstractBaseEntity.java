@@ -1,8 +1,12 @@
 package ru.ftob.grostore.model.base;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.domain.Persistable;
+import ru.ftob.grostore.model.account.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,18 +29,16 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     @NotNull
     private LocalDateTime updated = LocalDateTime.now();
 
-//    @CreatedBy
-//    @ManyToOne
-//    @JoinColumn(name="created_by", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @NotNull
-//    private User createdBy;
+    @CreatedBy
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name="created_by", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Account createdBy;
 
-//    @ManyToOne
-//    @JoinColumn(name="updated_by", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @NotNull
-//    private User updatedBy;
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name="updated_by", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Account updatedBy;
 
     public AbstractBaseEntity() {
     }
@@ -47,10 +49,7 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @Override
     public boolean isNew() {
-        if (id == null || id == 0) {
-            return true;
-        }
-        return false;
+        return id == null || id == 0;
     }
 
     public void setId(Integer id) {
@@ -73,21 +72,21 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
         this.updated = updated;
     }
 
-//    public User getCreatedBy() {
-//        return createdBy;
-//    }
-//
-//    public void setCreatedBy(User createdBy) {
-//        this.createdBy = createdBy;
-//    }
-//
-//    public User getUpdatedBy() {
-//        return updatedBy;
-//    }
-//
-//    public void setUpdatedBy(User updatedBy) {
-//        this.updatedBy = updatedBy;
-//    }
+    public Account getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Account createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Account getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Account updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 
     @Override
     public String toString() {
@@ -95,8 +94,8 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
                 "id=" + id +
                 ", created=" + created +
                 ", updated=" + updated +
-//                ", createdBy=" + createdBy +
-//                ", updatedBy=" + updatedBy +
+                ", createdBy=" + createdBy +
+                ", updatedBy=" + updatedBy +
                 '}';
     }
 

@@ -1,16 +1,34 @@
 DROP TABLE IF EXISTS product_import_fields;
 DROP TABLE IF EXISTS product_import;
 DROP TABLE IF EXISTS product_category;
+DROP TABLE IF EXISTS price;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS scheduled_task_config_url;
+DROP TABLE IF EXISTS scheduled_task_config;
+
+CREATE TABLE account
+(
+    id serial NOT NULL,
+    created timestamp with time zone default now() NOT NULL,
+    updated timestamp with time zone default now()  NOT NULL,
+    created_by integer default 1,
+    updated_by integer,
+    name text NOT NULL,
+    email text NOT NULL,
+    password text NOT NULL,
+    phone text,
+    visited timestamp with time zone,
+    PRIMARY KEY (id)
+)
 
 CREATE TABLE product_import
 (
     id serial NOT NULL,
     created timestamp with time zone default now() NOT NULL,
     updated timestamp with time zone default now()  NOT NULL,
-    created_by integer,
+    created_by integer default 1,
     updated_by integer,
     name text NOT NULL,
     file text NOT NULL,
@@ -20,7 +38,6 @@ CREATE TABLE product_import
     PRIMARY KEY (id)
 )
 
-DROP TABLE IF EXISTS product_import_fields;
 CREATE TABLE product_import_fields
 (
     id serial NOT NULL,
@@ -62,7 +79,7 @@ CREATE TABLE category
     parent_id integer REFERENCES category(id) ON DELETE CASCADE default 1,
     created timestamp with time zone default now() NOT NULL,
     updated timestamp with time zone default now()  NOT NULL,
-    created_by integer,
+    created_by integer default 1,
     updated_by integer,
     name text NOT NULL,
     title text,
@@ -75,7 +92,6 @@ CREATE TABLE category
     PRIMARY KEY (id),
     UNIQUE(name)
 );
-INSERT INTO category (id, parent_id, name) VALUES (1, null, 'Root category');
 
 CREATE TABLE product_category
 (
@@ -98,13 +114,22 @@ CREATE TABLE price
     PRIMARY KEY (id)
 );
 
-CREATE TABLE account
+CREATE TABLE scheduled_task_config
 (
     id serial NOT NULL,
     created timestamp with time zone default now() NOT NULL,
     updated timestamp with time zone default now()  NOT NULL,
     created_by integer,
     updated_by integer,
-    name text NOT NULL,
+    name text,
+    periodic boolean default FALSE,
+    delay int default 0,
+    cancelled boolean default FALSE,
     PRIMARY KEY (id)
-)
+);
+
+CREATE TABLE scheduled_task_config_url
+(
+    url text NOT NULL,
+    scheduled_task_config_id int references scheduled_task_config(id) on update cascade on delete cascade
+);

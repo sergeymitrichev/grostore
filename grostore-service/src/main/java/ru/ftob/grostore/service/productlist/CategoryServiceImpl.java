@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllRoot() {
-        return repository.findAllByParent(null);
+        return repository.findAllByParent(repository.getOne(Integer.valueOf(1)));
     }
 
     @Override
