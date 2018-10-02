@@ -12,8 +12,9 @@ public class GuiScheduledTaskConfig {
     private String name;
     private boolean periodic;
     private int delay;
-    private boolean cancelled;
-    private List<String> urlList;
+    private List<String> url;
+    private String type;
+    private String status;
 
     public GuiScheduledTaskConfig() {
     }
@@ -58,14 +59,6 @@ public class GuiScheduledTaskConfig {
         this.delay = delay;
     }
 
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
-    }
-
     public GuiAccount getCreatedBy() {
         return createdBy;
     }
@@ -90,11 +83,27 @@ public class GuiScheduledTaskConfig {
         this.name = name;
     }
 
-    public List<String> getUrlList() {
-        return urlList;
+    public List<String> getUrl() {
+        return url;
     }
 
-    public void setUrlList(List<String> urlList) {
-        this.urlList = urlList;
+    public void setUrl(List<String> url) {
+        this.url = url;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import ru.ftob.grostore.service.ScheduledTaskConfigService;
 import ru.ftob.grostore.service.product.ProductService;
 
 @SpringBootApplication
@@ -19,7 +20,10 @@ public class SchedulerApplication {
     }
 
     @Bean("taskScanStarter")
-    TaskScanStarter taskScanStarter(ProductService productService) {
-        return new TaskScanStarter(productService);
+    TaskScanStarter taskScanStarter(
+            ProductService productService,
+            ScheduledTaskConfigService scheduledTaskConfigService
+    ) {
+        return new TaskScanStarter(productService, scheduledTaskConfigService);
     }
 }

@@ -10,6 +10,8 @@ import ru.ftob.grostore.persistence.ScheduledTaskConfigRepository;
 import ru.ftob.grostore.service.account.AccountService;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
+import java.util.List;
+
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -54,5 +56,10 @@ public class ScheduledTaskConfigServiceImpl implements ScheduledTaskConfigServic
     @Override
     public Page<ScheduledTaskConfig> getAll(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    @Override
+    public List<ScheduledTaskConfig> getAll() {
+        return repository.findAll();
     }
 }
