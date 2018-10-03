@@ -70,7 +70,8 @@ CREATE TABLE product
     meta_image_index text,
     brief text,
     description text,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    constraint product_sku_uq unique (sku)
 );
 
 CREATE TABLE category
@@ -102,16 +103,11 @@ CREATE TABLE product_category
 
 CREATE TABLE price
 (
-    id serial NOT NULL,
-    created timestamp with time zone default now() NOT NULL,
-    updated timestamp with time zone default now()  NOT NULL,
-    created_by integer default 1,
-    updated_by integer,
-    product_id int references product(id) on update cascade on delete cascade,
+    product_id int references product(id) on update cascade on delete cascade NOT NULL,
     type text NOT NULL,
     value int NOT NULL,
     condition_value text,
-    PRIMARY KEY (id)
+    constraint price_condition_uq unique (product_id, type, condition_value)
 );
 
 CREATE TABLE scheduled_task_config

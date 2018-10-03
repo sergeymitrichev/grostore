@@ -21,7 +21,7 @@ public class ScheduledTaskConfig extends AbstractNamedEntity {
     @Column(name = "type")
     private ScheduledTaskConfigType type;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "scheduled_task_config_url", joinColumns = @JoinColumn(name = "scheduled_task_config_id"))
     private List<String> url;
 
@@ -60,11 +60,11 @@ public class ScheduledTaskConfig extends AbstractNamedEntity {
         this.status = status;
     }
 
-    public ScheduleTaskConfigType getType() {
+    public ScheduledTaskConfigType getType() {
         return type;
     }
 
-    public void setType(ScheduleTaskConfigType type) {
+    public void setType(ScheduledTaskConfigType type) {
         this.type = type;
     }
 }

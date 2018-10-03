@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ScheduledTaskConfigService {
@@ -14,7 +13,7 @@ public interface ScheduledTaskConfigService {
 
     void delete(Integer id) throws NotFoundException;
 
-    ScheduledTaskConfig get(Integer id) throws NotFoundException, IOException;
+    ScheduledTaskConfig get(Integer id) throws NotFoundException;
 
     ScheduledTaskConfig update(ScheduledTaskConfig config);
 

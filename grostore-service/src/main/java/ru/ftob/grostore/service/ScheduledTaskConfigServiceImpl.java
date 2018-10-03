@@ -12,6 +12,7 @@ import ru.ftob.grostore.service.util.exception.NotFoundException;
 
 import java.util.List;
 
+import static ru.ftob.grostore.service.util.ValidationUtil.checkExist;
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
 @Service

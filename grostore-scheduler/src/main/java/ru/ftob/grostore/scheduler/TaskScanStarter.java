@@ -41,20 +41,21 @@ public class TaskScanStarter implements Runnable {
 
     @PostConstruct
     public void startAfterConstruct() {
-//        executorService.schedule(this, 1, TimeUnit.SECONDS);
-        executorService.scheduleAtFixedRate(this, 0, 1, TimeUnit.SECONDS);
+        executorService.schedule(this, 1, TimeUnit.SECONDS);
+//        executorService.scheduleAtFixedRate(this, 0, 15, TimeUnit.SECONDS);
+        //TODO mark all tasks as NEW
     }
 
     private ScheduledFuture runTask(ScheduledTaskConfig config) {
-        RunnableScheduledFuture task = null;
+        Runnable task = null;
         switch (config.getType()) {
             case SCHEDULED_TASK_METRO_PARSE_PRODUCTS: {
                 task = new MetroParseProductsScheduledTask(scheduledTaskConfigService, productService, config);
                 break;
             }
         }
-        //TODO add initial delay in config
-        if (task.isPeriodic()) {
+        //TODO add initial delay in config (start date/time)
+        if (config.isPeriodic()) {
             return executorService.scheduleAtFixedRate(task, 0, config.getDelay(), TimeUnit.SECONDS);
         } else {
             return executorService.schedule(task, 0, TimeUnit.SECONDS);
