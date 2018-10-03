@@ -71,7 +71,7 @@ CREATE TABLE product
     brief text,
     description text,
     PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE category
 (
@@ -98,7 +98,7 @@ CREATE TABLE product_category
     product_id int references product(id) on update cascade on delete cascade,
     category_id int references category(id) on update cascade on delete cascade,
     constraint product_category_pkey primary key (product_id, category_id)
-)
+);
 
 CREATE TABLE price
 (
@@ -122,10 +122,10 @@ CREATE TABLE scheduled_task_config
     created_by integer default 1,
     updated_by integer,
     name text,
-    type text NOT NULL,
+    type int,
+    status int default 0,
     periodic boolean default FALSE,
     delay int default 0,
-    cancelled boolean default FALSE,
     PRIMARY KEY (id)
 );
 

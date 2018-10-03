@@ -5,17 +5,16 @@ import java.util.List;
 
 public class GuiScheduledTaskConfig {
     private Integer id;
-    private String name;
-    private boolean periodic;
-    priqvate int delay;
-    private boolean cancelled;
-    private List<String> url;
-    private String type;
-
-    private GuiAccount createdBy;
-    private GuiAccount updatedBy;
     private LocalDateTime created;
     private LocalDateTime updated = LocalDateTime.now();
+    private GuiAccount createdBy;
+    private GuiAccount updatedBy;
+    private String name;
+    private boolean periodic;
+    private int delay;
+    private List<String> url;
+    private String type;
+    private String status;
 
     public GuiScheduledTaskConfig() {
     }
@@ -26,62 +25,6 @@ public class GuiScheduledTaskConfig {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public boolean isPeriodic() {
-        return periodic;
-    }
-
-    public void setPeriodic(boolean periodic) {
-        this.periodic = periodic;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getUrl() {
-        return url;
-    }
-
-    public void setUrl(List<String> url) {
-        this.url = url;
-    }
-
-    public GuiAccount getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(GuiAccount createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public GuiAccount getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(GuiAccount updatedBy) {
-        this.updatedBy = updatedBy;
     }
 
     public LocalDateTime getCreated() {
@@ -100,11 +43,67 @@ public class GuiScheduledTaskConfig {
         this.updated = updated;
     }
 
+    public boolean isPeriodic() {
+        return periodic;
+    }
+
+    public void setPeriodic(boolean periodic) {
+        this.periodic = periodic;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public GuiAccount getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(GuiAccount createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public GuiAccount getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(GuiAccount updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> getUrl() {
+        return url;
+    }
+
+    public void setUrl(List<String> url) {
+        this.url = url;
+    }
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

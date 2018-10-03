@@ -6,6 +6,7 @@ import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface ScheduledTaskConfigService {
 
@@ -18,5 +19,7 @@ public interface ScheduledTaskConfigService {
     ScheduledTaskConfig update(ScheduledTaskConfig config);
 
     Page<ScheduledTaskConfig> getAll(Pageable pageable);
+
+    List<ScheduledTaskConfig> getAll();
 
 }
