@@ -11,7 +11,6 @@ import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.rest.webmodel.GuiScheduledTaskConfig;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,12 +41,7 @@ public class ScheduledTaskConfigController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(scheduledTaskConfigService.get(id));
-        }  catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(scheduledTaskConfigService.get(id));
     }
 
     @PostMapping("/create")
@@ -63,12 +57,7 @@ public class ScheduledTaskConfigController {
             @RequestBody GuiScheduledTaskConfig guiScheduledTaskConfig
     ) {
         scheduledTaskConfigService.update(modelMapper.map(guiScheduledTaskConfig, ScheduledTaskConfig.class));
-        try {
-            return ResponseEntity.ok(modelMapper.map(scheduledTaskConfigService.get(id), GuiScheduledTaskConfig.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(modelMapper.map(scheduledTaskConfigService.get(id), GuiScheduledTaskConfig.class));
     }
 
     @DeleteMapping("/{id}")

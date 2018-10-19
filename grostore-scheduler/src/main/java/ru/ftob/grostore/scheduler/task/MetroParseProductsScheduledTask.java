@@ -45,7 +45,11 @@ public class MetroParseProductsScheduledTask implements Runnable {
             //TODO interrupt if cancel
             try {
                 MetroCatalogParseResult result = mapper.readValue(new URL(url), MetroCatalogParseResult.class);
+                //TODO hide if any product not found in new parse results
+                //TODO get all products by config robot name and set enabled to false
                 List<Product> products = result.getItems().stream().map(i -> mapper.convertValue(i, Product.class)).collect(Collectors.toList());
+                //TODO set products enabled field to true
+                //TODO set products createdBy field to generated robot name (with config ID)
                 productService.updateAll(products);
             } catch (IOException e) {
                 e.printStackTrace();

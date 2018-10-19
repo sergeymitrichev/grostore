@@ -41,8 +41,8 @@ public class TaskScanStarter implements Runnable {
 
     @PostConstruct
     public void startAfterConstruct() {
-        executorService.schedule(this, 1, TimeUnit.SECONDS);
-//        executorService.scheduleAtFixedRate(this, 0, 15, TimeUnit.SECONDS);
+//        executorService.schedule(this, 1, TimeUnit.SECONDS);
+        executorService.scheduleAtFixedRate(this, 0, 15, TimeUnit.SECONDS);
         //TODO mark all tasks as NEW
     }
 
