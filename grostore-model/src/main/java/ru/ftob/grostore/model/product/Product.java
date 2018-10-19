@@ -27,7 +27,19 @@ public class Product extends AbstractPublishedEntity {
     @NotNull(message = "Product category list must not be null")
     private List<Category> categories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @NotNull(message = "Product price list must not be null")
+    private List<Price> prices;
+
     public Product() {
+    }
+
+    public List<Price> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Price> prices) {
+        this.prices = prices;
     }
 
     public String getSku() {

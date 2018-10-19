@@ -19,5 +19,7 @@ public interface CategoryService {
 
     List<Category> getAll();
 
+    List<Category> getAllRoot();
+
     Category getByName(String name);
 }

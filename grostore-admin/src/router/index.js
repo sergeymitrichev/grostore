@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Products from '@/components/ProductList'
+import Products from '@/components/products/ProductList'
+import Categories from '@/components/categories/Category'
 import ProductImportList from '@/components/products/ProductImportList'
 import ProductImport from '@/components/products/ProductImport'
 import Orders from '@/components/OrderList'
@@ -14,6 +15,11 @@ export default new Router({
       path: '/products',
       name: 'ProductList',
       component: Products
+    },
+    {
+      path: '/categories',
+      name: 'Categories',
+      component: Categories
     },
     {
       path: '/imports',

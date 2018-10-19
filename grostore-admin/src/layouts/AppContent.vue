@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container fluid>
-      <v-layout child-flex>
+      <v-layout children-flex>
           <router-view/>
       </v-layout>
     </v-container>
