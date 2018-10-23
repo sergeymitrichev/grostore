@@ -19,7 +19,8 @@
     "vue-drag-tree": "^1.1.0",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.19",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vue-treeselect": "latest"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0-beta.49",
