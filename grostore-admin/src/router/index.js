@@ -6,6 +6,7 @@ import ProductImportList from '@/components/products/ProductImportList'
 import ProductImport from '@/components/products/ProductImport'
 import Orders from '@/components/OrderList'
 import Customers from '@/components/CustomerList'
+import TaskList from '@/components/tasks/TaskList'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
       path: '/categories',
       name: 'Categories',
       component: Categories
+    },
+    {
+      path: '/tasks',
+      name: 'TaskList',
+      component: TaskList
     },
     {
       path: '/imports',
