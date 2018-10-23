@@ -127,6 +127,7 @@ CREATE TABLE scheduled_task_config
 
 CREATE TABLE scheduled_task_config_url
 (
-    url text NOT NULL,
+    link text NOT NULL,
+    category_id int default 1 references category(id) on update cascade on delete cascade NOT NULL,
     scheduled_task_config_id int references scheduled_task_config(id) on update cascade on delete cascade
 );

@@ -8,8 +8,10 @@ import org.springframework.util.Assert;
 import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.persistence.ScheduledTaskConfigRepository;
 import ru.ftob.grostore.service.account.AccountService;
+import ru.ftob.grostore.service.productlist.CategoryService;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static ru.ftob.grostore.service.util.ValidationUtil.checkExist;
@@ -22,18 +24,27 @@ public class ScheduledTaskConfigServiceImpl implements ScheduledTaskConfigServic
 
     private final AccountService accountService;
 
+    private final CategoryService categoryService;
+
     private static final Integer ROBOT_ACCOUNT_ID = 2;
 
     @Autowired
-    public ScheduledTaskConfigServiceImpl(ScheduledTaskConfigRepository repository, AccountService accountService) {
+    public ScheduledTaskConfigServiceImpl(ScheduledTaskConfigRepository repository, AccountService accountService, CategoryService categoryService) {
         this.repository = repository;
         this.accountService = accountService;
+        this.categoryService = categoryService;
     }
 
     @Override
     public ScheduledTaskConfig create(ScheduledTaskConfig config) {
         Assert.notNull(config, "Scheduled task config must not be null");
+        config.setCreated(LocalDateTime.now());
+        //TODO replace to real user account
         config.setCreatedBy(accountService.get(ROBOT_ACCOUNT_ID));
+
+//        config.getUrl().forEach(u -> {
+//            u.setCategory(categoryService.get(u.getCategory().getId()));
+//        });
         return repository.save(config);
     }
 

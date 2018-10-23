@@ -23,7 +23,7 @@ public class ScheduledTaskConfig extends AbstractNamedEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "scheduled_task_config_url", joinColumns = @JoinColumn(name = "scheduled_task_config_id"))
-    private List<String> url;
+    private List<ScheduledTaskConfigUrl> url;
 
     public ScheduledTaskConfig() {
     }
@@ -44,11 +44,11 @@ public class ScheduledTaskConfig extends AbstractNamedEntity {
         this.delay = delay;
     }
 
-    public List<String> getUrl() {
+    public List<ScheduledTaskConfigUrl> getUrl() {
         return url;
     }
 
-    public void setUrl(List<String> url) {
+    public void setUrl(List<ScheduledTaskConfigUrl> url) {
         this.url = url;
     }
 

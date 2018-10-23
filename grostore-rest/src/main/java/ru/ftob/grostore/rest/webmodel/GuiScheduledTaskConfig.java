@@ -12,7 +12,7 @@ public class GuiScheduledTaskConfig {
     private String name;
     private boolean periodic;
     private int delay;
-    private List<String> url;
+    private List<GuiScheduledTaskConfigUrl> url;
     private String type;
     private String status;
 
@@ -83,11 +83,11 @@ public class GuiScheduledTaskConfig {
         this.name = name;
     }
 
-    public List<String> getUrl() {
+    public List<GuiScheduledTaskConfigUrl> getUrl() {
         return url;
     }
 
-    public void setUrl(List<String> url) {
+    public void setUrl(List<GuiScheduledTaskConfigUrl> url) {
         this.url = url;
     }
 

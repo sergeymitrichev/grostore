@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/tasks")
 public class ScheduledTaskConfigController {
 
     private final ScheduledTaskConfigService scheduledTaskConfigService;
