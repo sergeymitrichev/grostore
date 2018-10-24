@@ -1,3 +1,5 @@
 rootProject.name = 'grostore'
 
 include 'grostore-model', 'grostore-persistence', 'grostore-service', 'grostore-ucoz', 'grostore-rest'
+include 'grostore-scheduler'
+

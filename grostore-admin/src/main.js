@@ -9,9 +9,11 @@ import '@fortawesome/fontawesome-free/css/all.css'
 Vue.config.productionTip = false;
 
 import VueDragTree from 'vue-drag-tree'
+import VTreeselect from 'vue-treeselect'
 import 'vue-drag-tree/dist/vue-drag-tree.min.css'
 
 Vue.use(VueDragTree);
+Vue.use(VTreeselect);
 
 /* eslint-disable no-new */
 new Vue({

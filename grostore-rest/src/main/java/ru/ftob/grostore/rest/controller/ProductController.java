@@ -46,7 +46,7 @@ public class ProductController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Product product) {
-        return ResponseEntity.ok(productService.create(product));
+        return ResponseEntity.ok(modelMapper.map(productService.create(product), GuiProduct.class));
     }
 
     @PostMapping("/{id}")

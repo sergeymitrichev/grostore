@@ -32,6 +32,12 @@ public class ValidationUtil {
         }
     }
 
+    public static void checkExist(AbstractBaseEntity entity) {
+        if (entity.isNew()) {
+            throw new IllegalArgumentException(entity + " doesn't exist (id=null)");
+        }
+    }
+
     public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
 //      http://stackoverflow.com/a/32728226/548473
         if (entity.isNew()) {

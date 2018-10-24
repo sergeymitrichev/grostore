@@ -1,17 +1,10 @@
 package ru.ftob.grostore.model.product;
 
-import ru.ftob.grostore.model.base.AbstractBaseEntity;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "price")
-public class Price extends AbstractBaseEntity {
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+@Embeddable
+public class Price {
 
     @Column(name = "value")
     @NotNull(message = "Price value must not be null")
@@ -49,11 +42,4 @@ public class Price extends AbstractBaseEntity {
         this.conditionValue = conditionValue;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 }
