@@ -17,6 +17,9 @@ public interface AccountRepository extends PagingAndSortingRepository<Account, I
 //
     @Override
     Optional<Account> findById(Integer id);
+
+    Optional<Account> findByEmail(String email);
+
 //
 //    @Override
 //    Iterable<Account> findAll();
