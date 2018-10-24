@@ -6,6 +6,7 @@ import products from './modules/products'
 import categories from './modules/categories'
 import tasks from './modules/tasks'
 
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({

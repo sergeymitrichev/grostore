@@ -10,7 +10,7 @@ export default class TaskService {
   }
 
   static getTaskList(formData) {
-    const url = `${BASE_URL}/?page=${formData.page}&size=${formData.size}&sort=${formData.sort},${formData.desc}`;
+    const url = `${BASE_URL}/?page=${formData.page}&size=${formData.size}&sort=${formData.sort||'id'},${formData.desc}`;
     return axios.get(url);
   }
 

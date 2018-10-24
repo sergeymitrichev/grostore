@@ -5,7 +5,7 @@ export default {
   // pagination(state) {
   //   return state.pagination
   // },
-  // loading(state) {
-  //   return state.loading
-  // }
+  loading(state) {
+    return state.loading
+  }
 }

@@ -2,7 +2,7 @@
   <v-container grid-list-md>
     <v-layout row wrap>
       <v-flex md12>
-        <h1>Tasks</h1>
+        <h1>Tasks ({{loading ? '1' : '0'}})</h1>
         <v-btn color="red" dark @click="deleteItem(selected)" class="mb-2" :disabled="selected.length === 0">
           Delete selected ({{ selected.length }})
         </v-btn>
@@ -79,8 +79,9 @@
           :total-items="tasks.totalElements"
           :rows-per-page-items="[20,50,100]"
           class="elevation-10"
+          :loading="loading"
         >
-          <v-progress-linear v-if="loading" slot="progress" color="danger" indeterminate></v-progress-linear>
+          <v-progress-linear slot="progress" color="success" indeterminate></v-progress-linear>
           <template slot="items" slot-scope="props">
             <tr class="active-row">
               <td>
@@ -93,6 +94,9 @@
               </td>
               <td @click="editItem(props.item)">
                 {{props.item.id}}
+              </td>
+              <td @click="editItem(props.item)">
+                {{props.item.name}}
               </td>
               <td @click="editItem(props.item)">
                 {{props.item.type}}
@@ -138,6 +142,7 @@
         dialog: false,
         headers: [
           {text: 'ID', value: 'id'},
+          {text: 'Name', value: 'name'},
           {text: 'Type', value: 'type'},
           {text: 'Status', value: 'status'},
           {text: 'URL\'s', value: 'url'}
@@ -211,6 +216,7 @@
       deleteItem(items) {
         // const result = _.difference(this.products.content, items);
         confirm('Are you sure you want to delete this task?') && store.dispatch(Action.deleteTasks, items);
+        this.selected = [];
       },
 
       close() {
@@ -222,6 +228,7 @@
         return store.dispatch(action, {editedItem: this.editedItem, editedIndex: this.editedIndex}).then(r => {
           alert('success');
         }).catch(e => {
+          console.log(e);
           alert('fail');
         })
       }

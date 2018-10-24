@@ -21,4 +21,5 @@ public interface ScheduledTaskConfigService {
 
     List<ScheduledTaskConfig> getAll();
 
+    void deleteAll(List<ScheduledTaskConfig> collect);
 }

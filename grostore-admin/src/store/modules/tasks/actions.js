@@ -49,7 +49,7 @@ export default {
     return new Promise((resolve, reject) => {
       TaskService.getTaskList(payload)
         .then((response) => {
-          commit(MutationTypes.SET_TASK_LIST, response.data.content);
+          commit(MutationTypes.SET_TASK_LIST, response.data);
           commit(MutationTypes.SET_LOADING, false);
           resolve();
         })
@@ -76,7 +76,7 @@ export default {
       TaskService.updateTask(payload.editedItem, payload.editedItem.id)
         .then(() => {
           commit(MutationTypes.SET_LOADING, false);
-          commit(MutationTypes.UPDATE_TASK, payload)
+          commit(MutationTypes.UPDATE_TASK, payload);
           resolve();
         })
         .catch(reject)

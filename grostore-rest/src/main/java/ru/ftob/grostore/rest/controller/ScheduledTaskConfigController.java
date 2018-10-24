@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ftob.grostore.model.ScheduledTaskConfig;
@@ -64,5 +65,11 @@ public class ScheduledTaskConfigController {
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         scheduledTaskConfigService.delete(id);
         return ResponseEntity.ok(id);
+    }
+
+    @DeleteMapping("/")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteAll(@RequestBody List<GuiScheduledTaskConfig> guiScheduledTaskConfigs) {
+        scheduledTaskConfigService.deleteAll(guiScheduledTaskConfigs.stream().map(g -> modelMapper.map(g, ScheduledTaskConfig.class)).collect(Collectors.toList()));
     }
 }

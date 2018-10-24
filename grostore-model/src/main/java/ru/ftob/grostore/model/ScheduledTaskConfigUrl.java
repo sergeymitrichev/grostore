@@ -12,7 +12,7 @@ public class ScheduledTaskConfigUrl {
     @NotNull(message = "Link must not be null")
     private String link;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "category_id")
     private Category category;
 

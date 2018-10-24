@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.model.ScheduledTaskConfigStatus;
 import ru.ftob.grostore.model.product.Product;
+import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.scheduler.MetroCatalogParseResult;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
 import ru.ftob.grostore.service.product.ProductService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,12 +46,17 @@ public class MetroParseProductsScheduledTask implements Runnable {
         config.getUrl().forEach(url -> {
             //TODO interrupt if cancel
             try {
-                MetroCatalogParseResult result = mapper.readValue(new URL(url), MetroCatalogParseResult.class);
+                MetroCatalogParseResult result = mapper.readValue(new URL(url.getLink()), MetroCatalogParseResult.class);
                 //TODO hide if any product not found in new parse results
                 //TODO get all products by config robot name and set enabled to false
                 List<Product> products = result.getItems().stream().map(i -> mapper.convertValue(i, Product.class)).collect(Collectors.toList());
                 //TODO set products enabled field to true
                 //TODO set products createdBy field to generated robot name (with config ID)
+                List<Category> categorySet = new ArrayList<>();
+                categorySet.add(url.getCategory());
+                products.forEach(p -> {
+                    p.setCategories(categorySet);
+                });
                 productService.updateAll(products);
             } catch (IOException e) {
                 e.printStackTrace();
