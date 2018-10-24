@@ -95,7 +95,10 @@ log/*
 hs_err_pid*
 
 .gradle
-/build/
+grostore-model/build/*
+grostore-persistence/build/*
+grostore-rest/build/*
+grostore-service/build/*
 
 # Ignore Gradle GUI config
 gradle-app.setting
