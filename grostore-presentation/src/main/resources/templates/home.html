@@ -8,40 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/home.css}"/>
 </head>
 <body>
-<header>
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top p-0 border-bottom border-secondary">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
-                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse p-2" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#">Hidden brand</a>
-                <ul class="navbar-nav ml-auto my-3">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-3">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-    </div>
-</header>
+<header th:insert="~{/fragments/header :: menu}"></header>
 <main>
     <div class="greeting">
         <div class="container">
@@ -72,14 +39,26 @@
     </div>
     <div class="border-bottom border-light py-5">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-2">step 1</div>
-                <div class="col"> >></div>
-                <div class="col-2">step 2</div>
-                <div class="col"> >></div>
-                <div class="col-2">step 3</div>
-                <div class="col"> >></div>
-                <div class="col-2">step 4</div>
+            <div class="row text-center text-muted">
+                <div class="col-2">
+                    <p><img th:src="@{/img/step1.png}"/></p>
+                    <strong class="text-uppercase">ВЫБЕРИ ПРОДУКТЫ НА НАШЕМ САЙТЕ</strong>
+                </div>
+                <div class="col"></div>
+                <div class="col-2">
+                    <p><img th:src="@{/img/step2.png}"/></p>
+                    <strong class="text-uppercase">УКАЖИ УДОБНОЕ ВРЕМЯ ДОСТАВКИ</strong>
+                </div>
+                <div class="col"></div>
+                <div class="col-2">
+                    <p><img th:src="@{/img/step3.png}"/></p>
+                    <strong class="text-uppercase">МЫ ПОЕДЕМ В МАГАЗИН И СОБЕРЕМ ЗАКАЗ </strong>
+                </div>
+                <div class="col"></div>
+                <div class="col-2">
+                    <p><img th:src="@{/img/step4.png}"/></p>
+                    <strong class="text-uppercase">ПРИМИ ПОКУПКИ НЕ ВЫХОДЯ ИЗ ДОМА!</strong>
+                </div>
             </div>
         </div>
     </div>
