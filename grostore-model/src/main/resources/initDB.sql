@@ -65,6 +65,7 @@ CREATE TABLE product
     name text NOT NULL,
     title text,
     url text,
+    image text,
     meta_description text,
     meta_keywords text,
     meta_image_index text,
