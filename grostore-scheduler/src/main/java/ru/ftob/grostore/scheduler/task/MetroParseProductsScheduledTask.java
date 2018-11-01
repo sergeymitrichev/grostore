@@ -7,6 +7,7 @@ import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.scheduler.MetroCatalogParseResult;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
+import ru.ftob.grostore.service.file.FileStorageService;
 import ru.ftob.grostore.service.product.ProductService;
 
 import java.io.IOException;
@@ -21,15 +22,18 @@ public class MetroParseProductsScheduledTask implements Runnable {
 
     private final ProductService productService;
 
+    private final FileStorageService fileStorageService;
+
     private ScheduledTaskConfig config;
 
     public MetroParseProductsScheduledTask(
             ScheduledTaskConfigService scheduledTaskConfigService,
             ProductService productService,
-            ScheduledTaskConfig config
+            FileStorageService fileStorageService, ScheduledTaskConfig config
     ) {
         this.scheduledTaskConfigService = scheduledTaskConfigService;
         this.productService = productService;
+        this.fileStorageService = fileStorageService;
         this.config = config;
         config.setStatus(ScheduledTaskConfigStatus.SCHEDULED_TASK_WAITING);
         scheduledTaskConfigService.update(config);
@@ -55,6 +59,11 @@ public class MetroParseProductsScheduledTask implements Runnable {
                 List<Category> categorySet = new ArrayList<>();
                 categorySet.add(url.getCategory());
                 products.forEach(p -> {
+                    try {
+                        p.setImage(fileStorageService.store(p.getImage(), "/p/" + p.getSku()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     p.setCategories(categorySet);
                 });
                 productService.updateAll(products);

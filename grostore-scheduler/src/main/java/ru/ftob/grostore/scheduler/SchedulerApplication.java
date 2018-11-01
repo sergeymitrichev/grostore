@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
+import ru.ftob.grostore.service.file.FileStorageService;
 import ru.ftob.grostore.service.product.ProductService;
 
 @SpringBootApplication
@@ -22,8 +23,9 @@ public class SchedulerApplication {
     @Bean("taskScanStarter")
     TaskScanStarter taskScanStarter(
             ProductService productService,
-            ScheduledTaskConfigService scheduledTaskConfigService
+            ScheduledTaskConfigService scheduledTaskConfigService,
+            FileStorageService fileStorageService
     ) {
-        return new TaskScanStarter(productService, scheduledTaskConfigService);
+        return new TaskScanStarter(productService, scheduledTaskConfigService, fileStorageService);
     }
 }
