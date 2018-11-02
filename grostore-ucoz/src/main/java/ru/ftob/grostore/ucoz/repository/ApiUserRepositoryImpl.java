@@ -11,8 +11,6 @@ import com.github.scribejava.core.model.Verb;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.ftob.grostore.model.account.Account;
-import ru.ftob.grostore.persistence.account.AccountRepository;
 import ru.ftob.grostore.ucoz.ApiClient;
 import ru.ftob.grostore.ucoz.to.UcozUser;
 
@@ -21,14 +19,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /*TODO
 uAPI(request)/Client -> JSON(objectMapper)/Transformer -> DTO(modelMapper)/Repository -> Model/Service
 No login in model for creating new uAPI object (account). How to be?
  */
 @Component
-public class ApiUserRepositoryImpl implements AccountRepository {
+public class ApiUserRepositoryImpl implements ApiBaseRepository<UcozUser> {
 
     private final ApiClient client;
 
@@ -47,10 +44,9 @@ public class ApiUserRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account save(Account user) {
-
+    public UcozUser save(UcozUser user) throws IOException {
         Verb method = Verb.PUT;
-        if (user.isNew()) {
+        if (user.getId() != null) {
             method = Verb.POST;
         }
         String jsonInString = null;
@@ -59,16 +55,13 @@ public class ApiUserRepositoryImpl implements AccountRepository {
             Map parameters = objectMapper.readValue(jsonInString, new TypeReference<Map<String, String>>() {
             });
             Response response = client.makeRequest(MODULE_PATH, method, parameters);
-            UcozUser savedUcozUser = objectMapper.readValue(objectMapper.readTree(response.getBody()).toString(), UcozUser.class);
-            return modelMapper.map(savedUcozUser, Account.class);
+            return objectMapper.readValue(objectMapper.readTree(response.getBody()).toString(), UcozUser.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
-
-
     }
 
     @Override
@@ -89,8 +82,7 @@ public class ApiUserRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account get(int id) {
-
+    public UcozUser get(String id) throws IOException {
         //TODO get account by email in uAPI
         String email = "";
         HashMap<String, String> parameters = new HashMap<>();
@@ -109,11 +101,11 @@ public class ApiUserRepositoryImpl implements AccountRepository {
             e.printStackTrace();
         }
 
-        return modelMapper.map(ucozUser, Account.class);
+        return ucozUser;
     }
 
     @Override
-    public List<Account> getAll() {
+    public List<UcozUser> getAll() {
 
         Response response = client.makeRequest(MODULE_PATH, Verb.GET);
         JsonNode usersNode = null;
@@ -129,7 +121,7 @@ public class ApiUserRepositoryImpl implements AccountRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return uCozUsers.stream().map(u -> modelMapper.map(u, Account.class)).collect(Collectors.toList());
+        return uCozUsers;
     }
 
     public int count() throws IOException {
