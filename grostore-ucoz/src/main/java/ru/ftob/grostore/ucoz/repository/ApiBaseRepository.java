@@ -1,13 +1,12 @@
 package ru.ftob.grostore.ucoz.repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 interface ApiBaseRepository<T> {
 
-    public T save(T t) throws IOException;
+    public T save(T t) throws IOException, ExecutionException, InterruptedException;
 
     public boolean delete(int id);
 

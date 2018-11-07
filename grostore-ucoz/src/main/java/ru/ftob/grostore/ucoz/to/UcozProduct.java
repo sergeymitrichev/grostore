@@ -15,7 +15,7 @@ public class UcozProduct {
     @JsonProperty("entry_art_no")
     private String sku;
 
-    @JsonProperty("entry_name")
+    @JsonProperty("entry_title")
     private String name;
 
     @JsonProperty("entry_price_in")

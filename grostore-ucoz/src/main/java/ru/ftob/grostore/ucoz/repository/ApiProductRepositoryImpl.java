@@ -16,6 +16,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> {
@@ -23,10 +24,6 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
     private final static String MODULE_PATH = "/shop";
 
     private final ApiClient apiClient;
-
-    private ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new Jdk8Module())
-            .registerModule(new JavaTimeModule());
 
     private ObjectMapper mapper;
 
@@ -41,25 +38,18 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
 
 
     @Override
-    public UcozProduct save(UcozProduct ucozProduct) throws IOException {
+    public UcozProduct save(UcozProduct ucozProduct) throws IOException, ExecutionException, InterruptedException {
         Response response = apiClient.makeRequest(
-                MODULE_PATH + "/editgoods",
-                Verb.POST,
-                buildParameters(
-                        new Pair<>("method", "submit"),
-                        new Pair<>("id", ucozProduct.getId()),
-                        new Pair<>("cat_id", ucozProduct.getCategory().getId()),
-                        new Pair<>("name", ucozProduct.getName()),
-                        new Pair<>("price_in", ucozProduct.getPriceIn().toString())
-                ));
-        UcozProduct product = null;
-        try {
-            product = mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_list").findValue("0").toString(), UcozProduct.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+                    MODULE_PATH + "/editgoods",
+                    Verb.POST,
+                    buildParameters(
+                            new Pair<>("method", "submit"),
+                            new Pair<>("id", ucozProduct.getId()),
+                            new Pair<>("cat_id", ucozProduct.getCategory().getId()),
+                            new Pair<>("name", ucozProduct.getName()),
+                            new Pair<>("price_in", ucozProduct.getPriceIn().toString())
+                    ));
+        return mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_list").findValue("0").toString(), UcozProduct.class);
     }
 
     @Override
@@ -77,7 +67,7 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
         return null;
     }
 
-    public UcozProduct getBySku(String sku) {
+    public UcozProduct getBySku(String sku) throws ExecutionException, InterruptedException, IOException {
         Response response = apiClient.makeRequest(
                 MODULE_PATH + "/request",
                 Verb.GET,
@@ -85,14 +75,12 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
                         new Pair<>("page", "allgoods"),
                         new Pair<>("f_art", new String(Base64.getEncoder().encode(sku.getBytes())))
                 ));
-        UcozProduct product = null;
         try {
-            product = mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_list").findValue("0").toString(), UcozProduct.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            return mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_list").findValue("0").toString(), UcozProduct.class);
+        } catch (NullPointerException e) {
+            System.out.println("Item not found");
         }
-        return product;
+        return null;
     }
 
     @SafeVarargs

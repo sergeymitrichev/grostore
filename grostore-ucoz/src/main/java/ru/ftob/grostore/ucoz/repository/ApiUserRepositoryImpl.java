@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /*TODO
 uAPI(request)/Client -> JSON(objectMapper)/Transformer -> DTO(modelMapper)/Repository -> Model/Service
@@ -54,7 +55,14 @@ public class ApiUserRepositoryImpl implements ApiBaseRepository<UcozUser> {
             jsonInString = objectMapper.writeValueAsString(modelMapper.map(user, UcozUser.class));
             Map parameters = objectMapper.readValue(jsonInString, new TypeReference<Map<String, String>>() {
             });
-            Response response = client.makeRequest(MODULE_PATH, method, parameters);
+            Response response = null;
+            try {
+                response = client.makeRequest(MODULE_PATH, method, parameters);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return objectMapper.readValue(objectMapper.readTree(response.getBody()).toString(), UcozUser.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -71,7 +79,14 @@ public class ApiUserRepositoryImpl implements ApiBaseRepository<UcozUser> {
         String email = "";
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("email", email);
-        Response response = client.makeRequest(MODULE_PATH, Verb.DELETE, parameters);
+        Response response = null;
+        try {
+            response = client.makeRequest(MODULE_PATH, Verb.DELETE, parameters);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         try {
             return null != objectMapper.readTree(response.getBody()).findValue("success");
@@ -87,7 +102,14 @@ public class ApiUserRepositoryImpl implements ApiBaseRepository<UcozUser> {
         String email = "";
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("email", email);
-        Response response = client.makeRequest(MODULE_PATH, Verb.GET, parameters);
+        Response response = null;
+        try {
+            response = client.makeRequest(MODULE_PATH, Verb.GET, parameters);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         JsonNode userNode = null;
         try {
             userNode = objectMapper.readTree(response.getBody()).findValue("users").get(0);
@@ -107,7 +129,14 @@ public class ApiUserRepositoryImpl implements ApiBaseRepository<UcozUser> {
     @Override
     public List<UcozUser> getAll() {
 
-        Response response = client.makeRequest(MODULE_PATH, Verb.GET);
+        Response response = null;
+        try {
+            response = client.makeRequest(MODULE_PATH, Verb.GET);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         JsonNode usersNode = null;
         try {
             usersNode = objectMapper.readTree(response.getBody()).findValue("users");
@@ -126,7 +155,14 @@ public class ApiUserRepositoryImpl implements ApiBaseRepository<UcozUser> {
 
     public int count() throws IOException {
 
-        Response response = client.makeRequest(MODULE_PATH, Verb.GET);
+        Response response = null;
+        try {
+            response = client.makeRequest(MODULE_PATH, Verb.GET);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         JsonNode totalUsers = objectMapper.readTree(response.getBody()).findValue("total_users");
 
         return objectMapper.readValue(totalUsers.toString(), Integer.class);
