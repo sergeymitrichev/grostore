@@ -6,6 +6,7 @@ import ru.ftob.grostore.ucoz.repository.ApiProductRepositoryImpl;
 import ru.ftob.grostore.ucoz.to.UcozProduct;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 class Simple {
     private int value;
@@ -18,7 +19,7 @@ class Simple {
         this.value = value;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
         GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext();
         appCtx.load("spring-app.xml");
         appCtx.refresh();
@@ -26,7 +27,8 @@ class Simple {
         ApiClient client = appCtx.getBean(ApiClient.class);
         ApiProductRepositoryImpl productRepository = appCtx.getBean(ApiProductRepositoryImpl.class);
         UcozProduct ucozProduct = productRepository.getBySku("73170");
-        System.out.println();
+        System.out.println(ucozProduct);
+        System.out.println(productRepository.save(ucozProduct));
 //        ApiUserRepositoryImpl userRepository = appCtx.getBean(ApiUserRepositoryImpl.class);
 //        UcozUser account = userRepository.get("1");
 //        System.out.println(account);
