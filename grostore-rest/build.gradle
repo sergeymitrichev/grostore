@@ -24,6 +24,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile project(":grostore-service")
+    compile project(":grostore-ucoz")
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0'
     compile group: 'org.modelmapper.extensions', name: 'modelmapper-jackson', version: '2.2.0'
     testCompile("junit:junit")
