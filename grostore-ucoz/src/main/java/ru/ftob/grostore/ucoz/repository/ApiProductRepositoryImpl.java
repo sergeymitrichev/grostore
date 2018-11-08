@@ -47,7 +47,8 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
                             new Pair<>("id", ucozProduct.getId()),
                             new Pair<>("cat_id", ucozProduct.getCategory().getId()),
                             new Pair<>("name", ucozProduct.getName()),
-                            new Pair<>("price_in", ucozProduct.getPriceIn().toString())
+                            new Pair<>("price_in", ucozProduct.getPriceIn().toString()),
+                            new Pair<>("hide", ucozProduct.getHide().toString())
                     ));
         return mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_list").findValue("0").toString(), UcozProduct.class);
     }

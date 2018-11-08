@@ -26,6 +26,9 @@ public class UcozProduct {
     @JsonDeserialize(converter = UcozCategoryConverter.class)
     private UcozCategory category;
 
+    @JsonProperty("hide")
+    private Integer hide = 0;
+
     public UcozProduct() {
     }
 
@@ -74,6 +77,14 @@ public class UcozProduct {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getHide() {
+        return hide;
+    }
+
+    public void setHide(Integer hide) {
+        this.hide = hide;
     }
 
     @Override

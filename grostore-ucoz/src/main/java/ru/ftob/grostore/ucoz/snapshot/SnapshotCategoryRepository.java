@@ -1,0 +1,17 @@
+package ru.ftob.grostore.ucoz.snapshot;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional(readOnly = true)
+public interface SnapshotCategoryRepository extends CrudRepository<SnapshotCategory, Integer> {
+
+    @Override
+    @Transactional
+    <S extends SnapshotCategory> Iterable<S> saveAll(Iterable<S> entities);
+
+    @Override
+    Iterable<SnapshotCategory> findAll();
+
+    SnapshotCategory findByName(String name);
+}

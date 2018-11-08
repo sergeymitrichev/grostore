@@ -1,28 +1,44 @@
-package ru.ftob.grostore.ucoz.to;
+package ru.ftob.grostore.ucoz.snapshot;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.*;
 
-public class UcozCategory {
+@Entity
+@Table(name = "ucoz_categories_snapshot")
+public class SnapshotCategory {
 
-    @JsonProperty("id")
-    private String id;
+    @Id
+    @Column(name = "id")
+    private Integer id;
 
-    @JsonProperty("name")
+    @Column(name = "name")
     private String name;
 
-    @JsonProperty("url")
+    @Column(name = "url")
     private String url;
 
-    private String parentId;
-    private String level;
+    @Column(name = "parent_id")
+    private Integer parentId;
+
+    @Column(name = "cat_level")
+    private Integer level;
+
+    @Column(name = "descr")
     private String description;
-    private String productCount;
+
+    @Column(name = "num_entries")
+    private Integer productCount;
+
+    @Column(name = "cat_img_url")
     private String imageUrl;
 
-    public UcozCategory() {
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name="worker_id")
+    private SnapshotWorker worker;
+
+    public SnapshotCategory() {
     }
 
-    public UcozCategory(String id, String name, String url, String parentId, String level, String description, String productCount, String imageUrl) {
+    public SnapshotCategory(Integer id, String name, String url, Integer parentId, Integer level, String description, Integer productCount, String imageUrl, SnapshotWorker worker) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -31,17 +47,14 @@ public class UcozCategory {
         this.description = description;
         this.productCount = productCount;
         this.imageUrl = imageUrl;
+        this.worker = worker;
     }
 
-    public UcozCategory(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,19 +74,19 @@ public class UcozCategory {
         this.url = url;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
@@ -85,11 +98,11 @@ public class UcozCategory {
         this.description = description;
     }
 
-    public String getProductCount() {
+    public Integer getProductCount() {
         return productCount;
     }
 
-    public void setProductCount(String productCount) {
+    public void setProductCount(Integer productCount) {
         this.productCount = productCount;
     }
 
@@ -101,11 +114,18 @@ public class UcozCategory {
         this.imageUrl = imageUrl;
     }
 
+    public SnapshotWorker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(SnapshotWorker worker) {
+        this.worker = worker;
+    }
 
     @Override
     public String toString() {
-        return "UcozCategory{" +
-                "id='" + id + '\'' +
+        return "SnapshotCategory{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
                 ", parentId=" + parentId +
@@ -113,6 +133,7 @@ public class UcozCategory {
                 ", description='" + description + '\'' +
                 ", productCount=" + productCount +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", worker=" + worker +
                 '}';
     }
 }

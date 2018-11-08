@@ -131,3 +131,31 @@ CREATE TABLE scheduled_task_config_url
     category_id int default 1 references category(id) on update cascade on delete cascade NOT NULL,
     scheduled_task_config_id int references scheduled_task_config(id) on update cascade on delete cascade
 );
+
+CREATE TABLE ucoz_workers_snapshot
+(
+  id serial NOT NULL UNIQUE,
+  created timestamp with time zone default now() NOT NULL
+);
+
+CREATE TABLE ucoz_categories_snapshot
+(
+  id int NOT NULL UNIQUE,
+  parent_id int NOT NULL,
+  cat_level int,
+  name text,
+  descr text,
+  url text,
+  num_entries int,
+  cat_img_url text,
+  worker_id int references ucoz_workers_snapshot(id) on update cascade on delete cascade
+);
+
+CREATE TABLE ucoz_products_snapshot
+(
+  id int NOT NULL UNIQUE,
+  cat_id int NOT NULL references ucoz_categories_snapshot(id) on update cascade on delete cascade,
+  sku text NOT NULL,
+  price_in int DEFAULT 0,
+  worker_id int references ucoz_workers_snapshot(id) on update cascade on delete cascade
+);
