@@ -13,6 +13,12 @@ public class XlsProductSnapshotRow {
     @ExcelCell(2)
     private String third;
 
+    @ExcelCell(3)
+    private String fourth;
+
+    @ExcelCell(4)
+    private String fifth;
+
     public XlsProductSnapshotRow() {
     }
 
@@ -40,6 +46,21 @@ public class XlsProductSnapshotRow {
         this.third = third;
     }
 
+    public String getFourth() {
+        return fourth;
+    }
+
+    public void setFourth(String fourth) {
+        this.fourth = fourth;
+    }
+
+    public String getFifth() {
+        return fifth;
+    }
+
+    public void setFifth(String fifth) {
+        this.fifth = fifth;
+    }
 
     @Override
     public String toString() {
@@ -47,6 +68,8 @@ public class XlsProductSnapshotRow {
                 "first='" + first + '\'' +
                 ", second='" + second + '\'' +
                 ", third='" + third + '\'' +
+                ", fourth='" + fourth + '\'' +
+                ", fifth='" + fifth + '\'' +
                 '}';
     }
 }

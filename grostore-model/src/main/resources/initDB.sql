@@ -132,12 +132,6 @@ CREATE TABLE scheduled_task_config_url
     scheduled_task_config_id int references scheduled_task_config(id) on update cascade on delete cascade
 );
 
-CREATE TABLE ucoz_workers_snapshot
-(
-  id serial NOT NULL UNIQUE,
-  created timestamp with time zone default now() NOT NULL
-);
-
 CREATE TABLE ucoz_categories_snapshot
 (
   id int NOT NULL UNIQUE,
@@ -147,8 +141,7 @@ CREATE TABLE ucoz_categories_snapshot
   descr text,
   url text,
   num_entries int,
-  cat_img_url text,
-  worker_id int references ucoz_workers_snapshot(id) on update cascade on delete cascade
+  cat_img_url text
 );
 
 CREATE TABLE ucoz_products_snapshot
@@ -157,5 +150,6 @@ CREATE TABLE ucoz_products_snapshot
   cat_id int NOT NULL references ucoz_categories_snapshot(id) on update cascade on delete cascade,
   sku text NOT NULL,
   price_in int DEFAULT 0,
-  worker_id int references ucoz_workers_snapshot(id) on update cascade on delete cascade
+  stock text NOT NULL,
+  hide boolean DEFAULT false
 );

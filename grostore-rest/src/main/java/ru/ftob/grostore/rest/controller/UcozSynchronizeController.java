@@ -19,6 +19,7 @@ import ru.ftob.grostore.rest.storage.StorageService;
 import ru.ftob.grostore.service.util.XlsHandlerUtil;
 import ru.ftob.grostore.service.xlsto.XlsProduct;
 import ru.ftob.grostore.service.xlsto.XlsProductSnapshotRow;
+import ru.ftob.grostore.ucoz.handler.SnapshotHandler;
 import ru.ftob.grostore.ucoz.repository.ApiProductRepositoryImpl;
 import ru.ftob.grostore.ucoz.snapshot.*;
 import ru.ftob.grostore.ucoz.to.UcozProduct;
@@ -39,23 +40,17 @@ public class UcozSynchronizeController {
 
     private final StorageService storageService;
 
-    private final ApiProductRepositoryImpl apiProductRepository;
-
     private final SnapshotCategoryRepository snapshotCategoryRepository;
-
-    private final SnapshotProductRepository snapshotProductRepository;
-
-    private final SnapshotWorkerRepository snapshotWorkerRepository;
 
     private final ModelMapper mapper = new ModelMapper();
 
+    private final SnapshotHandler handler;
+
     @Autowired
-    public UcozSynchronizeController(StorageService storageService, ApiProductRepositoryImpl apiProductRepository, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotProductRepository snapshotProductRepository, SnapshotWorkerRepository snapshotWorkerRepository) {
+    public UcozSynchronizeController(StorageService storageService, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotHandler handler) {
         this.storageService = storageService;
-        this.apiProductRepository = apiProductRepository;
         this.snapshotCategoryRepository = snapshotCategoryRepository;
-        this.snapshotProductRepository = snapshotProductRepository;
-        this.snapshotWorkerRepository = snapshotWorkerRepository;
+        this.handler = handler;
     }
 
     @PostMapping("/products/snapshot/")
@@ -69,24 +64,41 @@ public class UcozSynchronizeController {
         List<XlsProductSnapshotRow> xlsProducts = Poiji.fromExcel(tmp, XlsProductSnapshotRow.class, options);
         AtomicReference<SnapshotCategory> category = new AtomicReference<>();
         List<SnapshotProduct> products = new ArrayList<>();
-        SnapshotWorker worker = snapshotWorkerRepository.save(new SnapshotWorker());
         xlsProducts.forEach(l -> {
             if (null == l.getSecond()) {
-                if(l.getFirst() != null) {
+                if (l.getFirst() != null) {
                     category.set(snapshotCategoryRepository.findByName(l.getFirst()));
                 }
             } else {
                 int priceIn = 0;
                 try {
-                    priceIn = NumberFormat.getNumberInstance(Locale.FRANCE).parse(l.getThird()).intValue();
+                    priceIn = NumberFormat.getNumberInstance(Locale.FRANCE).parse(l.getFourth()).intValue();
                 } catch (ParseException e) {
                     log.error("Cannot parse excel line: " + l.toString(), e);
                 }
-                SnapshotProduct product = new SnapshotProduct(Integer.valueOf(l.getFirst()), category.get(), l.getSecond(), priceIn, worker);
+                String stock = "";
+                switch (l.getFifth()) {
+                    case "КД":
+                        stock = "AUCHAN";
+                        break;
+                    case "СКЛАД":
+                        stock = "STOCK";
+                        break;
+                    default:
+                        stock = "METRO";
+                }
+                SnapshotProduct product = new SnapshotProduct(
+                        Integer.valueOf(l.getFirst()),
+                        l.getThird(),
+                        category.get(),
+                        l.getSecond(),
+                        priceIn,
+                        stock
+                );
                 products.add(product);
             }
         });
-        return ResponseEntity.ok(snapshotProductRepository.saveAll(products));
+        return ResponseEntity.ok(handler.persistAllProducts(products));
     }
 
     @PostMapping("/categories/snapshot/")
@@ -95,7 +107,6 @@ public class UcozSynchronizeController {
         File tmp = new File(filePath);
         ObjectMapper mapper = new ObjectMapper();
         List<SnapshotCategory> categories = new ArrayList<>();
-        SnapshotWorker worker = snapshotWorkerRepository.save(new SnapshotWorker());
         try {
             String[][] read = mapper.readValue(tmp, String[][].class);
             Arrays.stream(read).forEach(r -> {
@@ -107,8 +118,7 @@ public class UcozSynchronizeController {
                         Integer.valueOf(r[2]),
                         r[4],
                         Integer.valueOf(r[6]),
-                        r[7],
-                        worker
+                        r[7]
                 ));
             });
             response = ResponseEntity.ok(snapshotCategoryRepository.saveAll(categories));
@@ -119,9 +129,8 @@ public class UcozSynchronizeController {
     }
 
     @PostMapping("/products/")
-    public ResponseEntity<?> products(@RequestParam("file") MultipartFile file, @RequestParam List<ProductImportFieldType> fields, int toSkip) {
+    public ResponseEntity<?> products(@RequestParam("file") MultipartFile file, @RequestParam List<ProductImportFieldType> fields, int toSkip, String stock) {
         storageService.store(file);
-        List<String> resultLog = new ArrayList<>();
         log.debug("Reading from file with fields: " + fields);
 
         try {
@@ -132,27 +141,15 @@ public class UcozSynchronizeController {
                     .skip(toSkip)
                     .build();
             List<XlsProduct> xlsProducts = Poiji.fromExcel(tmp, XlsProduct.class, options);
-            xlsProducts.forEach(p -> {
-                try {
-                    Optional<SnapshotProduct> snapshotProduct = snapshotProductRepository.findBySku(p.getSku());
-                    UcozProduct product = null;
-                    if(snapshotProduct.isPresent()) {
-                        mapper.map(snapshotProduct.get(), product);
-                    } else {
-                        product = apiProductRepository.getBySku(p.getSku());
-                    }
-
-                    if (null != product && null != p.getPriceIn()) {
-                        mapper.map(product, snapshotProduct);
-
-                        product.setPriceIn(p.getPriceIn());
-                        apiProductRepository.save(product);
-                        log.debug("XLS line successfully updated " + product);
-                    }
-                } catch (ExecutionException | InterruptedException | IOException e) {
-                    log.error("Can't connect to api ucoz", e);
+            List<SnapshotProduct> productsToUpdate = new ArrayList<>();
+            xlsProducts.forEach(x -> {
+                SnapshotProduct p = new SnapshotProduct();
+                mapper.map(x, p);
+                if (p.getSku() != null && p.getPriceIn() != null) {
+                    productsToUpdate.add(p);
                 }
             });
+            handler.updateAllProducts(productsToUpdate, stock);
 
         } catch (IOException e) {
             log.error("Cannot open file", e);

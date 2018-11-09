@@ -43,6 +43,9 @@ public class XlsProduct {
     @ExcelCellName("DESCRIPTION")
     private String description;
 
+    @ExcelCellName("SHELF")
+    private String shelf;
+
     public Integer getId() {
         return id;
     }
@@ -147,6 +150,14 @@ public class XlsProduct {
         this.description = description;
     }
 
+    public String getShelf() {
+        return shelf;
+    }
+
+    public void setShelf(String shelf) {
+        this.shelf = shelf;
+    }
+
     @Override
     public String toString() {
         return "XlsProduct{" +
@@ -163,6 +174,7 @@ public class XlsProduct {
                 ", imagesString=" + imagesString +
                 ", brief='" + brief + '\'' +
                 ", description='" + description + '\'' +
+                ", shelf='" + shelf + '\'' +
                 '}';
     }
 }

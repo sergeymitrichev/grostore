@@ -31,14 +31,10 @@ public class SnapshotCategory {
     @Column(name = "cat_img_url")
     private String imageUrl;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name="worker_id")
-    private SnapshotWorker worker;
-
     public SnapshotCategory() {
     }
 
-    public SnapshotCategory(Integer id, String name, String url, Integer parentId, Integer level, String description, Integer productCount, String imageUrl, SnapshotWorker worker) {
+    public SnapshotCategory(Integer id, String name, String url, Integer parentId, Integer level, String description, Integer productCount, String imageUrl) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -47,7 +43,6 @@ public class SnapshotCategory {
         this.description = description;
         this.productCount = productCount;
         this.imageUrl = imageUrl;
-        this.worker = worker;
     }
 
     public Integer getId() {
@@ -114,14 +109,6 @@ public class SnapshotCategory {
         this.imageUrl = imageUrl;
     }
 
-    public SnapshotWorker getWorker() {
-        return worker;
-    }
-
-    public void setWorker(SnapshotWorker worker) {
-        this.worker = worker;
-    }
-
     @Override
     public String toString() {
         return "SnapshotCategory{" +
@@ -133,7 +120,6 @@ public class SnapshotCategory {
                 ", description='" + description + '\'' +
                 ", productCount=" + productCount +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", worker=" + worker +
                 '}';
     }
 }
