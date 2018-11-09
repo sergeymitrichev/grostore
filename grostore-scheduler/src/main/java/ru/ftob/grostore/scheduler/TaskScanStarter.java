@@ -46,7 +46,7 @@ public class TaskScanStarter implements Runnable {
         //TODO mark all tasks as NEW
     }
 
-    private ScheduledFuture runTask(ScheduledTaskConfig config) {
+    private void runTask(ScheduledTaskConfig config) {
         Runnable task = null;
         switch (config.getType()) {
             case SCHEDULED_TASK_METRO_PARSE_PRODUCTS: {
@@ -56,9 +56,9 @@ public class TaskScanStarter implements Runnable {
         }
         //TODO add initial delay in config (start date/time)
         if (config.isPeriodic()) {
-            return executorService.scheduleAtFixedRate(task, 0, config.getDelay(), TimeUnit.SECONDS);
+            executorService.scheduleAtFixedRate(task, 0, config.getDelay(), TimeUnit.SECONDS);
         } else {
-            return executorService.schedule(task, 0, TimeUnit.SECONDS);
+            executorService.schedule(task, 0, TimeUnit.SECONDS);
         }
     }
 }

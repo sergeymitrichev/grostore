@@ -14,6 +14,7 @@ public enum ProductImportFieldType {
     META_IMAGE("metaImageIndex"),
     IMAGES("images"),
     BRIEF("brief"),
+    STOCK("stock"),
     DESCRIPTION("description");
 
     private String value;
