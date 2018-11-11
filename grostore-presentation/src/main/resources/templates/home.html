@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/home.css}"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
 <header th:insert="~{/fragments/header :: menu}"></header>
@@ -16,22 +17,19 @@
                 <div class="col-md-5">
                     <h1>Hey</h1>
                 </div>
-                <div class="col-md-5 offset-md-2">
+                <div class="col-md-5 offset-md-2 pb-5">
                     <form class="bg-light p-5 rounded">
-                        <h4 class="pb-3">Get started for free</h4>
+                        <h4 class="pb-3">Попробуй сейчас!</h4>
                         <div class="form-group">
                             <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                   placeholder="Enter email">
+                                   placeholder="Введи email">
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control form-control-lg" id="exampleInputPhone1"
-                                   placeholder="Enter phone">
+                                   placeholder="Введи телефон">
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
-                                   placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-danger btn-block">Get started</button>
+                        <button type="submit" class="btn btn-lg btn-success btn-block mb-3">Попробовать</button>
+                        <p class="text-success"><i class="fa fa-gift"></i> БЕСПЛАТНАЯ доставка на 14 дней *</p>
                     </form>
                 </div>
             </div>

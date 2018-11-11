@@ -1,3 +1,18 @@
+.navbar-brand > img {
+    width: 40px;
+}
+
+.btn-success {
+    background-color: #81bb25;
+    box-shadow: inset 0 -3px rgba(0, 0, 0, 0.09);
+    border: 1px solid transparent;
+    text-transform: uppercase;
+}
+.text-success {
+    color: #81bb25;
+}
+
+/* Home page */
 .greeting {
     background: url("../img/greeting.jpg") no-repeat;
     background-size: 100%;
@@ -20,7 +35,7 @@
     content: "";
 }
 .greeting > div {
-    height: 55vh;
+    height: 75vh;
 }
 .greeting h1 {
     color: #fff;
