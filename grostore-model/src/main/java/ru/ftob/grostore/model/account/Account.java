@@ -1,13 +1,17 @@
 package ru.ftob.grostore.model.account;
 
+import org.hibernate.annotations.BatchSize;
+import org.springframework.util.CollectionUtils;
 import ru.ftob.grostore.model.base.AbstractNamedEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -22,11 +26,19 @@ public class Account extends AbstractNamedEntity {
     private String email;
 
     @Column(name = "password")
-    @NotNull
+    //TODO generate password if null
+    //@NotNull
     private String password;
 
     @Column(name = "visited", nullable = false, columnDefinition = "timestamp default now()")
     private LocalDateTime visited;
+
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "account_roles", joinColumns = @JoinColumn(name = "account_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 200)
+    private Set<Role> roles;
 
     public Account(String name, String email, String password) {
         super(name);
@@ -67,5 +79,24 @@ public class Account extends AbstractNamedEntity {
 
     public void setVisited(LocalDateTime visited) {
         this.visited = visited;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", visited=" + visited +
+                ", roles=" + roles +
+                "} " + super.toString();
     }
 }
