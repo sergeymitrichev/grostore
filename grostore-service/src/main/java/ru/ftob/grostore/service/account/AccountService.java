@@ -10,8 +10,6 @@ public interface AccountService {
 
     Account get(Integer id);
 
-    Account getByEmail(String email);
-
     Page<Account> getAll(Pageable pageable);
 
     void create(Account account);

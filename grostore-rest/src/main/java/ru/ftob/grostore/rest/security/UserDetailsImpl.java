@@ -10,13 +10,13 @@ public class UserDetailsImpl implements UserDetails {
 
     private final Account account;
 
-    public UserDetailsImpl(Account account) {
+    UserDetailsImpl(Account account) {
         this.account = account;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException();
+        return account.getRoles();
     }
 
     @Override

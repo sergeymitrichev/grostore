@@ -6,7 +6,7 @@ import java.util.List;
 public class GuiScheduledTaskConfig {
     private Integer id;
     private LocalDateTime created;
-    private LocalDateTime updated = LocalDateTime.now();
+    private LocalDateTime updated;
     private GuiAccount createdBy;
     private GuiAccount updatedBy;
     private String name;
