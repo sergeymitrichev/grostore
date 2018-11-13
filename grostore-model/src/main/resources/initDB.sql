@@ -21,7 +21,15 @@ CREATE TABLE account
     phone text,
     visited timestamp with time zone,
     PRIMARY KEY (id)
-)
+);
+CREATE UNIQUE INDEX account_unique_email_idx ON account (email);
+
+CREATE TABLE account_roles(
+  account_id INTEGER NOT NULL,
+  role    VARCHAR,
+  CONSTRAINT account_roles_idx UNIQUE (account_id, role),
+  FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE
+);
 
 CREATE TABLE product_import
 (
@@ -36,7 +44,7 @@ CREATE TABLE product_import
     fields text,
     identity_field text,
     PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE product_import_fields
 (
@@ -51,7 +59,7 @@ CREATE TABLE product_import_fields
 --     identity boolean default FALSE,
     product_import_id integer NOT NULL references product_import(id) ON DELETE CASCADE
 --     PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE product
 (
