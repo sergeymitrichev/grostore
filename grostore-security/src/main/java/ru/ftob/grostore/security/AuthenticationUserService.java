@@ -1,4 +1,4 @@
-package ru.ftob.grostore.rest.security;
+package ru.ftob.grostore.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package ru.ftob.grostore.rest.security;
+package ru.ftob.grostore.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
