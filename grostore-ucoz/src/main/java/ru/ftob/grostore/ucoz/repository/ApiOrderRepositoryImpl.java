@@ -14,6 +14,7 @@ import ru.ftob.grostore.ucoz.to.UcozOrder;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class ApiOrderRepositoryImpl implements ApiBaseRepository<UcozOrder> {
@@ -48,7 +49,14 @@ public class ApiOrderRepositoryImpl implements ApiBaseRepository<UcozOrder> {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("order", id);
 
-        Response response = client.makeRequest(MODULE_PATH + "/order/", Verb.GET, parameters);
+        Response response = null;
+        try {
+            response = client.makeRequest(MODULE_PATH + "/order/", Verb.GET, parameters);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println();
         System.out.println(response.getBody());
         return mapper.readValue(
@@ -60,7 +68,14 @@ public class ApiOrderRepositoryImpl implements ApiBaseRepository<UcozOrder> {
 
     @Override
     public List<UcozOrder> getAll() throws IOException {
-        Response response = client.makeRequest(MODULE_PATH + "/invoices/", Verb.GET);
+        Response response = null;
+        try {
+            response = client.makeRequest(MODULE_PATH + "/invoices/", Verb.GET);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println();
         System.out.println(response.getBody());
         return mapper.readValue(

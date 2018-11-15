@@ -2,13 +2,11 @@ package ru.ftob.grostore;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
 import ru.ftob.grostore.ucoz.ApiClient;
-import ru.ftob.grostore.ucoz.repository.ApiOrderRepositoryImpl;
-import ru.ftob.grostore.ucoz.repository.ApiUserRepositoryImpl;
-import ru.ftob.grostore.ucoz.to.UcozOrder;
-import ru.ftob.grostore.ucoz.to.UcozUser;
+import ru.ftob.grostore.ucoz.repository.ApiProductRepositoryImpl;
+import ru.ftob.grostore.ucoz.to.UcozProduct;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 class Simple {
     private int value;
@@ -21,21 +19,25 @@ class Simple {
         this.value = value;
     }
 
-    public static void main(String[] args) throws IOException {
-//        GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext();
-//        appCtx.load("spring-app.xml");
-//        appCtx.refresh();
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+        GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext();
+        appCtx.load("spring-app.xml");
+        appCtx.refresh();
 //
-//        ApiClient client = appCtx.getBean(ApiClient.class);
+        ApiClient client = appCtx.getBean(ApiClient.class);
+        ApiProductRepositoryImpl productRepository = appCtx.getBean(ApiProductRepositoryImpl.class);
+        UcozProduct ucozProduct = productRepository.getBySku("73170");
+        System.out.println(ucozProduct);
+        System.out.println(productRepository.save(ucozProduct));
 //        ApiUserRepositoryImpl userRepository = appCtx.getBean(ApiUserRepositoryImpl.class);
-//        UcozUser user = userRepository.get("1");
-//        System.out.println(user);
+//        UcozUser account = userRepository.get("1");
+//        System.out.println(account);
 //
 ////        List<UcozUser> users = userRepository.getAll();
 ////        users.forEach(System.out::println);
 //
-//        user = new UcozUser("test123", "tester", "smmit30@mail.ru", "1q2w3e4r");
-//        UcozUser savedUser = userRepository.save(user);
+//        account = new UcozUser("test123", "tester", "smmit30@mail.ru", "1q2w3e4r");
+//        UcozUser savedUser = userRepository.save(account);
 //        System.out.println(savedUser);
 //
 ////          {"error":{"msg":"Not supported method","code":"NOT_SUPPORTED_METHOD"}} <- NPE

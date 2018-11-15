@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     public Product create(Product product) {
         Assert.notNull(product, "Product must not be null");
         product.getPrices().stream().forEach(price -> {
-            price.setProduct(product);
+//            price.setProduct(product);
         });
 
         return productRepository.save(product);
@@ -65,6 +65,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateAll(List<Product> products) {
         Assert.notNull(products, "Product list must not be null");
+        products.forEach(product -> {
+            if(product.isNew()) {
+                Product duplicate = productRepository.getBySku(product.getSku());
+                if (duplicate != null) {
+                    product.setId(duplicate.getId());
+                }
+            }
+//            product.getPrices().forEach(price -> price.setProduct(product));
+        });
         productRepository.saveAll(products);
     }
 

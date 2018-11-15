@@ -1,0 +1,6 @@
+dependencies {
+    compile project(":grostore-service")
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.0.RELEASE'
+    compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.1.0.RELEASE'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+}

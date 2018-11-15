@@ -19,17 +19,20 @@ public class Product extends AbstractPublishedEntity {
     @Column(name = "unit")
     private String unit;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-//    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @NotNull(message = "Product category list must not be null")
     private List<Category> categories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    @NotNull(message = "Product price list must not be null")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "price", joinColumns = @JoinColumn(name = "product_id"))
+    @NotNull(message = "Product prices must not be null")
     private List<Price> prices;
+
+    @Transient
+    private String image;
 
     public Product() {
     }
@@ -64,6 +67,14 @@ public class Product extends AbstractPublishedEntity {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

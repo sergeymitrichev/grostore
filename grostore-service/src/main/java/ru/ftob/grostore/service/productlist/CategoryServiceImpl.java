@@ -20,6 +20,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository repository;
 
+    private static final int ROOT_CATEGORY_ID = 1;
+
     @Autowired
     @Qualifier("productValidator")
     private ProductValidator validator;
@@ -66,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllRoot() {
-        return repository.findAllByParent(null);
+        return repository.findAllByParent(repository.getOne(ROOT_CATEGORY_ID));
     }
 
     @Override
