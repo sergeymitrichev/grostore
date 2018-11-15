@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication
-@ComponentScan({"ru.ftob.grostore.service", "ru.ftob.grostore.persistence", "ru.ftob.grostore.rest", "ru.ftob.grostore.ucoz"})
+@ComponentScan({"ru.ftob.grostore.service", "ru.ftob.grostore.persistence", "ru.ftob.grostore.rest", "ru.ftob.grostore.security", "ru.ftob.grostore.ucoz"})
 @EnableJpaRepositories({"ru.ftob.grostore.persistence", "ru.ftob.grostore.ucoz.snapshot"})
-@EntityScan({"ru.ftob.grostore.model", "ru.ftob.grostore.ucoz.snapshot"})
+@EntityScan({"ru.ftob.grostore.model", "ru.ftob.grostore.security", "ru.ftob.grostore.ucoz.snapshot"})
 @EnableConfigurationProperties(StorageProperties.class)
 public class Application {
 

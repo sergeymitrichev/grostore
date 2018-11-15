@@ -24,11 +24,12 @@ targetCompatibility = 1.8
 
 dependencies {
     compile project(":grostore-service")
+    compile project(":grostore-security")
     compile project(":grostore-ucoz")
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0'
     compile group: 'org.modelmapper.extensions', name: 'modelmapper-jackson', version: '2.2.0'
-    testCompile("junit:junit")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile "junit:junit"
+    compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-configuration-processor"
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
 }

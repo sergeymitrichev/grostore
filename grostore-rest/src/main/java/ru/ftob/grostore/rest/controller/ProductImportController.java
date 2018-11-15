@@ -17,11 +17,12 @@ import ru.ftob.grostore.service.util.exception.StorageFileNotFoundException;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/imports")
-public class ProductImportController {
+public class ProductImportController extends AbstractRestController {
 
     private final StorageService storageService;
 
@@ -35,7 +36,12 @@ public class ProductImportController {
 
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(productImportService.getAll());
+        List<ProductImport> productImports = productImportService.getAll();
+        List<GuiProductImport> guiProductImports = productImports.stream().map(
+                t -> getMapper().map(t, GuiProductImport.class)
+        ).collect(Collectors.toList());
+
+        return ResponseEntity.ok(guiProductImports);
     }
 
     @GetMapping("/{id}")

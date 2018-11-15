@@ -8,7 +8,8 @@ import org.springframework.util.Assert;
 import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.persistence.account.AccountRepository;
 
-import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFound;
+import java.util.Optional;
+
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -25,12 +26,6 @@ public class AccountServiceImpl implements AccountService {
     public Account get(Integer id) {
         Account account = accountRepository.findById(id).orElse(null);
         return checkNotFoundWithId(account, id);
-    }
-
-    @Override
-    public Account getByEmail(String email) {
-        Account account = accountRepository.findByEmail(email).orElse(null);
-        return checkNotFound(account, "Account with email " + email + " not found");
     }
 
     @Override
@@ -53,5 +48,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void delete(Integer id) {
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Account> getByEmail(String email) {
+        return accountRepository.findByEmail(email);
     }
 }

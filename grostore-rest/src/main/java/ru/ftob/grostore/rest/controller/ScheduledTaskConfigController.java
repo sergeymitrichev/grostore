@@ -27,6 +27,7 @@ public class ScheduledTaskConfigController {
     @Autowired
     public ScheduledTaskConfigController(ScheduledTaskConfigService scheduledTaskConfigService) {
         this.scheduledTaskConfigService = scheduledTaskConfigService;
+        modelMapper.getConfiguration().setAmbiguityIgnored(true);
     }
 
     @GetMapping("/")

@@ -4,11 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.ftob.grostore.model.account.Account;
 
+import java.util.Optional;
+
 public interface AccountService {
 
     Account get(Integer id);
-
-    Account getByEmail(String email);
 
     Page<Account> getAll(Pageable pageable);
 
@@ -17,5 +17,7 @@ public interface AccountService {
     void update(Account account);
 
     void delete(Integer id);
+
+    Optional<Account> getByEmail(String email);
 
 }
