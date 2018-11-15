@@ -11,8 +11,8 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'grostore-scheduler'
-    version =  '0.2.0'
+    baseName = parent.name + '-scheduler'
+    version =  parent.version
 }
 
 repositories {
