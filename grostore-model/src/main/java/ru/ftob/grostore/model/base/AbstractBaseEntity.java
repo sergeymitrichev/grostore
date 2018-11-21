@@ -23,9 +23,8 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     @NotNull
     private LocalDateTime created = LocalDateTime.now();
 
-    @Column(name = "updated", nullable = false, columnDefinition = "timestamp default now()")
-    @NotNull
-    private LocalDateTime updated = LocalDateTime.now();
+    @Column(name = "updated", columnDefinition = "timestamp")
+    private LocalDateTime updated;
 
     @CreatedBy
     @ManyToOne(cascade = CascadeType.DETACH)
@@ -110,5 +109,15 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     @Override
     public int hashCode() {
         return id == null ? 0 : id;
+    }
+
+    @PrePersist
+    void createdAt() {
+        this.created = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void updatedAt() {
+        this.updated = LocalDateTime.now();
     }
 }

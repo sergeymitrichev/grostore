@@ -5,18 +5,21 @@ import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product")
+@Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = "sku", name = "product_unique_sku_idx")})
 public class Product extends AbstractPublishedEntity {
 
     @Column(name = "sku")
+    @Size(min = 4, max = 56)
     @NotNull(message = "Product SKU must not be null")
     private String sku;
 
     @Column(name = "unit")
+    @Size(max = 56)
     private String unit;
 
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)

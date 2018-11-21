@@ -1,5 +1,7 @@
 package ru.ftob.grostore.model.productlist;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.product.Product;
 
@@ -10,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "category")
+@Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = "forename", name = "category_unique_name_idx")})
 public class Category extends AbstractPublishedEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -20,6 +22,7 @@ public class Category extends AbstractPublishedEntity {
     private List<Product> products = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.DETACH, fetch = FetchType.EAGER, orphanRemoval = true)

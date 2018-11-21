@@ -8,14 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product_import")
-//@Table(name="product_imports", uniqueConstraints = {@UniqueConstraint(columnNames = "file, name")})
+@Table(name = "product_import", uniqueConstraints = {@UniqueConstraint(columnNames = {"file", "forename"}, name = "product_import_unique_file_name_idx")})
 public class ProductImport extends AbstractNamedEntity {
 
     @Column(name = "file", nullable = false)
     private String file;
 
-//    @Transient
     @Enumerated
     @ElementCollection(targetClass = ProductImportFieldType.class, fetch = FetchType.EAGER)
     private List<ProductImportFieldType> fields = new ArrayList<>();
