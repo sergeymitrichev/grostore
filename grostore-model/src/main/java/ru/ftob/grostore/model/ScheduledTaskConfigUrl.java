@@ -1,5 +1,6 @@
 package ru.ftob.grostore.model;
 
+import org.hibernate.validator.constraints.URL;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ public class ScheduledTaskConfigUrl {
 
     @Column(name = "link")
     @NotNull(message = "Link must not be null")
+    @URL
     private String link;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

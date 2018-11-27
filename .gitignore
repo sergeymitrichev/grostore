@@ -97,8 +97,12 @@ hs_err_pid*
 .gradle
 grostore-model/build/*
 grostore-persistence/build/*
+grostore-presentation/build/*
 grostore-rest/build/*
+grostore-scheduler/build/*
+grostore-security/build/*
 grostore-service/build/*
+grostore-ucoz/build/*
 
 # Ignore Gradle GUI config
 gradle-app.setting
