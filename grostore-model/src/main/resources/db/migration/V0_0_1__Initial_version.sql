@@ -139,7 +139,9 @@ create table account (
     
     alter table if exists account 
        add constraint account_unique_email_idx unique (email);
- 
+
+    alter table if exists account_roles
+       add constraint account_roles_unique_idx unique (role, account_id);
     
     alter table if exists category 
        add constraint category_unique_name_idx unique (forename);
