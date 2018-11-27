@@ -1,0 +1,1 @@
+--INSERT INTO stock (forename) VALUES ('New Stock')
