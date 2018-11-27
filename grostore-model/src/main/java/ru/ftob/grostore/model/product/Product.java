@@ -34,7 +34,7 @@ public class Product extends AbstractPublishedEntity {
     @NotNull(message = "Product prices must not be null")
     private List<Price> prices;
 
-    @Transient
+    @Column(name = "image")
     private String image;
 
     public Product() {

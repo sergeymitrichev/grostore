@@ -15,6 +15,7 @@ public class MetroProductParseResult {
     private String image;
     private List<MetroPrice> prices = new ArrayList<>();
 
+    //TODO move deserialize logic to separate Jackson deserializer
     public MetroProductParseResult(String html) {
         Document doc = Jsoup.parse(html);
         this.name = doc.select("span.title").get(0).html();
@@ -22,12 +23,12 @@ public class MetroProductParseResult {
 
         // https://static.metro-cc.ru/data/public/image/cache/7/2016/12/02/8f270af5f576b381e58a8c8c3a9add00-150x150.jpg
         // https://static.metro-cc.ru/data/public/image/cache/7/2016/12/02/8f270af5f576b381e58a8c8c3a9add00-320x280.jpg
+        //TODO resize images and persist all sizes
         this.image = doc.select("div.catalog-i_image>img").attr("src");
 
         int priceIn = Math.round(Float.parseFloat(doc.select(".add2list").get(0).attr("data-regular_price")));
         this.prices.add(new MetroPrice(PriceType.PRICE_TYPE_IN, priceIn));
 
-        //TODO add % to income price to correct calculating wholesale output price
         String countLevel = doc.select(".add2list").get(0).attr("data-count_lvl_1");
         if(!StringUtils.isEmpty(countLevel)) {
             int countLevel1 = Integer.parseInt(countLevel);

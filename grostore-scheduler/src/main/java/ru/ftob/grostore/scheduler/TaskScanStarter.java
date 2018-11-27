@@ -6,6 +6,7 @@ import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.model.ScheduledTaskConfigStatus;
 import ru.ftob.grostore.scheduler.task.MetroParseProductsScheduledTask;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
+import ru.ftob.grostore.service.file.FileStorageService;
 import ru.ftob.grostore.service.product.ProductService;
 
 import javax.annotation.PostConstruct;
@@ -22,10 +23,13 @@ public class TaskScanStarter implements Runnable {
 
     private final ScheduledTaskConfigService scheduledTaskConfigService;
 
+    private final FileStorageService fileStorageService;
+
     @Autowired
-    public TaskScanStarter(ProductService productService, ScheduledTaskConfigService scheduledTaskConfigService) {
+    public TaskScanStarter(ProductService productService, ScheduledTaskConfigService scheduledTaskConfigService, FileStorageService fileStorageService) {
         this.productService = productService;
         this.scheduledTaskConfigService = scheduledTaskConfigService;
+        this.fileStorageService = fileStorageService;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class TaskScanStarter implements Runnable {
         Runnable task = null;
         switch (config.getType()) {
             case SCHEDULED_TASK_METRO_PARSE_PRODUCTS: {
-                task = new MetroParseProductsScheduledTask(scheduledTaskConfigService, productService, config);
+                task = new MetroParseProductsScheduledTask(scheduledTaskConfigService, productService, fileStorageService, config);
                 break;
             }
         }
