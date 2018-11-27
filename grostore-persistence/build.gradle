@@ -10,7 +10,3 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.4'
     compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: '9.0.10'
 }
-
-jar {
-    manifest.attributes("Simple-Class": mainClassName)
-}
