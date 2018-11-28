@@ -147,6 +147,8 @@ public class UcozSynchronizeController {
                 mapper.map(x, p);
                 if (p.getSku() != null && p.getPriceIn() != null) {
                     productsToUpdate.add(p);
+                } else {
+
                 }
             });
             handler.updateAllProducts(productsToUpdate, stock);

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.ftob.grostore.ucoz.exception.UApiRequestException;
 import ru.ftob.grostore.ucoz.repository.ApiProductRepositoryImpl;
 import ru.ftob.grostore.ucoz.snapshot.SnapshotProduct;
 import ru.ftob.grostore.ucoz.snapshot.SnapshotProductRepository;
@@ -26,6 +27,8 @@ public class SnapshotHandlerImpl implements SnapshotHandler {
 
     private final ModelMapper mapper = new ModelMapper();
 
+    private final boolean HIDE_UAPI_PRODUCT_IF_NOT_FOUND = false;
+
     @Autowired
     public SnapshotHandlerImpl(SnapshotProductRepository snapshotProductRepository, ApiProductRepositoryImpl apiProductRepository) {
         this.snapshotProductRepository = snapshotProductRepository;
@@ -40,7 +43,11 @@ public class SnapshotHandlerImpl implements SnapshotHandler {
         SnapshotProduct updated = snapshotProductRepository.save(product);
         UcozProduct ucozProduct = new UcozProduct();
         mapper.map(updated, ucozProduct);
-        apiProductRepository.save(ucozProduct);
+        try {
+            apiProductRepository.save(ucozProduct);
+        } catch (UApiRequestException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -54,7 +61,7 @@ public class SnapshotHandlerImpl implements SnapshotHandler {
         persistedProducts.forEach(p -> {
             if (productsToUpdate.contains(p)) {
                 p.setPriceIn(productsToUpdate.get(productsToUpdate.lastIndexOf(p)).getPriceIn());
-            } else {
+            } else if(HIDE_UAPI_PRODUCT_IF_NOT_FOUND) {
                 p.setHide(true);
             }
             try {
@@ -66,6 +73,7 @@ public class SnapshotHandlerImpl implements SnapshotHandler {
             } catch (IOException e) {
                 log.error("Can't connect to api ucoz", e);
             }
+            log.debug("[" + p.getSku() + "]" + p.getName() + " updated");
         });
     }
 

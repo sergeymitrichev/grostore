@@ -28,7 +28,7 @@ class Simple {
         ApiProductRepositoryImpl productRepository = appCtx.getBean(ApiProductRepositoryImpl.class);
         UcozProduct ucozProduct = productRepository.getBySku("73170");
         System.out.println(ucozProduct);
-        System.out.println(productRepository.save(ucozProduct));
+//        System.out.println(productRepository.save(ucozProduct));
 //        ApiUserRepositoryImpl userRepository = appCtx.getBean(ApiUserRepositoryImpl.class);
 //        UcozUser account = userRepository.get("1");
 //        System.out.println(account);

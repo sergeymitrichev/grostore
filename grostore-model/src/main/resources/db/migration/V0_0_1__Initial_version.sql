@@ -114,7 +114,7 @@ create table account (
     
     create table ucoz_categories_snapshot (
        id int4 not null,
-        descr varchar(255),
+        descr varchar(6000),
         cat_img_url varchar(255),
         cat_level int4,
         forename varchar(255),
