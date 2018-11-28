@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ftob.grostore.model.account.Account;
+import ru.ftob.grostore.rest.util.ModelMapperUtils;
 import ru.ftob.grostore.rest.webmodel.GuiAccount;
 import ru.ftob.grostore.service.account.AccountService;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/accounts")
-public class AccountController extends AbstractRestController {
+public class AccountController /*extends AbstractRestController<Account, Integer, GuiAccount> */{
 
     private final AccountService accountService;
 
@@ -30,9 +31,9 @@ public class AccountController extends AbstractRestController {
     public ResponseEntity<?> getAll(Pageable pageable) {
         Page<Account> accountPage = accountService.getAll(pageable);
         List<GuiAccount> accounts =accountPage.getContent().stream().map(
-                p -> getMapper().map(p, GuiAccount.class)
+                p -> ModelMapperUtils.map(p, GuiAccount.class)
         ).collect(Collectors.toList());
-        PageImpl page = new PageImpl(accounts, pageable, accountPage.getTotalElements());
+        PageImpl page = new PageImpl<>(accounts, pageable, accountPage.getTotalElements());
 
         return ResponseEntity.ok(page);
     }
