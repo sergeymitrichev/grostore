@@ -1,5 +1,6 @@
 package ru.ftob.grostore.ucoz.repository;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -9,6 +10,7 @@ import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.ftob.grostore.ucoz.ApiClient;
+import ru.ftob.grostore.ucoz.exception.UApiRequestException;
 import ru.ftob.grostore.ucoz.to.UcozProduct;
 
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
 
 
     @Override
-    public UcozProduct save(UcozProduct ucozProduct) throws IOException, ExecutionException, InterruptedException {
+    public UcozProduct save(UcozProduct ucozProduct) throws IOException, ExecutionException, InterruptedException, UApiRequestException {
         Response response = apiClient.makeRequest(
                     MODULE_PATH + "/editgoods",
                     Verb.POST,
@@ -50,7 +52,11 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
                             new Pair<>("price_in", ucozProduct.getPriceIn().toString()),
                             new Pair<>("hide", ucozProduct.getHide().toString())
                     ));
-        return mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_list").findValue("0").toString(), UcozProduct.class);
+        JsonNode body = mapper.readTree(response.getBody());
+        if (null != body && null != body.findValue("success")) {
+            return mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_data").toString(), UcozProduct.class);
+        }
+        throw new UApiRequestException("Cannot update product [" + ucozProduct.getSku() + "]" + ucozProduct.getName() + ". Response: " + response);
     }
 
     @Override

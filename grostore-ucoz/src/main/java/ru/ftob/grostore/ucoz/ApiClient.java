@@ -35,14 +35,13 @@ public class ApiClient {
         service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback(SITE_URL)
-                .debug()
+//                .debug()
                 .build(UcozApi.instance());
 
         accessToken = new OAuth1AccessToken(token, tokenSecret);
     }
 
     public Response makeRequest(String path, Verb method, Map<String, String> parameters) throws ExecutionException, InterruptedException {
-        System.out.println("Prepare request");
         final OAuthRequest request = new OAuthRequest(method, SITE_URL + path);
         for (Map.Entry<String, String> p : parameters.entrySet()) {
             switch (method) {
@@ -57,11 +56,7 @@ public class ApiClient {
             }
         }
         service.signRequest(this.accessToken, request);
-
-        System.out.println("Schedule future task");
         ScheduledFuture<Response> future = executor.schedule(new ApiRequestTask(request, service), REQUEST_DELAY, REQUEST_DELAY_UNIT);
-
-        System.out.println("Get future response");
         return future.get();
     }
 
