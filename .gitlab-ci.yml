@@ -34,7 +34,7 @@ test:
 deploy:
   stage: deploy
   script:
-    - ./deploy
+    - ./gradlew ftp
 
 after_script:
 - echo "End CI"
