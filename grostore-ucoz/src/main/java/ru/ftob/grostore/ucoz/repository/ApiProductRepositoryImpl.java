@@ -56,7 +56,7 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
         if (null != body && null != body.findValue("success")) {
             return mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_data").toString(), UcozProduct.class);
         }
-        throw new UApiRequestException("Cannot update product [" + ucozProduct.getSku() + "]" + ucozProduct.getName() + ". Response body: " + response.getBody().toString());
+        throw new UApiRequestException("Cannot update product [" + ucozProduct.getSku() + "]" + ucozProduct.getName() + ". Response: " + response);
     }
 
     @Override

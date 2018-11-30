@@ -20,16 +20,18 @@ import ru.ftob.grostore.service.util.XlsHandlerUtil;
 import ru.ftob.grostore.service.xlsto.XlsProduct;
 import ru.ftob.grostore.service.xlsto.XlsProductSnapshotRow;
 import ru.ftob.grostore.ucoz.handler.SnapshotHandler;
-import ru.ftob.grostore.ucoz.repository.ApiProductRepositoryImpl;
-import ru.ftob.grostore.ucoz.snapshot.*;
-import ru.ftob.grostore.ucoz.to.UcozProduct;
+import ru.ftob.grostore.ucoz.snapshot.SnapshotCategory;
+import ru.ftob.grostore.ucoz.snapshot.SnapshotCategoryRepository;
+import ru.ftob.grostore.ucoz.snapshot.SnapshotProduct;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
@@ -152,6 +154,48 @@ public class UcozSynchronizeController {
                 }
             });
             handler.updateAllProducts(productsToUpdate, stock);
+
+        } catch (IOException e) {
+            log.error("Cannot open file", e);
+        }
+        log.debug("Finish reading from file " + file.getOriginalFilename());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/prices/")
+    public ResponseEntity<?> prices(@RequestParam("file") MultipartFile file, @RequestParam int skuColumn, @RequestParam int priceColumn) {
+        storageService.store(file);
+        log.debug("Reading prices from file. Sky column: [" + skuColumn + "], price column: [" + priceColumn + "].");
+
+        try {
+            File tmp = new File(storageService.getRootLocation() + "/" + file.getOriginalFilename());
+            ArrayList<ProductImportFieldType> fields = new ArrayList<>();
+            int i = 0;
+            while(i <= Math.max(skuColumn, priceColumn)) {
+                if(i == skuColumn) {
+                    fields.add(ProductImportFieldType.SKU);
+                } else if (i == priceColumn) {
+                    fields.add(ProductImportFieldType.PRICE_IN);
+                } else {
+                    fields.add(ProductImportFieldType._IGNORE);
+                }
+                i++;
+            }
+            XlsHandlerUtil.addFieldsToHeader(tmp, fields);
+            PoijiOptions options = PoijiOptions.PoijiOptionsBuilder.settings()
+                    .preferNullOverDefault(true)
+                    .build();
+            List<XlsProduct> xlsProducts = Poiji.fromExcel(tmp, XlsProduct.class, options);
+            List<SnapshotProduct> productsToUpdate = new ArrayList<>();
+            xlsProducts.forEach(x -> {
+                SnapshotProduct p = new SnapshotProduct();
+                mapper.map(x, p);
+                if (p.getSku() != null && p.getPriceIn() != null) {
+                    productsToUpdate.add(p);
+                }
+            });
+            handler.updateProductPrices(productsToUpdate);
 
         } catch (IOException e) {
             log.error("Cannot open file", e);
