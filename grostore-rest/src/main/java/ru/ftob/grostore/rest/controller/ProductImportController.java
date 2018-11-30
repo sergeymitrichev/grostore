@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.ftob.grostore.model.product.ProductImport;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
 import ru.ftob.grostore.rest.storage.StorageService;
+import ru.ftob.grostore.rest.util.ModelMapperUtils;
 import ru.ftob.grostore.rest.webmodel.GuiCategory;
 import ru.ftob.grostore.rest.webmodel.GuiProduct;
 import ru.ftob.grostore.rest.webmodel.GuiProductImport;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/imports")
-public class ProductImportController extends AbstractRestController {
+public class ProductImportController /*extends AbstractRestController<ProductImport, Integer, GuiProductImport>*/ {
 
     private final StorageService storageService;
 
@@ -38,7 +39,7 @@ public class ProductImportController extends AbstractRestController {
     public ResponseEntity<?> getAll() {
         List<ProductImport> productImports = productImportService.getAll();
         List<GuiProductImport> guiProductImports = productImports.stream().map(
-                t -> getMapper().map(t, GuiProductImport.class)
+                t -> ModelMapperUtils.map(t, GuiProductImport.class)
         ).collect(Collectors.toList());
 
         return ResponseEntity.ok(guiProductImports);

@@ -87,13 +87,16 @@ public class UcozProduct {
         this.hide = hide;
     }
 
+
     @Override
     public String toString() {
         return "UcozProduct{" +
                 "id='" + id + '\'' +
                 ", sku='" + sku + '\'' +
+                ", name='" + name + '\'' +
                 ", priceIn=" + priceIn +
                 ", category=" + category +
+                ", hide=" + hide +
                 '}';
     }
 }

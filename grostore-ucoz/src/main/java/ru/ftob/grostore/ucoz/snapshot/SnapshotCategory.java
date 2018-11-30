@@ -10,7 +10,7 @@ public class SnapshotCategory {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "forename")
     private String name;
 
     @Column(name = "url")

@@ -14,7 +14,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "account")
+@Table(name = "account", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "account_unique_email_idx")})
 public class Account extends AbstractNamedEntity {
 
     @Column(name = "phone")
@@ -26,11 +26,10 @@ public class Account extends AbstractNamedEntity {
     private String email;
 
     @Column(name = "password")
-    //TODO generate password if null
-    //@NotNull
+    @NotNull
     private String password;
 
-    @Column(name = "visited", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "visited", columnDefinition = "timestamp")
     private LocalDateTime visited;
 
     @Enumerated(EnumType.STRING)

@@ -3,22 +3,24 @@ package ru.ftob.grostore.model;
 import ru.ftob.grostore.model.base.AbstractNamedEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "scheduled_task_config")
+@Table(name = "scheduled_task_config", uniqueConstraints = {@UniqueConstraint(columnNames = "forename", name = "scheduled_task_config_unique_name_idx")})
 public class ScheduledTaskConfig extends AbstractNamedEntity {
 
-    @Column(name = "periodic")
+    @Column(name = "periodic", columnDefinition = "int default 0")
     private boolean periodic;
 
-    @Column(name = "delay")
+    @Column(name = "delay", columnDefinition = "bigint default 0")
     private long delay;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "int default 0")
     private ScheduledTaskConfigStatus status;
 
     @Column(name = "type")
+    @NotNull(message = "Scheduled task config must have a type")
     private ScheduledTaskConfigType type;
 
     @ElementCollection(fetch = FetchType.EAGER)

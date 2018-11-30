@@ -27,7 +27,7 @@ public class XlsHandlerUtil {
         if (extension.equals(".xls")) {
             return new HSSFWorkbook(new FileInputStream(file));
         }
-        if(extension.equals(".xlsx")) {
+        if (extension.equals(".xlsx")) {
             return new XSSFWorkbook(new FileInputStream(file));
         }
         throw new NotOfficeXmlFileException("Unsupported file extension in file: " + fileName + ". Allowed: xls, xlsx.");
@@ -45,11 +45,11 @@ public class XlsHandlerUtil {
         List<List<String>> raw = new ArrayList<>();
         int rowLimit = 50;
         int startRow = 0;
-        if(isFileConfigured(file)) {
+        if (isFileConfigured(file)) {
             startRow = 2;
         }
         for (Row row : sheet) {
-            if(startRow > 0) {
+            if (startRow > 0) {
                 startRow--;
                 continue;
             }
@@ -82,7 +82,7 @@ public class XlsHandlerUtil {
         Workbook workbook = getWorkBook(file);
         Sheet sheet = workbook.getSheetAt(0);
 
-        if(!isFileConfigured(file)) {
+        if (!isFileConfigured(file)) {
             sheet.shiftRows(0, sheet.getLastRowNum(), 2);
             sheet.createRow(0);
             sheet.createRow(1);
