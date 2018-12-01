@@ -6,7 +6,6 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.ftob.grostore.ucoz.ApiClient;
@@ -14,10 +13,7 @@ import ru.ftob.grostore.ucoz.exception.UApiRequestException;
 import ru.ftob.grostore.ucoz.to.UcozProduct;
 
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Component
@@ -45,12 +41,12 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
                     MODULE_PATH + "/editgoods",
                     Verb.POST,
                     buildParameters(
-                            new Pair<>("method", "submit"),
-                            new Pair<>("id", ucozProduct.getId()),
-                            new Pair<>("cat_id", ucozProduct.getCategory().getId()),
-                            new Pair<>("name", ucozProduct.getName()),
-                            new Pair<>("price_in", ucozProduct.getPriceIn().toString()),
-                            new Pair<>("hide", ucozProduct.getHide().toString())
+                            new AbstractMap.SimpleEntry<>("method", "submit"),
+                            new AbstractMap.SimpleEntry<>("id", ucozProduct.getId()),
+                            new AbstractMap.SimpleEntry<>("cat_id", ucozProduct.getCategory().getId()),
+                            new AbstractMap.SimpleEntry<>("name", ucozProduct.getName()),
+                            new AbstractMap.SimpleEntry<>("price_in", ucozProduct.getPriceIn().toString()),
+                            new AbstractMap.SimpleEntry<>("hide", ucozProduct.getHide().toString())
                     ));
         JsonNode body = mapper.readTree(response.getBody());
         if (null != body && null != body.findValue("success")) {
@@ -79,8 +75,8 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
                 MODULE_PATH + "/request",
                 Verb.GET,
                 buildParameters(
-                        new Pair<>("page", "allgoods"),
-                        new Pair<>("f_art", new String(Base64.getEncoder().encode(sku.getBytes())))
+                        new AbstractMap.SimpleEntry<>("page", "allgoods"),
+                        new AbstractMap.SimpleEntry<>("f_art", new String(Base64.getEncoder().encode(sku.getBytes())))
                 ));
         try {
             return mapper.readValue(mapper.readTree(response.getBody()).findValue("success").findValue("goods_list").findValue("0").toString(), UcozProduct.class);
@@ -91,12 +87,12 @@ public class ApiProductRepositoryImpl implements ApiBaseRepository<UcozProduct> 
     }
 
     @SafeVarargs
-    private final Map<String, String> buildParameters(Pair<String, String>... pairs) {
+    private final Map<String, String> buildParameters(AbstractMap.SimpleEntry<String, String>... pairs) {
         Map<String, String> param = new HashMap<>();
-        for (Pair<String, String> pair : pairs) {
+        for (AbstractMap.SimpleEntry<String, String> pair : pairs) {
             param.put(pair.getKey(), pair.getValue());
         }
-        return param;
 
+        return param;
     }
 }
