@@ -33,6 +33,8 @@ public class Category extends AbstractPublishedEntity {
     public Category() {
     }
 
+
+
     public Category getParent() {
         return parent;
     }
