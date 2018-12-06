@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.model.product.Product;
 
 import java.util.List;
@@ -51,5 +52,15 @@ public class DataJpaProductRepository implements ProductRepository{
     @Override
     public Product getBySku(String sku) {
         return crudRepository.getBySku(sku);
+    }
+
+    @Override
+    public List<Product> getAllBySku(List<String> sku) {
+        return crudRepository.findAllBySku(sku);
+    }
+
+    @Override
+    public List<Product> getAllByUpdatedBy(Account updatedBy) {
+        return crudRepository.findAllByUpdatedBy(updatedBy);
     }
 }

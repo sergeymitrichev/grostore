@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.model.product.Product;
 
 import java.util.List;
@@ -36,5 +37,8 @@ public interface CrudProductRepository extends PagingAndSortingRepository<Produc
 
     Product getBySku(String sku);
 
+    List<Product> findAllByUpdatedBy(Account updatedBy);
+
+    List<Product> findAllBySku(List<String> sku);
 //    boolean existsByNameOrId()
 }
