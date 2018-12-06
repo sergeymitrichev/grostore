@@ -1,13 +1,15 @@
 package ru.ftob.grostore.scheduler.task.converter;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import ru.ftob.grostore.model.product.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MetroCatalog {
+@JsonDeserialize(using = MetroPageDeserializer.class)
+public class MetroPage {
     private Boolean success;
     private List<MetroProduct> items = new ArrayList<>();
-    private List<String> data;
 //    @JsonProperty("data")
 //    private void unpackItems(Map<String, Object> data) {
 //        ((List<String>) data.get("items")).forEach(htmlItem -> {
@@ -15,7 +17,17 @@ public class MetroCatalog {
 //        });
 //    }
 
-    public MetroCatalog() {
+    private List<Product> products;
+
+    public MetroPage() {
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public Boolean getSuccess() {
@@ -34,17 +46,9 @@ public class MetroCatalog {
         this.items = items;
     }
 
-    public List<String> getData() {
-        return data;
-    }
-
-    public void setData(List<String> data) {
-        this.data = data;
-    }
-
     @Override
     public String toString() {
-        return "MetroCatalog{" +
+        return "MetroPage{" +
                 "success=" + success +
                 ", items=" + items +
                 '}';

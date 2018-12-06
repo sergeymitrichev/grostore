@@ -1,4 +1,4 @@
-package ru.ftob.grostore.scheduler;
+package ru.ftob.grostore.scheduler.task.converter;
 
 import ru.ftob.grostore.model.product.PriceType;
 

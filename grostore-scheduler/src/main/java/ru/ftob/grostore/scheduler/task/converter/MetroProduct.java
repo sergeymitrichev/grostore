@@ -1,4 +1,4 @@
-package ru.ftob.grostore.scheduler;
+package ru.ftob.grostore.scheduler.task.converter;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,7 +8,7 @@ import ru.ftob.grostore.model.product.PriceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MetroProductParseResult {
+public class MetroProduct {
 
     private String name;
     private String sku;
@@ -16,7 +16,7 @@ public class MetroProductParseResult {
     private List<MetroPrice> prices = new ArrayList<>();
 
     //TODO move deserialize logic to separate Jackson deserializer
-    public MetroProductParseResult(String html) {
+    public MetroProduct(String html) {
         Document doc = Jsoup.parse(html);
         this.name = doc.select("span.title").get(0).html();
         this.sku = doc.select(".add2list").get(0).attr("data-article");
@@ -90,7 +90,7 @@ public class MetroProductParseResult {
 
     @Override
     public String toString() {
-        return "MetroProductParseResult{" +
+        return "MetroProduct{" +
                 "name='" + name + '\'' +
                 ", sku='" + sku + '\'' +
                 ", image='" + image + '\'' +
