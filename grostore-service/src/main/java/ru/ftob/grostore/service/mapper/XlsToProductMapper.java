@@ -11,6 +11,7 @@ import ru.ftob.grostore.service.xlsto.XlsProduct;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,11 +46,11 @@ public class XlsToProductMapper extends AbstractMapper<XlsProduct, Product> {
     }
 
     private void populateCustomFields(Product product, XlsProduct xlsProduct) throws ConfigurationException {
-        List<Category> categories = Arrays.stream(xlsProduct.getCategoriesString().split(",")).map(name -> {
+        Set<Category> categories = Arrays.stream(xlsProduct.getCategoriesString().split(",")).map(name -> {
             Category category = new Category();
             category.setName(name);
             return category;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toSet());
         product.setCategories(categories);
     }
 }

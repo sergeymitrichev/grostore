@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.persistence.product.ProductRepository;
 import ru.ftob.grostore.persistence.productlist.CategoryRepository;
@@ -85,5 +86,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getBySku(String sku) {
         return productRepository.getBySku(sku);
+    }
+
+    @Override
+    public List<Product> getAllBySku(List<String> sku) {
+        return productRepository.getAllBySku(sku);
+    }
+
+    @Override
+    public List<Product> getAllByUpdatedBy(Account updatedBy) {
+        return productRepository.getAllByUpdatedBy(updatedBy);
     }
 }
