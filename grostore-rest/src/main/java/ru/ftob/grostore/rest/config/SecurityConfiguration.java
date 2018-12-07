@@ -27,7 +27,7 @@ import static ru.ftob.grostore.rest.config.RestConstants.*;
 @EnableWebSecurity
 @EnableOAuth2Client
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@PropertySource(REST_OAUTH_SECURITY_PROPERTIES_FILE)
+@PropertySource(value = REST_OAUTH_SECURITY_PROPERTIES_FILE,  ignoreResourceNotFound = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final SsoFilterBuilder filterBuilder;
