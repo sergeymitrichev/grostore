@@ -1,18 +1,24 @@
 package ru.ftob.grostore.model.product;
 
 import org.hibernate.annotations.BatchSize;
-import ru.ftob.grostore.model.base.AbstractBaseEntity;
+import ru.ftob.grostore.model.base.AbstractNamedEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "price_rule")
-public class PriceRule extends AbstractBaseEntity {
+public class PriceRule extends AbstractNamedEntity {
 
-    @OneToMany(mappedBy = "priceRule", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<PriceRuleRow> rows = new HashSet<>();
+    @OneToMany(targetEntity = PriceRuleRow.class,
+            mappedBy = "priceRule",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    private List<PriceRuleRow> rows = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "price_type")
@@ -21,11 +27,11 @@ public class PriceRule extends AbstractBaseEntity {
     @BatchSize(size = 200)
     private Set<PriceType> types = new HashSet<>();
 
-    public Set<PriceRuleRow> getRows() {
+    public List<PriceRuleRow> getRows() {
         return rows;
     }
 
-    public void setRows(Set<PriceRuleRow> rows) {
+    public void setRows(List<PriceRuleRow> rows) {
         this.rows = rows;
     }
 
