@@ -63,4 +63,9 @@ public class DataJpaProductRepository implements ProductRepository{
     public List<Product> getAllByUpdatedBy(Account updatedBy) {
         return crudRepository.findAllByUpdatedBy(updatedBy);
     }
+
+    @Override
+    public List<Product> getAll() {
+        return crudRepository.findAll();
+    }
 }

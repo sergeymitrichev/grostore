@@ -37,6 +37,8 @@ public interface CrudProductRepository extends PagingAndSortingRepository<Produc
 
     Product getBySku(String sku);
 
+    List<Product> findAll();
+
     List<Product> findAllByUpdatedBy(Account updatedBy);
 
     List<Product> findAllBySku(List<String> sku);

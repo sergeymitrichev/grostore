@@ -26,4 +26,6 @@ public interface ProductRepository {
     List<Product> getAllBySku(List<String> sku);
 
     List<Product> getAllByUpdatedBy(Account updatedBy);
+
+    List<Product> getAll();
 }
