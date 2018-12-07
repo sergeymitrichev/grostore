@@ -1,4 +1,4 @@
-package ru.ftob.grostore.scheduler.task.converter;
+package ru.ftob.grostore.scheduler.task.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import ru.ftob.grostore.model.product.Price;
 import ru.ftob.grostore.model.product.PriceType;
 import ru.ftob.grostore.model.product.Product;
+import ru.ftob.grostore.scheduler.task.to.MetroPage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -69,7 +70,7 @@ public class MetroPageDeserializer extends JsonDeserializer<MetroPage> {
             int countLevel1 = Math.round(Float.parseFloat(countLevel));
             if (countLevel1 > 1) {
                 int priceLevel1 = priceIn - Math.round(Float.parseFloat(source.attr("data-discount_lvl_1")));
-                prices.add(new Price(priceLevel1, PriceType.PRICE_TYPE_WHOLESALE, countLevel1));
+                prices.add(new Price(priceLevel1, PriceType.PRICE_TYPE_WHOLESALE_IN, countLevel1));
             }
         }
         countLevel = source.attr("data-count_lvl_2");
@@ -77,7 +78,7 @@ public class MetroPageDeserializer extends JsonDeserializer<MetroPage> {
             int countLevel2 = Math.round(Float.parseFloat(countLevel));
             if (countLevel2 > 1) {
                 int priceLevel2 = priceIn - Math.round(Float.parseFloat(source.attr("data-discount_lvl_2")));
-                prices.add(new Price(priceLevel2, PriceType.PRICE_TYPE_WHOLESALE, countLevel2));
+                prices.add(new Price(priceLevel2, PriceType.PRICE_TYPE_WHOLESALE_IN, countLevel2));
             }
         }
 

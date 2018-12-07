@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import ru.ftob.grostore.scheduler.task.TaskScanStarter;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
 import ru.ftob.grostore.service.file.FileStorageService;
 import ru.ftob.grostore.service.product.ProductService;

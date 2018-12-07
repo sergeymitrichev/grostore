@@ -35,8 +35,6 @@ public abstract class AbstractPublishedEntity extends AbstractDescribedEntity {
     public AbstractPublishedEntity() {
     }
 
-
-
     public String getTitle() {
         return title;
     }
