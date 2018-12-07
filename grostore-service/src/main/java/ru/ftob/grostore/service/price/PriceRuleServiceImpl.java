@@ -7,15 +7,15 @@ import org.springframework.stereotype.Service;
 import ru.ftob.grostore.model.product.PriceRule;
 import ru.ftob.grostore.model.product.PriceType;
 import ru.ftob.grostore.persistence.price.PriceRuleRepository;
-import ru.ftob.grostore.service.BaseService;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class PriceRuleServiceImpl implements BaseService<PriceRule, Integer> {
+public class PriceRuleServiceImpl implements PriceRuleService {
 
     private final PriceRuleRepository repository;
 
@@ -25,17 +25,23 @@ public class PriceRuleServiceImpl implements BaseService<PriceRule, Integer> {
     }
 
     @Override
-    public Optional<PriceRule> get(Integer id) throws NotFoundException {
-        return repository.findById(id);
+    public PriceRule get(Integer id) throws NotFoundException {
+        return repository.findById(id)
+                .orElseThrow(
+                        () -> new NotFoundException(
+                                "Not found price rule with id = " + id));
     }
 
-    public Optional<PriceRule> getByPriceType(PriceType priceType) {
-        return repository.findByTypesContains(priceType);
+    public PriceRule getByPriceType(PriceType priceType) {
+        return repository.findByTypesContains(priceType)
+                .orElseThrow(
+                        () -> new NotFoundException(
+                                "Not found price rule with [price type] = " + priceType));
     }
 
     @Override
     public PriceRule create(PriceRule priceRule) {
-        return null;
+        return repository.save(priceRule);
     }
 
     @Override
@@ -45,12 +51,15 @@ public class PriceRuleServiceImpl implements BaseService<PriceRule, Integer> {
 
     @Override
     public Collection<PriceRule> updateAll(Collection<PriceRule> t) {
-        return null;
+        Iterator<PriceRule> source = repository.saveAll(t).iterator();
+        List<PriceRule> target = new ArrayList<>();
+        source.forEachRemaining(target::add);
+        return target;
     }
 
     @Override
     public Page<PriceRule> getAll(Pageable pageable) {
-        return null;
+        return repository.findAll(pageable);
     }
 
     @Override
@@ -59,12 +68,12 @@ public class PriceRuleServiceImpl implements BaseService<PriceRule, Integer> {
     }
 
     @Override
-    public List<PriceRule> getAll() {
+    public Collection<PriceRule> getAll() {
         return repository.findAll();
     }
 
     @Override
     public void deleteAll(Collection<PriceRule> t) {
-
+        repository.deleteAll(t);
     }
 }

@@ -24,6 +24,8 @@ public interface ProductService {
 
     Page<Product> getAll(Pageable pageable);
 
+    List<Product> getAll();
+
     Product getBySku(String sku);
 
     List<Product> getAllBySku(List<String> sku);
