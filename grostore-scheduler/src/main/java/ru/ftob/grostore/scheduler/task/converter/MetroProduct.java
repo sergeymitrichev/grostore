@@ -34,7 +34,7 @@ public class MetroProduct {
             int countLevel1 = Integer.parseInt(countLevel);
             if (countLevel1 > 1) {
                 int priceLevel1 = priceIn - Math.round(Float.parseFloat(doc.select(".add2list").get(0).attr("data-discount_lvl_1")));
-                this.prices.add(new MetroPrice(PriceType.PRICE_TYPE_WHOLESALE, priceLevel1, countLevel1));
+                this.prices.add(new MetroPrice(PriceType.PRICE_TYPE_WHOLESALE_IN, priceLevel1, countLevel1));
             }
         }
         countLevel = doc.select(".add2list").get(0).attr("data-count_lvl_2");
@@ -42,14 +42,14 @@ public class MetroProduct {
             int countLevel2 = Integer.parseInt(countLevel);
             if (countLevel2 > 1) {
                 int priceLevel2 = priceIn - Math.round(Float.parseFloat(doc.select(".add2list").get(0).attr("data-discount_lvl_2")));
-                this.prices.add(new MetroPrice(PriceType.PRICE_TYPE_WHOLESALE, priceLevel2, countLevel2));
+                this.prices.add(new MetroPrice(PriceType.PRICE_TYPE_WHOLESALE_IN, priceLevel2, countLevel2));
             }
         }
 
         //TODO add % to old price to correct calculating old price
         int priceOld = Math.round(Float.parseFloat(doc.select(".add2list").get(0).attr("data-old_price")));
         if (priceOld > 0 && priceOld < priceIn) {
-            this.prices.add(new MetroPrice(PriceType.PRICE_TYPE_OLD, priceOld));
+            this.prices.add(new MetroPrice(PriceType.PRICE_TYPE_OLD_IN, priceOld));
         }
 
         //TODO parse category or get it from parse config
