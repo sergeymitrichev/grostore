@@ -33,7 +33,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public void generateOutFromAllProducts() {
-        generateOutFromProducts(productService.getAll());
+        generateOutFromProducts(new ArrayList<>(productService.getAll()));
     }
 
     @Override

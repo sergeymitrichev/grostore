@@ -11,7 +11,9 @@ import ru.ftob.grostore.persistence.product.ProductRepository;
 import ru.ftob.grostore.persistence.productlist.CategoryRepository;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
@@ -21,7 +23,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     private final CategoryRepository categoryRepository;
-
 
     @Autowired
     public ProductServiceImpl(
@@ -35,71 +36,67 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product create(Product product) {
         Assert.notNull(product, "Product must not be null");
-        product.getPrices().stream().forEach(price -> {
-//            price.setProduct(product);
-        });
-
         return productRepository.save(product);
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
+    public void delete(Integer id) throws NotFoundException {
         checkNotFoundWithId(productRepository.delete(id), id);
     }
 
     @Override
-    public void deleteAll(List<Product> products) throws NotFoundException {
+    public void deleteAll(Collection<Product> products) throws NotFoundException {
         productRepository.deleteAll(products);
     }
 
     @Override
-    public Product get(int id) throws NotFoundException {
-        return checkNotFoundWithId(productRepository.get(id), id);
+    public Product get(Integer id) throws NotFoundException {
+        return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product with id not found: " + id));
     }
 
     @Override
-    public void update(Product product) {
+    public Product update(Product product) {
         Assert.notNull(product, "Product must not be null");
-        checkNotFoundWithId(productRepository.save(product), product.getId());
+        return productRepository.save(product);
     }
 
     @Override
-    public void updateAll(List<Product> products) {
+    public Collection<Product> updateAll(Collection<Product> products) {
         Assert.notNull(products, "Product list must not be null");
+        Assert.notEmpty(products, "Product list must not be empty");
         products.forEach(product -> {
             if(product.isNew()) {
-                Product duplicate = productRepository.getBySku(product.getSku());
+                Product duplicate = productRepository.findBySku(product.getSku()).orElse(null);
                 if (duplicate != null) {
                     product.setId(duplicate.getId());
                 }
             }
-//            product.getPrices().forEach(price -> price.setProduct(product));
         });
-        productRepository.saveAll(products);
+        return productRepository.saveAll(products);
     }
 
     @Override
     public Page<Product> getAll(Pageable pageable) {
-        return productRepository.getAll(pageable);
+        return productRepository.findAll(pageable);
     }
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.getAll();
+    public Collection<Product> getAll() {
+        return productRepository.findAll();
     }
 
     @Override
-    public Product getBySku(String sku) {
-        return productRepository.getBySku(sku);
+    public Optional<Product> getBySku(String sku) {
+        return productRepository.findBySku(sku);
     }
 
     @Override
     public List<Product> getAllBySku(List<String> sku) {
-        return productRepository.getAllBySku(sku);
+        return productRepository.findAllBySku(sku);
     }
 
     @Override
     public List<Product> getAllByUpdatedBy(Account updatedBy) {
-        return productRepository.getAllByUpdatedBy(updatedBy);
+        return productRepository.findAllByUpdatedBy(updatedBy);
     }
 }

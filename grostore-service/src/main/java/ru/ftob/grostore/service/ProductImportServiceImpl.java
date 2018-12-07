@@ -109,7 +109,7 @@ public class ProductImportServiceImpl implements ProductImportService {
                 if (xlsProduct.getId() != null) {
                     product = productService.get(xlsProduct.getId());
                 } else if (xlsProduct.getSku() != null) {
-                    product = productService.getBySku(xlsProduct.getSku());
+                    product = productService.getBySku(xlsProduct.getSku()).orElse(null);
                 }
                 if (product == null) {
                     product = new Product();
