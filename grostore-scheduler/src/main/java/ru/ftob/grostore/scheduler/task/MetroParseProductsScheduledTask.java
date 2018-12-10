@@ -70,7 +70,7 @@ public class MetroParseProductsScheduledTask implements Runnable {
 
         parsedProducts
                 .forEach(p -> {
-                    Product persisted = productService.getBySku(p.getSku());
+                    Product persisted = productService.getBySku(p.getSku()).orElse(null);
                     if (persisted == null) {
                         p.setEnabled(false);
                         p.addCategory(defaultCategory);
