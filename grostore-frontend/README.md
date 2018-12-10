@@ -1,6 +1,6 @@
 # grostore-frontend
 
-> Frontend for grocery store
+> My majestic Nuxt.js project
 
 ## Build Setup
 

@@ -1,55 +1,65 @@
 <template>
-  <div>
-    <navbar/>
-    <header>
-      <section class="hero is-fullheight">
-        <div class="hero-body">
-          <div class="container">
-            <h2 class="subtitle">Привезем продукты из супермаркета домой и на работу</h2>
-            <h1 class="title is-1">Дарим свободное время</h1>
-            <h2 class="subtitle is-2">Для родных и близких</h2>
-            <a 
-              href="#" 
-              class="button is-danger is-rounded is-medium">
-              <span>
-                Попробовать сейчас
-                <span 
-                  style="font-size:undefinedrem" 
-                  role="img" 
-                  aria-label="emoji">
-                  🤝
-                </span>
-              </span>
-            </a>
+  <v-layout
+    column
+    justify-center
+    align-center>
+    <v-flex
+      xs12
+      sm8
+      md6>
+      <div class="text-xs-center">
+        <logo/>
+        <vuetify-logo/>
+      </div>
+      <v-card>
+        <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
+        <v-card-text>
+          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
+          <p>For more information on Vuetify, check out the <a
+            href="https://vuetifyjs.com"
+            target="_blank">documentation</a>.</p>
+          <p>If you have questions, please join the official <a
+            href="https://chat.vuetifyjs.com/"
+            target="_blank"
+            title="chat">discord</a>.</p>
+          <p>Find a bug? Report it on the github <a
+            href="https://github.com/vuetifyjs/vuetify/issues"
+            target="_blank"
+            title="contribute">issue board</a>.</p>
+          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
+          <div class="text-xs-right">
+            <em><small>&mdash; John Leider</small></em>
           </div>
-        </div>
-      </section>
-    </header>
-    <section>
-      2
-    </section>
-  </div>
+          <hr class="my-3">
+          <a
+            href="https://nuxtjs.org/"
+            target="_blank">Nuxt Documentation</a>
+          <br>
+          <a
+            href="https://github.com/nuxt/nuxt.js"
+            target="_blank">Nuxt GitHub</a>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn
+            color="primary"
+            flat
+            nuxt
+            to="/inspire">Continue</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar'
+import Logo from '~/components/Logo.vue'
+import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
-  layout: 'home',
-  name: 'HomePage',
-  components: { Navbar },
-  data() {
-    return {}
+  components: {
+    Logo,
+    VuetifyLogo
   }
 }
 </script>
-
-<style scoped>
-.hero {
-  background-color: #fff;
-  background-image: url('/hero.jpeg');
-  background-repeat: no-repeat;
-  background-position: 140% 0%;
-  background-size: auto 100%;
-}
-</style>
