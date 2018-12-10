@@ -59,6 +59,7 @@
     </v-toolbar>
     <v-content>
       <v-container>
+        <Navbar/>
         <nuxt />
       </v-container>
     </v-content>
@@ -88,9 +89,12 @@
 
 <script>
 import CategoryList from '~/components/category/CategoryList'
+import Navbar from '~/components/Navbar.vue'
+
 export default {
   components: {
-    CategoryList
+    CategoryList,
+    Navbar
   },
   data() {
     return {
