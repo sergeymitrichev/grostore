@@ -54,7 +54,6 @@ public class ScheduledTaskConfigServiceImpl implements ScheduledTaskConfigServic
     public ScheduledTaskConfig update(ScheduledTaskConfig config) {
         Assert.notNull(config, "Scheduled task config must not be null");
         checkExist(config);
-        config.setUpdatedBy(accountService.get(ROBOT_ACCOUNT_ID));
         return checkNotFoundWithId(repository.save(config), config.getId());
     }
 

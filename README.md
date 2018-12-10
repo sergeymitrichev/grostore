@@ -4,6 +4,13 @@
 
 GroStore application based on Spring: Boot, MVC, Data JPA, Flyway, Security (OAuth); Jackson; Vue; NuxtJs.
 
+## v0.5.0
+**REST module**
+* Add price entities and price converters (income, sold, wholesale)
+* Add price rules for calculating prices
+
+**Scheduler module**. Change scheduler logic, add price parsing to scheduler. 
+
 ## v0.4.0
 **REST module**
 * All REST API calls should be authorized under ADMIN role

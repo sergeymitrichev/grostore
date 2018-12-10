@@ -1,27 +1,18 @@
 package ru.ftob.grostore.service.product;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.model.product.Product;
-import ru.ftob.grostore.service.util.exception.NotFoundException;
+import ru.ftob.grostore.service.BaseService;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ProductService {
+public interface ProductService extends BaseService<Product, Integer> {
 
-    Product create(Product product);
+    Optional<Product> getBySku(String sku);
 
-    void delete(int id) throws NotFoundException;
+    List<Product> getAllBySku(List<String> sku);
 
-    void deleteAll(List<Product> products) throws NotFoundException;
+    List<Product> getAllByUpdatedBy(Account updatedBy);
 
-    Product get(int id) throws NotFoundException;
-
-    void update(Product product);
-
-    void updateAll(List<Product> products);
-
-    Page<Product> getAll(Pageable pageable);
-
-    Product getBySku(String sku);
 }

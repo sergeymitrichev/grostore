@@ -24,11 +24,11 @@ import static ru.ftob.grostore.rest.config.RestConstants.UCOZ_API_KEY;
 @EnableJpaRepositories({"ru.ftob.grostore.persistence", "ru.ftob.grostore.ucoz.snapshot"})
 @EntityScan({"ru.ftob.grostore.model", "ru.ftob.grostore.security", "ru.ftob.grostore.ucoz.snapshot"})
 @EnableConfigurationProperties({StorageProperties.class})
-@PropertySource({REST_APPLICATION_PROPERTIES_FILE, REST_DB_CONNECTION_PROPERTIES_FILE})
-public class Application {
+@PropertySource(value = {REST_APPLICATION_PROPERTIES_FILE, REST_DB_CONNECTION_PROPERTIES_FILE}, ignoreResourceNotFound = true)
+public class RestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(RestApplication.class, args);
     }
 
     @Bean

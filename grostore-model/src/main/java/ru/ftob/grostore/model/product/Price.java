@@ -18,6 +18,24 @@ public class Price {
     @Column(name = "condition_value")
     private Integer conditionValue;
 
+    public Price() {
+    }
+
+    public Price(@NotNull(message = "Price type must not be null") PriceType type) {
+        this.type = type;
+    }
+
+    public Price(@NotNull(message = "Price value must not be null") Integer value, @NotNull(message = "Price type must not be null") PriceType type) {
+        this.value = value;
+        this.type = type;
+    }
+
+    public Price(@NotNull(message = "Price value must not be null") Integer value, @NotNull(message = "Price type must not be null") PriceType type, Integer conditionValue) {
+        this.value = value;
+        this.type = type;
+        this.conditionValue = conditionValue;
+    }
+
     public Integer getValue() {
         return value;
     }

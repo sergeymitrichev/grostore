@@ -7,14 +7,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.ftob.grostore.model.stock.Stock;
 import ru.ftob.grostore.persistence.stock.StockRepository;
 
 import java.util.List;
 
-@TestPropertySource(locations="classpath:application.properties")
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class StockRepositoryIntegrationTest {
@@ -60,6 +58,7 @@ public class StockRepositoryIntegrationTest {
 
     @Test
     public void whenSave_thenReturnStock() {
+
         Stock saved = stockRepository.save(STOCK);
         Assertions.assertThat(saved.getName()).isEqualTo(STOCK.getName());
     }

@@ -16,6 +16,9 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     @Column(name = "forename", nullable = false)
     private String name;
 
+    @Column(name = "enabled", columnDefinition = "boolean default true")
+    private boolean enabled;
+
     protected AbstractNamedEntity() {
 
     }
@@ -32,10 +35,19 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
         this.name = name;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "AbstractNamedEntity{" +
                 "name='" + name + '\'' +
+                "enabled='" + enabled + '\'' +
                 "} " + super.toString();
     }
 }

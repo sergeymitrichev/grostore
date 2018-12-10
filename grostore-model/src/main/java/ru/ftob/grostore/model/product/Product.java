@@ -6,8 +6,9 @@ import ru.ftob.grostore.model.productlist.Category;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = "sku", name = "product_unique_sku_idx")})
@@ -27,7 +28,7 @@ public class Product extends AbstractPublishedEntity {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @NotNull(message = "Product category list must not be null")
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "price", joinColumns = @JoinColumn(name = "product_id"))
@@ -65,12 +66,16 @@ public class Product extends AbstractPublishedEntity {
         this.unit = unit;
     }
 
-    public List<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
     }
 
     public String getImage() {
@@ -88,5 +93,25 @@ public class Product extends AbstractPublishedEntity {
                 ", unit='" + unit + '\'' +
                 ", categories=" + categories +
                 "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Product product = (Product) o;
+
+        return sku.equals(product.sku);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        for(int i = 0; i < sku.length(); i++) {
+            result += sku.charAt(i);
+        }
+        return result;
     }
 }

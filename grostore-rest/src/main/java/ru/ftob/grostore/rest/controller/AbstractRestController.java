@@ -28,7 +28,7 @@ public class AbstractRestController<T, ID, G> {
         this.service = service;
     }
 
-    @GetMapping("/")
+    @GetMapping(value = {"/", ""})
     public ResponseEntity<?> getAll(Pageable pageable) {
         return ResponseEntity.ok(ModelMapperUtils.mapPage(service.getAll(pageable), guiClass, pageable));
     }
@@ -53,7 +53,7 @@ public class AbstractRestController<T, ID, G> {
         return ResponseEntity.ok(ModelMapperUtils.map(dbEntity, guiClass));
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping(value = {"/", ""})
     public ResponseEntity<?> deleteAll(@RequestBody List<G> guiList) {
         List<T> dbList = ModelMapperUtils.mapAll(guiList, dbClass);
         service.deleteAll(dbList);

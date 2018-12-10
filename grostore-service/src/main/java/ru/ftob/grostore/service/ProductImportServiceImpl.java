@@ -109,23 +109,23 @@ public class ProductImportServiceImpl implements ProductImportService {
                 if (xlsProduct.getId() != null) {
                     product = productService.get(xlsProduct.getId());
                 } else if (xlsProduct.getSku() != null) {
-                    product = productService.getBySku(xlsProduct.getSku());
+                    product = productService.getBySku(xlsProduct.getSku()).orElse(null);
                 }
                 if (product == null) {
                     product = new Product();
                 }
                 product = xlsToProductMapper.map(xlsProduct, product);
                 if (product != null) {
-                    List<Category> categories = product.getCategories().stream().distinct().map(category -> {
+                    Set<Category> categories = product.getCategories().stream().distinct().map(category -> {
                         Category persisted = categoryService.getByName(category.getName());
                         if (persisted != null) {
                             return persisted;
                         }
                         return category;
-                    }).collect(Collectors.toList());
+                    }).collect(Collectors.toSet());
                     product.setCategories(categories);
-                    categoryService.updateAll(categories);
-                    productImport.setUploadedCategories(categories);
+                    categoryService.updateAll(new ArrayList<>(categories));
+                    productImport.setUploadedCategories(new ArrayList<>(categories));
                     products.add(product);
                 }
             } catch (ConfigurationException e) {
