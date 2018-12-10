@@ -29,7 +29,7 @@ build:
 test:
   stage: test
   script:
-    - ./gradlew check --debug
+    - ./gradlew check --stacktrace
 
 deploy:
   stage: deploy
