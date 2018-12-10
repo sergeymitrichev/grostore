@@ -8,8 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.ftob.grostore.model.product.Price;
+import ru.ftob.grostore.model.product.PriceType;
 import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.persistence.product.ProductRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -18,6 +23,8 @@ public class ProductRepositoryIntegrationTest {
     private final Product PRODUCT = new Product();
     private final String PRODUCT_NAME = "New Product";
     private final String PRODUCT_SKU = "Product SKU";
+    private final Integer PRICE_VALUE = 10;
+    private final PriceType PRICE_TYPE = PriceType.PRICE_TYPE_IN;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -25,11 +32,14 @@ public class ProductRepositoryIntegrationTest {
     @Autowired
     private ProductRepository productRepository;
 
-
     @Before
     public void init() {
         PRODUCT.setName(PRODUCT_NAME);
         PRODUCT.setSku(PRODUCT_SKU);
+
+        List<Price> prices = new ArrayList<>();
+        prices.add(new Price(PRICE_VALUE, PRICE_TYPE));
+        PRODUCT.setPrices(prices);
     }
 
     @Test
