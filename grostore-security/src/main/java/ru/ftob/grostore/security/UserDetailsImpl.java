@@ -3,30 +3,49 @@ package ru.ftob.grostore.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.ftob.grostore.model.account.Account;
+import ru.ftob.grostore.model.account.Role;
 
 import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final Account account;
+    private String email;
+    private String password;
+    private Collection<Role> roles;
+    private Boolean enabled;
+
+    public UserDetailsImpl() {
+
+    }
+
+    public UserDetailsImpl(final String email, final String password,
+                           final Collection<Role> roles) {
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.enabled = true;
+    }
 
     UserDetailsImpl(Account account) {
-        this.account = account;
+        email = account.getEmail();
+        password = account.getPassword();
+        roles = account.getRoles();
+        enabled = account.isEnabled();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return account.getRoles();
+        return roles;
     }
 
     @Override
     public String getPassword() {
-        return account.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return account.getEmail();
+        return email;
     }
 
     @Override
@@ -46,6 +65,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
