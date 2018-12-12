@@ -1,73 +1,37 @@
 package ru.ftob.grostore.rest.controller;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
+import ru.ftob.grostore.rest.util.ModelMapperUtils;
 import ru.ftob.grostore.rest.webmodel.GuiProduct;
+import ru.ftob.grostore.rest.webmodel.GuiProductSimple;
 import ru.ftob.grostore.service.product.ProductService;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class ProductController extends AbstractRestController<Product, Integer, GuiProduct> {
 
-    private final ProductService productService;
-
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ProductService service;
 
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductService service) {
+        this.service = service;
+        setService(service);
     }
 
-    @GetMapping("/")
+    @Override
     public ResponseEntity<?> getAll(Pageable pageable) {
-        Page<Product> products = productService.getAll(pageable);
-        List<GuiProduct> guiProducts = products.stream().map(
-                p -> modelMapper.map(p, GuiProduct.class)
-        ).collect(Collectors.toList());
-        PageImpl page = new PageImpl(guiProducts, pageable, products.getTotalElements());
-
-        return ResponseEntity.ok(page);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) {
-        return ResponseEntity.ok(productService.get(id));
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Product product) {
-        return ResponseEntity.ok(modelMapper.map(productService.create(product), GuiProduct.class));
-    }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<?> update(
-            @PathVariable Integer id,
-            @RequestBody GuiProduct product
-    ) {
-        productService.update(modelMapper.map(product, Product.class));
-        return ResponseEntity.ok(product);
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll(@RequestBody List<GuiProduct> products) {
-        productService.deleteAll(products.stream().map(g -> modelMapper.map(g, Product.class)).collect(Collectors.toList()));
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        productService.delete(id);
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(
+                ModelMapperUtils.mapPage(
+                        service.getAll(pageable),
+                        GuiProductSimple.class,
+                        pageable));
     }
 
     @GetMapping("/fields")

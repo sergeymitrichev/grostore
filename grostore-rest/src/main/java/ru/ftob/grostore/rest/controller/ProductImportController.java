@@ -109,7 +109,7 @@ public class ProductImportController /*extends AbstractRestController<ProductImp
         GuiProductImport guiProductImport = new GuiProductImport();
         //TODO Add validate
         guiProductImport.setCategories(productImport.getUploadedCategories().stream().map(c-> new GuiCategory(c.getName())).collect(Collectors.toList()));
-        guiProductImport.setProducts(productImport.getUploadedProducts().stream().map(p-> new GuiProduct(p.getName(), p.getSku(), Collections.emptyList())).collect(Collectors.toList()));
+        guiProductImport.setProducts(productImport.getUploadedProducts().stream().map(p-> new GuiProduct(p.getName(), p.getSku(), Collections.emptySet())).collect(Collectors.toList()));
         return ResponseEntity.ok(guiProductImport);
     }
 
