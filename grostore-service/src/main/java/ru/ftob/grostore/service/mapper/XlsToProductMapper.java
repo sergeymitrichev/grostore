@@ -42,7 +42,8 @@ public class XlsToProductMapper extends AbstractMapper<XlsProduct, Product> {
     }
 
     private void populateGeneratedFields(Product product){
-        product.setUrl(product.getId() + "/desc/" + product.getUrl());
+        //TODO remove set hgu. Get whole hgu from XLS instead
+        product.setHgu(product.getId() + "/desc/" + product.getHgu());
     }
 
     private void populateCustomFields(Product product, XlsProduct xlsProduct) throws ConfigurationException {

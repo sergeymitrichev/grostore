@@ -35,10 +35,6 @@ public class Product extends AbstractPublishedEntity {
     @NotNull(message = "Product prices must not be null")
     private List<Price> prices;
 
-//    @Column(name = "image")
-    @Transient
-    private String image;
-
     public Product() {
     }
 
@@ -76,14 +72,6 @@ public class Product extends AbstractPublishedEntity {
 
     public void addCategory(Category category) {
         categories.add(category);
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     @Override
