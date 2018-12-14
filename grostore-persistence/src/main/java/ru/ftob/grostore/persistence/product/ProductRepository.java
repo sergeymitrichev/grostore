@@ -28,10 +28,10 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
     <S extends Product> S save(S product);
 
     @Override
-    @EntityGraph(attributePaths = {"categories", "prices", "images"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(value = "Product.detail", type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT p FROM Product p WHERE p.id=?1")
     @NonNull
-    Optional<Product> findById(Integer integer);
+    Optional<Product> findById(@NonNull Integer integer);
 
     @Override
     Page<Product> findAll(Pageable pageable);

@@ -1,25 +1,13 @@
 package ru.ftob.grostore.service.productlist;
 
 import ru.ftob.grostore.model.productlist.Category;
-import ru.ftob.grostore.service.util.exception.NotFoundException;
+import ru.ftob.grostore.service.BaseService;
 
-import java.util.List;
+import java.util.Collection;
 
-public interface CategoryService {
+public interface CategoryService extends BaseService<Category, Integer> {
 
-    Category create(Category category);
-
-    void delete(int id) throws NotFoundException;
-
-    Category get(int id) throws NotFoundException;
-
-    void update(Category category);
-
-    void updateAll(List<Category> categories);
-
-    List<Category> getAll();
-
-    List<Category> getAllRoot();
+    Collection<Category> getAllRoot();
 
     Category getByName(String name);
 }

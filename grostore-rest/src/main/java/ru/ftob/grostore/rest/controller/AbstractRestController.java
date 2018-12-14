@@ -2,11 +2,13 @@ package ru.ftob.grostore.rest.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.ftob.grostore.rest.util.ModelMapperUtils;
 import ru.ftob.grostore.service.BaseService;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractRestController<T, ID, G> {
@@ -39,12 +41,14 @@ public class AbstractRestController<T, ID, G> {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> create(@RequestBody G guiEntity) {
         T dbEntity = ModelMapperUtils.map(guiEntity, dbClass);
         return ResponseEntity.ok(ModelMapperUtils.map(service.create(dbEntity), guiClass));
     }
 
     @PostMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(
             @PathVariable ID id,
             @RequestBody G guiEntity
@@ -53,7 +57,17 @@ public class AbstractRestController<T, ID, G> {
         return ResponseEntity.ok(ModelMapperUtils.map(dbEntity, guiClass));
     }
 
+    @PostMapping(value = {"/", ""})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> updateAll(
+            @RequestBody List<G> guiEntities
+    ) {
+        List<T> dbEntities = new ArrayList<>(service.updateAll(ModelMapperUtils.mapAll(guiEntities, dbClass)));
+        return ResponseEntity.ok(ModelMapperUtils.mapAll(dbEntities, guiClass));
+    }
+
     @DeleteMapping(value = {"/", ""})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteAll(@RequestBody List<G> guiList) {
         List<T> dbList = ModelMapperUtils.mapAll(guiList, dbClass);
         service.deleteAll(dbList);

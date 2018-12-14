@@ -1,13 +1,42 @@
 package ru.ftob.grostore.rest.webmodel;
 
-public class GuiProductSimple extends GuiAbstractNamedEntity {
+import java.util.List;
+
+public class GuiProductSimple {
+    private Integer id;
+    private String name;
     private String sku;
     private String brief;
     private String hgu;
     private String unit;
     private Boolean enabled;
+    private List<GuiPrice> prices;
 
     public GuiProductSimple() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<GuiPrice> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<GuiPrice> prices) {
+        this.prices = prices;
     }
 
     public String getSku() {

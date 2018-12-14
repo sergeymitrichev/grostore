@@ -1,79 +1,88 @@
 package ru.ftob.grostore.service.productlist;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.persistence.productlist.CategoryRepository;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
-import ru.ftob.grostore.service.validator.ProductValidator;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository repository;
 
-    private static final int ROOT_CATEGORY_ID = 1;
-
-    @Autowired
-    @Qualifier("productValidator")
-    private ProductValidator validator;
-
     @Autowired
     public CategoryServiceImpl(CategoryRepository repository) {
         this.repository = repository;
     }
 
-
     @Override
-    public Category create(Category category) {
-        Assert.notNull(category, "Product must not be null");
-        return repository.save(category);
-    }
-
-    @Override
-    public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id), id);
-    }
-
-    @Override
-    public Category get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
-    }
-
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void update(Category category) {
-        Assert.notNull(category, "Product must not be null");
-        checkNotFoundWithId(repository.save(category), category.getId());
-    }
-
-    @Override
-    public void updateAll(List<Category> categories) {
-        Assert.notNull(categories, "Product list must not be null");
-        repository.saveAll(categories);
-    }
-
-    @Override
-    public List<Category> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public List<Category> getAllRoot() {
-        return repository.findAllByParent(repository.getOne(ROOT_CATEGORY_ID));
+    public Collection<Category> getAllRoot() {
+        return repository.findAllByParent(null);
     }
 
     @Override
     public Category getByName(String name) {
-        Assert.notNull(name, "Category name must not be null");
-        return repository.getByName(name);
+        return repository.findByName(name).orElseThrow(() -> new NotFoundException("Category with name not found: " + name));
+    }
+
+    @Override
+    public Category create(Category category) {
+        Assert.notNull(category, "Category must not be null");
+        return repository.save(category);
+    }
+
+    @Override
+    public Category update(Category category) {
+        Assert.notNull(category, "Category must not be null");
+        return repository.save(category);
+    }
+
+    @Override
+    public Collection<Category> updateAll(Collection<Category> t) {
+        Assert.notNull(t, "Category list must not be null");
+        Assert.notEmpty(t, "Category list must not be empty");
+        List<Category> updated = new ArrayList<>();
+        repository.saveAll(t).forEach(updated::add);
+        return updated;
+    }
+
+    @Override
+    public Category get(Integer id) throws NotFoundException {
+        return repository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Category with id not found: " + id));
+    }
+
+    @Override
+    public Page<Category> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    public Collection<Category> getAll() {
+        List<Category> result = new ArrayList<>();
+        repository.findAll().forEach(result::add);
+        return result;
+    }
+
+    @Override
+    public void delete(Integer id) throws NotFoundException {
+        Assert.notNull(id, "Category id must not be null");
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll(Collection<Category> t) {
+        Assert.notNull(t, "Category list must not be null");
+        Assert.notEmpty(t, "Category list must not be empty");
+        repository.deleteAll(t);
     }
 }

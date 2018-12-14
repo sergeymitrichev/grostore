@@ -20,7 +20,6 @@ import ru.ftob.grostore.security.SsoFilterBuilder;
 
 import javax.servlet.Filter;
 
-import static ru.ftob.grostore.model.account.Role.ROLE_ADMIN;
 import static ru.ftob.grostore.rest.config.RestConstants.*;
 
 @Configuration
@@ -45,8 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LOGIN_URL_PATTERN, ERROR_URL_PATTERN)
                 .permitAll()
-                .anyRequest().authenticated()
-                .anyRequest().hasAuthority(ROLE_ADMIN.toString())
+//                .anyRequest().authenticated()
+//                .anyRequest().hasAuthority(ROLE_ADMIN.toString())
 
                 .and().logout().logoutUrl(LOGOUT_URL).logoutSuccessUrl(LOGOUT_SUCCESS_URL).permitAll()
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
