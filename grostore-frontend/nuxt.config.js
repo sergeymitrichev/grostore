@@ -2,7 +2,13 @@ const pkg = require('./package')
 
 module.exports = {
   mode: 'universal',
-
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  },
+  serverMiddleware: ['~middleware/auth'],
+  router: {
+    middleware: ['ssr-cookie']
+  },
   /*
   ** Headers of the page
   */
@@ -36,7 +42,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify'],
+  plugins: ['@/plugins/vuetify', '~/plugins/axios'],
 
   /*
   ** Nuxt.js modules
@@ -49,19 +55,39 @@ module.exports = {
   /*
   ** Axios module configuration
   */
+  /*
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'http://localhost:6100'
+    baseURL: 'http://localhost:6100',
+    withCredentials: true,
+    debug: true
+  } */
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api': { target: 'http://localhost:6100', pathRewrite: { '^/api/': '' } }
   },
 
   auth: {
     strategies: {
       local: {
         endpoints: {
-          login: { url: 'login', method: 'post', propertyName: 'data.token' },
-          user: { url: 'me', method: 'get', propertyName: 'data' },
+          login: {
+            url: '/api/login',
+            method: 'post',
+            withCredentials: true,
+            propertyName: false
+          },
+          user: {
+            url: '/api/me',
+            method: 'get',
+            withCredentials: true,
+            propertyName: false
+          },
           logout: false
-        }
+        },
+        tokenRequired: false
       }
     }
   },

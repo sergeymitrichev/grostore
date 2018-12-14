@@ -41,6 +41,8 @@
 <script>
 import Notification from '~/components/Notification'
 
+const Cookie = process.client ? require('js-cookie') : undefined
+
 export default {
   components: {
     Notification
@@ -49,12 +51,12 @@ export default {
   data() {
     return {
       valid: true,
-      email: '',
+      email: 'sergeymitrichev@gmail.com',
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid'
       ],
-      password: '',
+      password: 'rootroot',
       passwordRules: [v => !!v || 'Password is required'],
       error: null
     }
@@ -69,9 +71,9 @@ export default {
             password: this.password
           }
         })
-
         this.$router.push('/')
       } catch (e) {
+        console.log(Cookie.get('auth._token.local'))
         console.log(e)
         this.error = e.response.data.message
       }

@@ -19,8 +19,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 
-import static java.util.Collections.emptyList;
-
 @Service
 public class TokenAuthenticationService {
 
@@ -31,7 +29,7 @@ public class TokenAuthenticationService {
     static final long EXPIRATION_TIME = 864_000_000; // 10 days
     static final String SECRET = "ThisIsASecret";
     static final String TOKEN_PREFIX = "Bearer";
-    static final String TOKEN_COOKIE_NAME = "gs-jwt-token";
+    static final String TOKEN_COOKIE_NAME = "auth._token.local";
     static final String HEADER_STRING = "Authorization";
 
     public void addAuthentication(HttpServletResponse res, UserDetails user)
@@ -88,7 +86,7 @@ public class TokenAuthenticationService {
                             authenticationUserService.loadUserByUsername(claims.get("email").toString());
 
             if (userDetails != null) {
-                return new UsernamePasswordAuthenticationToken(userDetails, null, emptyList());
+                return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             }
         }
         return null;
