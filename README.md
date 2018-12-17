@@ -4,6 +4,15 @@
 
 GroStore application based on Spring: Boot, MVC, Data JPA, Flyway, Security (OAuth); Jackson; Vue; NuxtJs.
 
+## v0.6.0
+**REST module**. Add described model for publishing articles and SEO items
+
+**Frontend**
+* Add basic auth
+* Add simple main page, login and registration
+
+**Security module**. Add JWT authentication and account roles
+
 ## v0.5.0
 **REST module**
 * Add price entities and price converters (income, sold, wholesale)
