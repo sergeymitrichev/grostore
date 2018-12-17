@@ -1,6 +1,6 @@
 {
   "name": "grostore-frontend",
-  "version": "1.0.0",
+  "version": "0.6.0",
   "description": "My majestic Nuxt.js project",
   "author": "Sergey Mitrichev",
   "private": true,
