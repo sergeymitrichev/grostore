@@ -8,7 +8,6 @@ import org.springframework.util.Assert;
 import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.persistence.product.ProductRepository;
-import ru.ftob.grostore.persistence.productlist.CategoryRepository;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
 import java.util.Collection;
@@ -22,14 +21,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    private final CategoryRepository categoryRepository;
-
     @Autowired
-    public ProductServiceImpl(
-            ProductRepository productRepository,
-            CategoryRepository categoryRepository) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
     }
 
 
@@ -64,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
     public Collection<Product> updateAll(Collection<Product> products) {
         Assert.notNull(products, "Product list must not be null");
         Assert.notEmpty(products, "Product list must not be empty");
+        //TODO wtf is this?!
         products.forEach(product -> {
             if(product.isNew()) {
                 Product duplicate = productRepository.findBySku(product.getSku()).orElse(null);

@@ -8,9 +8,17 @@ public class GuiCategory {
     private List<GuiCategory> children;
     private String description;
     private String name;
-    private Integer entriesCount;
+    private List<GuiProductSimple> products;
 
     public GuiCategory() {
+    }
+
+    public List<GuiProductSimple> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<GuiProductSimple> products) {
+        this.products = products;
     }
 
     public List<GuiCategory> getChildren() {
@@ -35,14 +43,6 @@ public class GuiCategory {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getEntriesCount() {
-        return entriesCount;
-    }
-
-    public void setEntriesCount(Integer entriesCount) {
-        this.entriesCount = entriesCount;
     }
 
     public GuiCategory(String name) {

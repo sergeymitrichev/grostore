@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.model.ScheduledTaskConfigStatus;
+import ru.ftob.grostore.model.base.DescribedEntityImage;
 import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.scheduler.task.to.MetroPage;
@@ -74,11 +75,14 @@ public class MetroParseProductsScheduledTask implements Runnable {
                     if (persisted == null) {
                         p.setEnabled(false);
                         p.addCategory(defaultCategory);
-                        try {
-                            p.setImage(fileStorageService.store(p.getImage(), PRODUCTS_IMAGE_PATH + p.getSku()));
-                        } catch (IOException e) {
-                            log.error("Cannot save product image", e);
-                        }
+                        p.getImages().forEach(i -> {
+                            try {
+                                String img = fileStorageService.store(i.getUrl(), PRODUCTS_IMAGE_PATH + p.getSku());
+                                p.addImage(new DescribedEntityImage(img));
+                            } catch (IOException e) {
+                                log.error("Cannot save product image", e);
+                            }
+                        });
                         productsToCreate.add(p);
                     } else {
                         //TODO recalc out prices

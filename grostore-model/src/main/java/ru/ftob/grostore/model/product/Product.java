@@ -6,12 +6,20 @@ import ru.ftob.grostore.model.productlist.Category;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = "sku", name = "product_unique_sku_idx")})
+@NamedEntityGraph(name = "Product.detail", includeAllAttributes = true
+//        attributeNodes = {
+//                @NamedAttributeNode("categories"),
+//                @NamedAttributeNode("images"),
+//                @NamedAttributeNode("prices")
+//        }
+)
 public class Product extends AbstractPublishedEntity {
 
     @Column(name = "sku")
@@ -33,11 +41,7 @@ public class Product extends AbstractPublishedEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "price", joinColumns = @JoinColumn(name = "product_id"))
     @NotNull(message = "Product prices must not be null")
-    private List<Price> prices;
-
-//    @Column(name = "image")
-    @Transient
-    private String image;
+    private List<Price> prices = new ArrayList<>();
 
     public Product() {
     }
@@ -78,14 +82,6 @@ public class Product extends AbstractPublishedEntity {
         categories.add(category);
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     @Override
     public String toString() {
         return "Product{" +
@@ -109,7 +105,7 @@ public class Product extends AbstractPublishedEntity {
     @Override
     public int hashCode() {
         int result = 17;
-        for(int i = 0; i < sku.length(); i++) {
+        for (int i = 0; i < sku.length(); i++) {
             result += sku.charAt(i);
         }
         return result;

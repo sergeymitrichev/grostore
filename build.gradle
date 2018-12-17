@@ -1,7 +1,9 @@
+import java.nio.charset.StandardCharsets
+
 apply plugin: "idea"
 apply plugin: "eclipse"
 
-version = '0.5.0'
+version = '0.6.0'
 def name = 'grostore'
 
 subprojects {
@@ -10,6 +12,7 @@ subprojects {
     tasks.withType(JavaCompile) {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        options.encoding = StandardCharsets.UTF_8
     }
 
     repositories {

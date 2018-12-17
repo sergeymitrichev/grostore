@@ -2,15 +2,17 @@ package ru.ftob.grostore.model.base;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
+@NamedEntityGraph()
 public class AbstractDescribedEntity extends AbstractNamedEntity {
 
-    @Transient
-    //TODO Could not determine type for: java.util.List, at table: product, for columns: [org.hibernate.mapping.Column(images)]
-    private List<String> images;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "entity_id"))
+    private Set<DescribedEntityImage> images = new HashSet<>();
 
     @Column(name = "brief")
     @Size(max = 255)
@@ -23,11 +25,15 @@ public class AbstractDescribedEntity extends AbstractNamedEntity {
     public AbstractDescribedEntity() {
     }
 
-    public List<String> getImages() {
+    public Set<DescribedEntityImage> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void addImage(DescribedEntityImage image) {
+        images.add(image);
+    }
+
+    public void setImages(Set<DescribedEntityImage> images) {
         this.images = images;
     }
 
