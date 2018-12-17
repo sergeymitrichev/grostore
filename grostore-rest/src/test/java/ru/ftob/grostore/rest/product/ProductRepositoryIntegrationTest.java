@@ -36,6 +36,7 @@ public class ProductRepositoryIntegrationTest {
     public void init() {
         PRODUCT.setName(PRODUCT_NAME);
         PRODUCT.setSku(PRODUCT_SKU);
+        PRODUCT.setMetaTitle(PRODUCT_NAME);
 
         List<Price> prices = new ArrayList<>();
         prices.add(new Price(PRICE_VALUE, PRICE_TYPE));
