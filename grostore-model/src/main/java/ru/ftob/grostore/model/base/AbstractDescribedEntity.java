@@ -2,15 +2,17 @@ package ru.ftob.grostore.model.base;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
+@NamedEntityGraph()
 public class AbstractDescribedEntity extends AbstractNamedEntity {
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "entity_id"))
-    private Set<DescribedEntityImage> images;
+    private Set<DescribedEntityImage> images = new HashSet<>();
 
     @Column(name = "brief")
     @Size(max = 255)

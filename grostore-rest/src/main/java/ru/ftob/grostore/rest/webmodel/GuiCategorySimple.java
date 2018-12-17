@@ -2,30 +2,22 @@ package ru.ftob.grostore.rest.webmodel;
 
 import java.util.List;
 
-public class GuiCategory {
+public class GuiCategorySimple {
 
     private Integer id;
-    private List<GuiCategory> children;
+    private List<GuiCategorySimple> children;
     private String description;
     private String name;
-    private List<GuiProductSimple> products;
+    private Integer entriesCount;
 
-    public GuiCategory() {
+    public GuiCategorySimple() {
     }
 
-    public List<GuiProductSimple> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<GuiProductSimple> products) {
-        this.products = products;
-    }
-
-    public List<GuiCategory> getChildren() {
+    public List<GuiCategorySimple> getChildren() {
         return children;
     }
 
-    public void setChildren(List<GuiCategory> children) {
+    public void setChildren(List<GuiCategorySimple> children) {
         this.children = children;
     }
 
@@ -45,7 +37,15 @@ public class GuiCategory {
         this.description = description;
     }
 
-    public GuiCategory(String name) {
+    public Integer getEntriesCount() {
+        return entriesCount;
+    }
+
+    public void setEntriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
+    }
+
+    public GuiCategorySimple(String name) {
         this.name = name;
     }
 

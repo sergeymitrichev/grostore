@@ -1,37 +1,25 @@
 package ru.ftob.grostore.persistence.productlist;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ftob.grostore.model.productlist.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
+public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer> {
 
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Category c WHERE c.id=:id")
-    int delete(@Param("id") int id);
-
+    @NonNull
     @Override
-    @Transactional
-    Category save(Category product);
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"products"})
+    @Query("SELECT c FROM Category c WHERE c.id=?1")
+    Optional<Category> findById(@NonNull Integer id);
 
-    @Override
-    Category getOne(Integer id);
-
-    @Override
-    List<Category> findAll();
-
-    @Override
-    @Transactional
-    <S extends Category> List<S> saveAll(Iterable<S> entities);
-
-    Category getByName(String name);
+    Optional<Category> findByName(String name);
 
     List<Category> findAllByParent(Category category);
 }

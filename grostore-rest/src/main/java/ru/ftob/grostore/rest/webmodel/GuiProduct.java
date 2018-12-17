@@ -16,14 +16,14 @@ public class GuiProduct {
     private String metaTitle;
     private String hgu;
     private String sku;
-    private Set<GuiCategory> categories;
+    private Set<GuiCategorySimple> categories;
     private Set<GuiPrice> prices;
     private Set<GuiImages> images;
 
     public GuiProduct() {
     }
 
-    public GuiProduct(String name, String sku, Set<GuiCategory> categories) {
+    public GuiProduct(String name, String sku, Set<GuiCategorySimple> categories) {
         this.name = name;
         this.sku = sku;
         this.categories = categories;
@@ -61,11 +61,11 @@ public class GuiProduct {
         this.sku = sku;
     }
 
-    public Set<GuiCategory> getCategories() {
+    public Set<GuiCategorySimple> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<GuiCategory> categories) {
+    public void setCategories(Set<GuiCategorySimple> categories) {
         this.categories = categories;
     }
 
