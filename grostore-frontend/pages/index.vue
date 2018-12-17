@@ -1,55 +1,84 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center>
-    <v-flex
-      xs12
-      sm8
-      md6>
-      <div class="text-xs-center">
-        <logo/>
-        <vuetify-logo/>
+  <div>
+    <v-parallax 
+      height="600"
+      src="/index.png">
+      <v-container 
+        fluid 
+        grid-list-xl>
+        <v-layout 
+          row 
+          justify-space-between>
+          <v-flex xs2>
+            <div class="display-1">+7(831)410-74-43</div>
+          </v-flex>
+          <v-flex xs2>
+            <div class="text-sm-right">
+              <v-btn 
+                large="true"
+                round="true"
+                color="info">Вход</v-btn>
+            </div>
+          </v-flex>
+        </v-layout>
+        <v-layout 
+          row 
+          justify-center>
+          <v-flex xs4>
+            <div class="text-sm-center">
+              <img
+                src="/minutka-logo.png"
+              >
+              <h1 class="display-1 font-weight-thin mb-1">СВОБОДНАЯ МИНУТКА</h1>
+              <h4 class="subheading  mb-3">онлайн гипермаркет с доставкой продуктов</h4>
+            </div>
+          </v-flex>
+        </v-layout>
+        <v-layout 
+          row 
+          justify-center>
+          <v-flex xs2>
+            <div class="text-sm-center">
+              <v-card>
+                <v-card-title primary-title>
+                  <div>
+                    <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
+                    <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
+                  </div>
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn 
+                    flat 
+                    color="orange">Share</v-btn>
+                  <v-btn 
+                    flat 
+                    color="orange">Explore</v-btn>
+                </v-card-actions>
+              </v-card>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      
+    </v-parallax>
+    <v-btn color="warning">Warning</v-btn>
+    <v-layout
+      align-start
+      column
+      justify-start
+    >
+      <div class="display-1 mt-3">+7(831)410-74-43</div>
+    </v-layout>
+    <v-layout
+      align-end
+      column
+      justify-start
+    >
+      <div class="display-1 mt-3">
+        <a href="#">Войти</a>
       </div>
-      <v-card>
-        <v-card-title class="headline">1 Welcome to the Vuetify + Nuxt.js template</v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>For more information on Vuetify, check out the <a
-            href="https://vuetifyjs.com"
-            target="_blank">documentation</a>.</p>
-          <p>If you have questions, please join the official <a
-            href="https://chat.vuetifyjs.com/"
-            target="_blank"
-            title="chat">discord</a>.</p>
-          <p>Find a bug? Report it on the github <a
-            href="https://github.com/vuetifyjs/vuetify/issues"
-            target="_blank"
-            title="contribute">issue board</a>.</p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank">Nuxt Documentation</a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank">Nuxt GitHub</a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer/>
-          <v-btn
-            color="primary"
-            flat
-            nuxt
-            to="/inspire">Continue</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+    </v-layout>
+  </div>
 </template>
 
 <script>
@@ -57,6 +86,7 @@ import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
+  layout: 'home',
   components: {
     Logo,
     VuetifyLogo
