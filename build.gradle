@@ -1,3 +1,5 @@
+import java.nio.charset.StandardCharsets
+
 apply plugin: "idea"
 apply plugin: "eclipse"
 
@@ -10,6 +12,7 @@ subprojects {
     tasks.withType(JavaCompile) {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        options.encoding = StandardCharsets.UTF_8
     }
 
     repositories {

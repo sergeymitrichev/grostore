@@ -24,6 +24,10 @@ public class DescribedEntityImage {
     public DescribedEntityImage() {
     }
 
+    public DescribedEntityImage(@Size(max = 255) @NotNull(message = "Image URL must not be null") String url) {
+        this.url = url;
+    }
+
     public String getUrl() {
         return url;
     }

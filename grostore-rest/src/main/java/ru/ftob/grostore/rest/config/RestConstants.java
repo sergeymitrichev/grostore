@@ -11,6 +11,8 @@ public class RestConstants {
     public static final String LOGOUT_URL = "/logout";
     public static final String LOGOUT_SUCCESS_URL = "/";
 
+    public static final String J_SESSION_ID = "JSESSIONID";
+
     public static final String GOOGLE_LOGIN_URL = "/login/google";
     public static final String GOOGLE_CLIENT_KEY = "google.client";
     public static final String GOOGLE_RESOURCE_KEY = "google.resource";
