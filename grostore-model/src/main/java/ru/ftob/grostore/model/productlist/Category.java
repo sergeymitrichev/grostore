@@ -3,6 +3,7 @@ package ru.ftob.grostore.model.productlist;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
+import ru.ftob.grostore.model.image.CategoryImage;
 import ru.ftob.grostore.model.product.Product;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = "forename", name = "category_unique_name_idx")})
-public class Category extends AbstractPublishedEntity {
+public class Category extends AbstractPublishedEntity<CategoryImage> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "product_category",

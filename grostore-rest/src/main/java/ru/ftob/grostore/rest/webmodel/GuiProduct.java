@@ -18,7 +18,7 @@ public class GuiProduct {
     private String sku;
     private Set<GuiCategorySimple> categories;
     private Set<GuiPrice> prices;
-    private Set<GuiImages> images;
+    private Set<GuiImage> images;
 
     public GuiProduct() {
     }
@@ -29,11 +29,11 @@ public class GuiProduct {
         this.categories = categories;
     }
 
-    public Set<GuiImages> getImages() {
+    public Set<GuiImage> getImages() {
         return images;
     }
 
-    public void setImages(Set<GuiImages> images) {
+    public void setImages(Set<GuiImage> images) {
         this.images = images;
     }
 

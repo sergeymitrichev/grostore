@@ -1,6 +1,7 @@
 package ru.ftob.grostore.model.product;
 
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
+import ru.ftob.grostore.model.image.ProductImage;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
@@ -13,14 +14,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = "sku", name = "product_unique_sku_idx")})
-@NamedEntityGraph(name = "Product.detail", includeAllAttributes = true
-//        attributeNodes = {
-//                @NamedAttributeNode("categories"),
-//                @NamedAttributeNode("images"),
-//                @NamedAttributeNode("prices")
-//        }
+@NamedEntityGraph(name = "Product.detail",
+        attributeNodes = {
+                @NamedAttributeNode("categories")
+        }
 )
-public class Product extends AbstractPublishedEntity {
+public class Product extends AbstractPublishedEntity<ProductImage> {
 
     @Column(name = "sku")
     @Size(min = 4, max = 56)
