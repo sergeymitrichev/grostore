@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.util.StringUtils;
-import ru.ftob.grostore.model.base.DescribedEntityImage;
+import ru.ftob.grostore.model.image.ProductImage;
 import ru.ftob.grostore.model.product.Price;
 import ru.ftob.grostore.model.product.PriceType;
 import ru.ftob.grostore.model.product.Product;
@@ -45,14 +45,16 @@ public class MetroPageDeserializer extends JsonDeserializer<MetroPage> {
 
     private Product convertItemToProduct(JsonNode item) {
         Product product = new Product();
+
         Document doc = Jsoup.parse(item.textValue());
         product.setName(doc.select("span.title").get(0).html());
         product.setSku(doc.select(".add2list").get(0).attr("data-article"));
-        product.addImage(new DescribedEntityImage(doc.select("div.catalog-i_image>img").attr("src")));
         product.setUnit(doc.select("div.box_size").get(0).html());
         product.setPrices(convertDocToPrices(doc));
         product.setUpdated(LocalDateTime.now());
 
+        ProductImage image = new ProductImage(doc.select("div.catalog-i_image>img").attr("src"), product);
+        product.addImage(image);
         return product;
     }
 
