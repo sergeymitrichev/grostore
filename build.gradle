@@ -21,6 +21,7 @@ subprojects {
     }
     apply from: file("$rootProject.projectDir/gradle/heroku/stage.gradle")
 }
+
 task wrapper(type: Wrapper) {
     gradleVersion = "4.8.1"
 }
