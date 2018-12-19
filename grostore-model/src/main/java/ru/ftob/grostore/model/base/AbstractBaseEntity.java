@@ -3,7 +3,10 @@ package ru.ftob.grostore.model.base;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ru.ftob.grostore.model.account.Account;
 
 import javax.persistence.*;
@@ -12,6 +15,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
+@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @Id
@@ -19,10 +23,11 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     private Integer id;
 
     @CreatedDate
-    @Column(name = "created", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "created", updatable = false, nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created;
 
+    @LastModifiedDate
     @Column(name = "updated", columnDefinition = "timestamp")
     private LocalDateTime updated;
 
@@ -31,6 +36,7 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     @JoinColumn(name="created_by")
     private Account createdBy;
 
+    @LastModifiedBy
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="updated_by")
     private Account updatedBy;

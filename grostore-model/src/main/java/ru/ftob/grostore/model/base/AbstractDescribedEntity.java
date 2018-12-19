@@ -11,8 +11,13 @@ public class AbstractDescribedEntity<T extends AbstractEntityImage> extends Abst
 
 //    @ElementCollection(fetch = FetchType.EAGER)
 //    @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "entity_id"))
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "entity_id")
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "entity_id")
+    @OneToMany(
+            mappedBy = "entity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<T> images = new HashSet<>();
 
     @Column(name = "brief")

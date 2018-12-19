@@ -23,7 +23,6 @@ public class AbstractEntityImage<T extends AbstractDescribedEntity> extends Abst
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
             optional = false)
     @JoinColumn(name = "entity_id")
     @NotNull(message = "Image entity must not be null")

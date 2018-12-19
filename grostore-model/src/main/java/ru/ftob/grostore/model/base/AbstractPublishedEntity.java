@@ -10,8 +10,7 @@ import javax.validation.constraints.Size;
 @Access(AccessType.FIELD)
 public abstract class AbstractPublishedEntity<T extends AbstractEntityImage> extends AbstractDescribedEntity<T> {
 
-    @NotBlank
-    @Size(min = 10, max = 100)
+    @Size(max = 100)
     @Column(name = "meta_title")
     private String metaTitle;
 
