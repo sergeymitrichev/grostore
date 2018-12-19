@@ -6,12 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.ftob.grostore.model.ScheduledTaskConfig;
 import ru.ftob.grostore.model.ScheduledTaskConfigStatus;
-import ru.ftob.grostore.model.base.AbstractEntityImage;
-import ru.ftob.grostore.model.base.EntityType;
+import ru.ftob.grostore.model.image.ProductImage;
 import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.productlist.Category;
-import ru.ftob.grostore.scheduler.task.to.MetroPage;
 import ru.ftob.grostore.scheduler.task.deserializer.MetroPageDeserializer;
+import ru.ftob.grostore.scheduler.task.to.MetroPage;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
 import ru.ftob.grostore.service.file.FileStorageService;
 import ru.ftob.grostore.service.product.ProductService;
@@ -79,7 +78,7 @@ public class MetroParseProductsScheduledTask implements Runnable {
                         p.getImages().forEach(i -> {
                             try {
                                 String img = fileStorageService.store(i.getUrl(), PRODUCTS_IMAGE_PATH + p.getSku());
-                                p.addImage(new AbstractEntityImage(img, EntityType.PRODUCT));
+                                p.addImage(new ProductImage(img, p));
                             } catch (IOException e) {
                                 log.error("Cannot save product image", e);
                             }

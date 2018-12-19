@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFound;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -36,12 +38,22 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category create(Category category) {
         Assert.notNull(category, "Category must not be null");
+        Assert.isNull(category.getId(), "New category id must be null");
         return repository.save(category);
     }
 
     @Override
     public Category update(Category category) {
         Assert.notNull(category, "Category must not be null");
+        if(category.isNew()) {
+            Category saved = repository.findByName(category.getName()).orElse(null);
+            checkNotFound(saved, "name = " + category.getName() + ". Can't update: detached entity doesn't exists");
+            if(null != saved) {
+                category.setId(saved.getId());
+                category.setCreated(saved.getCreated());
+                category.setCreatedBy(saved.getCreatedBy());
+            }
+        }
         return repository.save(category);
     }
 
