@@ -2,6 +2,7 @@ package ru.ftob.grostore.model.product;
 
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.image.ProductImage;
+import ru.ftob.grostore.model.modification.ModificationValue;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
@@ -42,6 +43,10 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @NotNull(message = "Product prices must not be null")
     private List<Price> prices = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "modification_value", joinColumns = @JoinColumn(name = "product_id"))
+    private List<ModificationValue> modificationValues;
+
     public Product() {
     }
 
@@ -79,6 +84,18 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void addCategory(Category category) {
         categories.add(category);
+    }
+
+    public List<ModificationValue> getModificationValues() {
+        return modificationValues;
+    }
+
+    public void setModificationValues(List<ModificationValue> modificationValues) {
+        this.modificationValues = modificationValues;
+    }
+
+    public void addModificationValue(ModificationValue modificationValue) {
+        modificationValues.add(modificationValue);
     }
 
     @Override

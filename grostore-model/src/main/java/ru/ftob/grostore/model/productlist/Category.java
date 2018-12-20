@@ -4,6 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.image.CategoryImage;
+import ru.ftob.grostore.model.modification.Modification;
 import ru.ftob.grostore.model.product.Product;
 
 import javax.persistence.*;
@@ -28,6 +29,12 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.DETACH, fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<Category> children = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "category_modification",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "modification_id"))
+    private List<Modification> modifications = new ArrayList<>();
 
 //    private Integer orderSequence;
 
@@ -59,4 +66,15 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
         this.products = products;
     }
 
+    public List<Modification> getModifications() {
+        return modifications;
+    }
+
+    public void setModifications(List<Modification> modifications) {
+        this.modifications = modifications;
+    }
+
+    public void addModifications(Modification modification) {
+        modifications.add(modification);
+    }
 }
