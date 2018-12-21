@@ -16,7 +16,8 @@ public class AbstractDescribedEntity<T extends AbstractEntityImage> extends Abst
     @OneToMany(
             mappedBy = "entity",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private Set<T> images = new HashSet<>();
 

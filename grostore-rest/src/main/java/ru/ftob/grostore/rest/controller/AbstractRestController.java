@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.ftob.grostore.rest.util.ModelMapperUtils;
 import ru.ftob.grostore.service.BaseService;
+import ru.ftob.grostore.service.util.exception.NotFoundException;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -36,8 +37,14 @@ public class AbstractRestController<T, ID, G> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable ID id) {
-        return ResponseEntity.ok(ModelMapperUtils.map(service.get(id), guiClass));
+    public ResponseEntity<G> get(@PathVariable ID id) {
+        ResponseEntity<G> response = null;
+        try {
+            response = ResponseEntity.ok(ModelMapperUtils.map(service.get(id), guiClass));
+        } catch (NotFoundException e) {
+            response = ResponseEntity.notFound().build();
+        }
+        return response;
     }
 
     @PostMapping("/create")
@@ -54,7 +61,13 @@ public class AbstractRestController<T, ID, G> {
             @RequestBody G guiEntity
     ) {
         T dbEntity = service.update(ModelMapperUtils.map(guiEntity, dbClass));
-        return ResponseEntity.ok(ModelMapperUtils.map(dbEntity, guiClass));
+        ResponseEntity<G> response = null;
+        try {
+            response = ResponseEntity.ok(ModelMapperUtils.map(dbEntity, guiClass));
+        } catch (NotFoundException e) {
+            response = ResponseEntity.notFound().build();
+        }
+        return response;
     }
 
     @PostMapping(value = {"/", ""})

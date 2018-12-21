@@ -17,7 +17,8 @@ import java.util.Set;
 @Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = "sku", name = "product_unique_sku_idx")})
 @NamedEntityGraph(name = "Product.detail",
         attributeNodes = {
-                @NamedAttributeNode("categories")
+                @NamedAttributeNode("categories"),
+                @NamedAttributeNode("modificationValues")
         }
 )
 public class Product extends AbstractPublishedEntity<ProductImage> {
@@ -43,8 +44,15 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @NotNull(message = "Product prices must not be null")
     private List<Price> prices = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "modification_value", joinColumns = @JoinColumn(name = "product_id"))
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "modification_value", joinColumns = @JoinColumn(name = "product_id"))
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable
+            (
+                    name = "product_modification_value",
+                    joinColumns = {@JoinColumn(name = "product_id")},
+                    inverseJoinColumns = {@JoinColumn(name = "modification_value_id")}
+            )
     private List<ModificationValue> modificationValues;
 
     public Product() {

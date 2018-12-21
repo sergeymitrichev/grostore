@@ -26,7 +26,7 @@ public class StockController extends AbstractRestController<Stock, Integer, GuiS
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) {
+    public ResponseEntity<GuiStock> get(@PathVariable Integer id) {
         return ResponseEntity.ok(ModelMapperUtils.map(service.getWithProducts(id), GuiStockWithProducts.class));
     }
 

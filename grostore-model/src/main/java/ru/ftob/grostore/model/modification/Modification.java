@@ -1,52 +1,47 @@
 package ru.ftob.grostore.model.modification;
 
-import ru.ftob.grostore.model.base.AbstractNamedEntity;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Table(name = "modification", uniqueConstraints = {
-                @UniqueConstraint(
-                        columnNames = "forename",
-                        name = "modification_unique_forename_idx")})
-public class Modification extends AbstractNamedEntity {
+@Table(name = "modification")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Modification {
 
-    @Column(name = "unit")
-    @Size(max = 56)
-    private String unit;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "modification_value", joinColumns = @JoinColumn(name = "modification_id"))
-    @NotNull(message = "Modification values list must not be null")
-    private List<ModificationValue> values;
+    @Column(name = "forename")
+    @Size(max = 255)
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "category_modification",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "modification_id"))
+            joinColumns = @JoinColumn(name = "modification_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
     public Modification() {
     }
 
-    public String getUnit() {
-        return unit;
+    public Long getId() {
+        return id;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public List<ModificationValue> getValues() {
-        return values;
+    public String getName() {
+        return name;
     }
 
-    public void setValues(List<ModificationValue> values) {
-        this.values = values;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Category> getCategories() {

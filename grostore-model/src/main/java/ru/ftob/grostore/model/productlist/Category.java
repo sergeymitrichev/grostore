@@ -15,13 +15,19 @@ import java.util.Set;
 
 @Entity
 @Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = "forename", name = "category_unique_name_idx")})
+@NamedEntityGraph(name = "Category.detail",
+        attributeNodes = {
+                @NamedAttributeNode("products"),
+                @NamedAttributeNode("modifications")
+        }
+)
 public class Category extends AbstractPublishedEntity<CategoryImage> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -58,11 +64,11 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
         this.children.addAll(children);
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 

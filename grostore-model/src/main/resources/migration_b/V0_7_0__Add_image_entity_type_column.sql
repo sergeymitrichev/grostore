@@ -1,9 +1,3 @@
---TODO delete before release
-DROP TABLE IF EXISTS image;
--- TRUNCATE public.image;
--- DELETE FROM public.image;
--- ALTER TABLE public.image DROP COLUMN IF EXISTS entity_type;
---
 create table product_image (
   id serial not null,
   created timestamp default now() not null,

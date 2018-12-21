@@ -9,6 +9,7 @@ public class GuiCategory {
     private String description;
     private String name;
     private List<GuiProductSimple> products;
+    private List<GuiModification> modifications;
 
     public GuiCategory() {
     }
@@ -55,5 +56,13 @@ public class GuiCategory {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<GuiModification> getModifications() {
+        return modifications;
+    }
+
+    public void setModifications(List<GuiModification> modifications) {
+        this.modifications = modifications;
     }
 }

@@ -1,33 +1,25 @@
 package ru.ftob.grostore.model.modification;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 //@MappedSuperclass
 //@Access(AccessType.FIELD)
-@Embeddable
-public abstract class ModificationValue<T> {
-    @Column(name = "value")
-    @NotNull(message = "Modification value must not be null")
-    private T value;
+@Entity
+@Table(name = "modification_value")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class ModificationValue {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "modification_id")
     @NotNull(message = "Modification must not be null")
     private Modification modification;
 
     public ModificationValue() {
-    }
-
-    public ModificationValue(@NotNull(message = "Modification value must not be null") T value) {
-        this.value = value;
-    }
-
-    public T getValue() {
-        return value;
     }
 
     public Modification getModification() {
@@ -38,9 +30,11 @@ public abstract class ModificationValue<T> {
         this.modification = modification;
     }
 
-    public void setValue(T value) {
-        this.value = value;
-
+    public Long getId() {
+        return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
