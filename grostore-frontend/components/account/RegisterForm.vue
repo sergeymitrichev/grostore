@@ -41,7 +41,7 @@
           class="mb-2"
           large
           round
-          color="warning"
+          color="success"
           @click="submit">{{ btnValue }}</v-btn>
       </v-card-actions>
     </v-card>
