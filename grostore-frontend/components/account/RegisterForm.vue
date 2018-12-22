@@ -1,5 +1,8 @@
 <template>
-  <form>
+  <form 
+    ref="form" 
+    :v-model="valid" 
+    lazy-validation>
     <v-card class="px-2">
       <v-card-title 
         primary-title 
@@ -10,6 +13,8 @@
         <v-text-field
           v-validate="'required'"
           v-model="name"
+          :rules="nameRules"
+          :counter="10"
           label="Имя"
           required
         />
@@ -42,7 +47,7 @@
           large
           round
           color="success"
-          @click="submit">{{ btnValue }}</v-btn>
+          @submit="submit">{{ btnValue }}</v-btn>
       </v-card-actions>
     </v-card>
   </form>
@@ -61,30 +66,36 @@ export default {
     }
   },
   data: () => ({
+    valid: true,
     name: '',
+    nameRules: [
+      v => !!v || 'Имя есть у каждого :)',
+      v => (v && v.length <= 2) || 'Введите хотя бы 2 символа'
+    ],
     email: '',
+    emailRules: [
+      v => !!v || 'E-mail обязателен',
+      v => /.+@.+/.test(v) || 'E-mail некорректен'
+    ],
     password: '',
-    checkbox: null,
-    dictionary: {
-      attributes: {
-        email: 'Email Address'
-      },
-      custom: {
-        name: {
-          required: () => 'Имя есть у каждого :)',
-          max: 'Придумайте имя покороче :)'
-        },
-        password: {
-          required: 'Пароль не может быть пуст'
-        }
-      }
-    }
+    checkbox: null
   }),
 
   mounted() {},
 
   methods: {
-    submit() {},
+    submit() {
+      console.log('submit')
+      if (this.$refs.form.validate()) {
+        // Native form submission is not yet supported
+        axios.post('/api/submit', {
+          name: this.name,
+          email: this.email,
+          select: this.select,
+          checkbox: this.checkbox
+        })
+      }
+    },
     clear() {
       this.name = ''
       this.email = ''
