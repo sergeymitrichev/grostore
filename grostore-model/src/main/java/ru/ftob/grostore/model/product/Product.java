@@ -2,7 +2,8 @@ package ru.ftob.grostore.model.product;
 
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.image.ProductImage;
-import ru.ftob.grostore.model.modification.ModificationValue;
+import ru.ftob.grostore.model.modification.ModificationFloatValue;
+import ru.ftob.grostore.model.modification.ModificationStringValue;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ import java.util.Set;
 @NamedEntityGraph(name = "Product.detail",
         attributeNodes = {
                 @NamedAttributeNode("categories"),
-                @NamedAttributeNode("modificationValues")
+                @NamedAttributeNode("modificationFloatValues"),
+                @NamedAttributeNode("modificationStringValues")
         }
 )
 public class Product extends AbstractPublishedEntity<ProductImage> {
@@ -49,11 +51,22 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable
             (
-                    name = "product_modification_value",
+                    name = "product_modification_float_value",
                     joinColumns = {@JoinColumn(name = "product_id")},
-                    inverseJoinColumns = {@JoinColumn(name = "modification_value_id")}
+                    inverseJoinColumns = {@JoinColumn(name = "modification_float_value_id")}
             )
-    private List<ModificationValue> modificationValues;
+    @OrderBy("modification_float_id")
+    private Set<ModificationFloatValue> modificationFloatValues = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable
+            (
+                    name = "product_modification_string_value",
+                    joinColumns = {@JoinColumn(name = "product_id")},
+                    inverseJoinColumns = {@JoinColumn(name = "modification_string_value_id")}
+            )
+    @OrderBy("modification_string_id")
+    private Set<ModificationStringValue> modificationStringValues = new HashSet<>();
 
     public Product() {
     }
@@ -94,16 +107,28 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
         categories.add(category);
     }
 
-    public List<ModificationValue> getModificationValues() {
-        return modificationValues;
+    public Set<ModificationFloatValue> getModificationFloatValues() {
+        return modificationFloatValues;
     }
 
-    public void setModificationValues(List<ModificationValue> modificationValues) {
-        this.modificationValues = modificationValues;
+    public void setModificationFloatValues(Set<ModificationFloatValue> modificationFloatValues) {
+        this.modificationFloatValues = modificationFloatValues;
     }
 
-    public void addModificationValue(ModificationValue modificationValue) {
-        modificationValues.add(modificationValue);
+    public void addModificationFloatValue(ModificationFloatValue modificationFloatValue) {
+        modificationFloatValues.add(modificationFloatValue);
+    }
+
+    public Set<ModificationStringValue> getModificationStringValues() {
+        return modificationStringValues;
+    }
+
+    public void setModificationStringValues(Set<ModificationStringValue> modificationStringValues) {
+        this.modificationStringValues = modificationStringValues;
+    }
+
+    public void addModificationStringValue(ModificationStringValue modificationStringValue) {
+        this.modificationStringValues.add(modificationStringValue);
     }
 
     @Override

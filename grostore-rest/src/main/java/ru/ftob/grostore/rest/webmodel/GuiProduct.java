@@ -1,7 +1,6 @@
 package ru.ftob.grostore.rest.webmodel;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 public class GuiProduct {
@@ -20,7 +19,8 @@ public class GuiProduct {
     private Set<GuiCategorySimple> categories;
     private Set<GuiPrice> prices;
     private Set<GuiImage> images;
-    private List<GuiModificationValue> modificationValues;
+    private Set<GuiModificationValue> modificationStringValues;
+    private Set<GuiModificationValue> modificationFloatValues;
 
     public GuiProduct() {
     }
@@ -143,11 +143,19 @@ public class GuiProduct {
         this.hgu = hgu;
     }
 
-    public List<GuiModificationValue> getModificationValues() {
-        return modificationValues;
+    public Set<GuiModificationValue> getModificationStringValues() {
+        return modificationStringValues;
     }
 
-    public void setModificationValues(List<GuiModificationValue> modificationValues) {
-        this.modificationValues = modificationValues;
+    public void setModificationStringValues(Set<GuiModificationValue> modificationStringValues) {
+        this.modificationStringValues = modificationStringValues;
+    }
+
+    public Set<GuiModificationValue> getModificationFloatValues() {
+        return modificationFloatValues;
+    }
+
+    public void setModificationFloatValues(Set<GuiModificationValue> modificationFloatValues) {
+        this.modificationFloatValues = modificationFloatValues;
     }
 }

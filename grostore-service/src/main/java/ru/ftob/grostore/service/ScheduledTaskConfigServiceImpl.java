@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.ftob.grostore.model.ScheduledTaskConfig;
+import ru.ftob.grostore.model.scheduled.ScheduledTaskConfig;
 import ru.ftob.grostore.persistence.ScheduledTaskConfigRepository;
 import ru.ftob.grostore.service.account.AccountService;
 import ru.ftob.grostore.service.util.exception.NotFoundException;

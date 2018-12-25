@@ -4,7 +4,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.image.CategoryImage;
-import ru.ftob.grostore.model.modification.Modification;
+import ru.ftob.grostore.model.modification.ModificationFloat;
+import ru.ftob.grostore.model.modification.ModificationString;
 import ru.ftob.grostore.model.product.Product;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ import java.util.Set;
 @NamedEntityGraph(name = "Category.detail",
         attributeNodes = {
                 @NamedAttributeNode("products"),
-                @NamedAttributeNode("modifications")
+                @NamedAttributeNode("floatModifications"),
+                @NamedAttributeNode("stringModifications")
         }
 )
 public class Category extends AbstractPublishedEntity<CategoryImage> {
@@ -37,12 +39,16 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
     private final Set<Category> children = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "category_modification",
+    @JoinTable(name = "category_float_modification",
             joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "modification_id"))
-    private List<Modification> modifications = new ArrayList<>();
+            inverseJoinColumns = @JoinColumn(name = "modification_float_id"))
+    private List<ModificationFloat> floatModifications = new ArrayList<>();
 
-//    private Integer orderSequence;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "category_string_modification",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "modification_string_id"))
+    private List<ModificationString> stringModifications = new ArrayList<>();
 
     public Category() {
     }
@@ -72,15 +78,27 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
         this.products = products;
     }
 
-    public List<Modification> getModifications() {
-        return modifications;
+    public List<ModificationFloat> getFloatModifications() {
+        return floatModifications;
     }
 
-    public void setModifications(List<Modification> modifications) {
-        this.modifications = modifications;
+    public void setFloatModifications(List<ModificationFloat> floatModifications) {
+        this.floatModifications = floatModifications;
     }
 
-    public void addModifications(Modification modification) {
-        modifications.add(modification);
+    public void addFloatModification(ModificationFloat modification) {
+        floatModifications.add(modification);
+    }
+
+    public List<ModificationString> getStringModifications() {
+        return stringModifications;
+    }
+
+    public void setStringModifications(List<ModificationString> stringModifications) {
+        this.stringModifications = stringModifications;
+    }
+
+    public void addFloatModification(ModificationString modification) {
+        stringModifications.add(modification);
     }
 }

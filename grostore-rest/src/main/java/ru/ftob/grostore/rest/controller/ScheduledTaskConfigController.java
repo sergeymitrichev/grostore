@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.ftob.grostore.model.ScheduledTaskConfig;
+import ru.ftob.grostore.model.scheduled.ScheduledTaskConfig;
 import ru.ftob.grostore.rest.webmodel.GuiScheduledTaskConfig;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
 

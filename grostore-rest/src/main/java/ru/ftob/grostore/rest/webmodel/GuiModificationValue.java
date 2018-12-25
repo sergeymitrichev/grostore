@@ -1,6 +1,8 @@
 package ru.ftob.grostore.rest.webmodel;
 
-//@JsonDeserialize(using = GuiModificationValueSerializer.class)
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(using = GuiModificationValueSerializer.class)
 public class GuiModificationValue {
     private Long id;
     private String name;
