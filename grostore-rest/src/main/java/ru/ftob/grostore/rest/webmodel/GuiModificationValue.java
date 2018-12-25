@@ -1,10 +1,10 @@
 package ru.ftob.grostore.rest.webmodel;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonSerialize(using = GuiModificationValueSerializer.class)
 public class GuiModificationValue {
-    private Long id;
+    private Integer id;
     private String name;
     private String value;
     private String unit;
@@ -12,11 +12,11 @@ public class GuiModificationValue {
     public GuiModificationValue() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

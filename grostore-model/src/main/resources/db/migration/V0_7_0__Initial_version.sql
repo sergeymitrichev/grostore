@@ -12,15 +12,10 @@ create table if not exists flyway_schema_history
   installed_on timestamp default now() not null,
   execution_time integer not null,
   success boolean not null
-)
-;
-
-alter table flyway_schema_history owner to "user"
-;
+);
 
 create index if not exists flyway_schema_history_s_idx
-  on flyway_schema_history (success)
-;
+  on flyway_schema_history (success);
 
 create table if not exists account
 (
@@ -44,11 +39,7 @@ create table if not exists account
   updated_by integer
     constraint fkbbkf9by37bbwnh7vcj3q0qwt7
     references account
-)
-;
-
-alter table account owner to "user"
-;
+);
 
 create table if not exists account_roles
 (
@@ -56,11 +47,7 @@ create table if not exists account_roles
     constraint fktp61eta5i06bug3w1qr6286uf
     references account,
   role varchar(255)
-)
-;
-
-alter table account_roles owner to "user"
-;
+);
 
 create table if not exists category
 (
@@ -89,11 +76,7 @@ create table if not exists category
   parent_id integer
     constraint fk2y94svpmqttx80mshyny85wqr
     references category
-)
-;
-
-alter table category owner to "user"
-;
+);
 
 create table if not exists category_image
 (
@@ -106,11 +89,7 @@ create table if not exists category_image
   entity_id integer not null
     constraint fkfh3ory76p3beq5e4hhcuhelkc
     references category
-)
-;
-
-alter table category_image owner to "user"
-;
+);
 
 create table if not exists modification_float
 (
@@ -131,11 +110,7 @@ create table if not exists modification_float
   updated_by integer
     constraint fkjdemowygavjvskwtxme37u61x
     references account
-)
-;
-
-alter table modification_float owner to "user"
-;
+);
 
 create table if not exists category_float_modification
 (
@@ -145,11 +120,7 @@ create table if not exists category_float_modification
   modification_float_id integer not null
     constraint fkjdjsb2o7gm1bi11ahei9j1fvs
     references modification_float
-)
-;
-
-alter table category_float_modification owner to "user"
-;
+);
 
 create table if not exists modification_float_value
 (
@@ -160,11 +131,7 @@ create table if not exists modification_float_value
   modification_float_id integer not null
     constraint fk4ehqh2gd2m0pugmvf3g82r214
     references modification_float
-)
-;
-
-alter table modification_float_value owner to "user"
-;
+);
 
 create table if not exists modification_string
 (
@@ -184,11 +151,7 @@ create table if not exists modification_string
   updated_by integer
     constraint fkgb6r61uf9xs4fxuxtj7rg53rn
     references account
-)
-;
-
-alter table modification_string owner to "user"
-;
+);
 
 create table if not exists category_modification
 (
@@ -198,11 +161,7 @@ create table if not exists category_modification
   category_id integer not null
     constraint fk5j8jft4sbb8acme9nlot0vvo4
     references category
-)
-;
-
-alter table category_modification owner to "user"
-;
+);
 
 create table if not exists category_string_modification
 (
@@ -212,11 +171,7 @@ create table if not exists category_string_modification
   modification_string_id integer not null
     constraint fkd4jhhs29gopixy2u5s6quibjc
     references modification_string
-)
-;
-
-alter table category_string_modification owner to "user"
-;
+);
 
 create table if not exists modification_string_value
 (
@@ -227,11 +182,7 @@ create table if not exists modification_string_value
   modification_string_id integer not null
     constraint fkjs796mg2lx7kcdn19oqhv5dip
     references modification_string
-)
-;
-
-alter table modification_string_value owner to "user"
-;
+);
 
 create table if not exists price_rule
 (
@@ -249,11 +200,7 @@ create table if not exists price_rule
   updated_by integer
     constraint fkt8b9o9q9vw99j8w5whgagdgf2
     references account
-)
-;
-
-alter table price_rule owner to "user"
-;
+);
 
 create table if not exists price_rule_row
 (
@@ -273,11 +220,7 @@ create table if not exists price_rule_row
   price_rule_id integer not null
     constraint fkqnjvi4413rn39h8mboltq9xwc
     references price_rule
-)
-;
-
-alter table price_rule_row owner to "user"
-;
+);
 
 create table if not exists price_rule_types
 (
@@ -285,11 +228,7 @@ create table if not exists price_rule_types
     constraint fk60dk25eio7tuua5ju07rihtn5
     references price_rule,
   price_type varchar(255)
-)
-;
-
-alter table price_rule_types owner to "user"
-;
+);
 
 create table if not exists product
 (
@@ -317,11 +256,7 @@ create table if not exists product
   updated_by integer
     constraint fk443tm5659rp0qxbhkgxiaqi43
     references account
-)
-;
-
-alter table product owner to "user"
-;
+);
 
 create table if not exists price
 (
@@ -331,11 +266,7 @@ create table if not exists price
   condition_value integer,
   type varchar(255),
   value integer
-)
-;
-
-alter table price owner to "user"
-;
+);
 
 create table if not exists product_category
 (
@@ -347,11 +278,7 @@ create table if not exists product_category
     references product,
   constraint product_category_pkey
   primary key (product_id, category_id)
-)
-;
-
-alter table product_category owner to "user"
-;
+);
 
 create table if not exists product_image
 (
@@ -364,11 +291,7 @@ create table if not exists product_image
   entity_id integer not null
     constraint fkigfe4isrjlbjt30u3kw3l75xt
     references product
-)
-;
-
-alter table product_image owner to "user"
-;
+);
 
 create table if not exists product_import
 (
@@ -389,11 +312,7 @@ create table if not exists product_import
     references account,
   constraint product_import_unique_file_name_idx
   unique (file, forename)
-)
-;
-
-alter table product_import owner to "user"
-;
+);
 
 create table if not exists product_modification_float_value
 (
@@ -405,11 +324,7 @@ create table if not exists product_modification_float_value
     unique
     constraint fks26bt2o67kgrcml2926m3tjl4
     references modification_float_value
-)
-;
-
-alter table product_modification_float_value owner to "user"
-;
+);
 
 create table if not exists product_modification_string_value
 (
@@ -421,11 +336,7 @@ create table if not exists product_modification_string_value
     unique
     constraint fko2d29huf1s4r1kdoldxj18c4c
     references modification_string_value
-)
-;
-
-alter table product_modification_string_value owner to "user"
-;
+);
 
 create table if not exists product_import_fields
 (
@@ -433,11 +344,7 @@ create table if not exists product_import_fields
     constraint fkq9vkivdwkk5dlbihjeqnuy6cm
     references product_import,
   fields integer
-)
-;
-
-alter table product_import_fields owner to "user"
-;
+);
 
 create table if not exists scheduled_task_config
 (
@@ -464,11 +371,7 @@ create table if not exists scheduled_task_config
   account_id integer
     constraint fk5vds1gyyw10j022gqptb602j4
     references account
-)
-;
-
-alter table scheduled_task_config owner to "user"
-;
+);
 
 create table if not exists scheduled_task_config_url
 (
@@ -479,11 +382,7 @@ create table if not exists scheduled_task_config_url
     constraint fkaub819sl1g2lle1mqn67c8f4o
     references category,
   link varchar(255)
-)
-;
-
-alter table scheduled_task_config_url owner to "user"
-;
+);
 
 create table if not exists stock
 (
@@ -504,11 +403,7 @@ create table if not exists stock
   updated_by integer
     constraint fkda480vgfwfs5v2vbhju8vjnkm
     references account
-)
-;
-
-alter table stock owner to "user"
-;
+);
 
 create table if not exists product_in_stock
 (
@@ -524,11 +419,7 @@ create table if not exists product_in_stock
     references stock,
   constraint product_in_stock_unique_shelf_idx
   unique (stock_id, product_id, shelf)
-)
-;
-
-alter table product_in_stock owner to "user"
-;
+);
 
 create table if not exists ucoz_categories_snapshot
 (
@@ -542,11 +433,7 @@ create table if not exists ucoz_categories_snapshot
   parent_id integer,
   num_entries integer,
   url varchar(255)
-)
-;
-
-alter table ucoz_categories_snapshot owner to "user"
-;
+);
 
 create table if not exists ucoz_products_snapshot
 (
@@ -561,9 +448,5 @@ create table if not exists ucoz_products_snapshot
   cat_id integer
     constraint fkahkhqlnv0ssp11hcceqihl6ih
     references ucoz_categories_snapshot
-)
-;
-
-alter table ucoz_products_snapshot owner to "user"
-;
+);
 

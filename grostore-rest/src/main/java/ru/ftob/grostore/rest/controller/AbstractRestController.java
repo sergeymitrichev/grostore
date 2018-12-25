@@ -1,6 +1,7 @@
 package ru.ftob.grostore.rest.controller;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractRestController<T, ID, G> {
+
+    //TODO add logger
 
     private Class<G> guiClass;
 
@@ -43,6 +46,8 @@ public class AbstractRestController<T, ID, G> {
             response = ResponseEntity.ok(ModelMapperUtils.map(service.get(id), guiClass));
         } catch (NotFoundException e) {
             response = ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return response;
     }
