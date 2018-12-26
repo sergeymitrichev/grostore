@@ -3,20 +3,28 @@ package ru.ftob.grostore.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poiji.bind.Poiji;
 import com.poiji.option.PoijiOptions;
+import javassist.compiler.NoFieldException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import ru.ftob.grostore.model.image.CategoryImage;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
+import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.rest.storage.StorageService;
+import ru.ftob.grostore.service.file.FileStorageService;
+import ru.ftob.grostore.service.file.FileStorageServiceImpl;
+import ru.ftob.grostore.service.productlist.CategoryService;
 import ru.ftob.grostore.service.util.XlsHandlerUtil;
+import ru.ftob.grostore.service.util.exception.NotFoundException;
 import ru.ftob.grostore.service.xlsto.XlsProduct;
 import ru.ftob.grostore.service.xlsto.XlsProductSnapshotRow;
 import ru.ftob.grostore.ucoz.handler.SnapshotHandler;
@@ -42,17 +50,23 @@ public class UcozSynchronizeController {
 
     private final StorageService storageService;
 
+    private final FileStorageServiceImpl fileStorageService;
+
     private final SnapshotCategoryRepository snapshotCategoryRepository;
 
     private final ModelMapper mapper = new ModelMapper();
 
     private final SnapshotHandler handler;
 
+    private final CategoryService categoryService;
+
     @Autowired
-    public UcozSynchronizeController(StorageService storageService, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotHandler handler) {
+    public UcozSynchronizeController(StorageService storageService, FileStorageServiceImpl fileStorageService, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotHandler handler, CategoryService categoryService) {
         this.storageService = storageService;
+        this.fileStorageService = fileStorageService;
         this.snapshotCategoryRepository = snapshotCategoryRepository;
         this.handler = handler;
+        this.categoryService = categoryService;
     }
 
     @PostMapping("/products/snapshot/")
@@ -203,5 +217,58 @@ public class UcozSynchronizeController {
         log.debug("Finish reading from file " + file.getOriginalFilename());
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/categories")
+    public ResponseEntity<?> syncCategoriesFromSnap() {
+        List<Category> categories = new ArrayList<>();
+        //TODO download backup and change to local host
+        snapshotCategoryRepository.findAll().forEach(sc -> {
+            categories.add(convertToDbCategory(sc));
+        });
+        categoryService.updateAll(categories);
+        return ResponseEntity.ok().build();
+    }
+
+    private Category convertToDbCategory(SnapshotCategory sc) {
+        Category category = new Category();
+        category.setDescription(sc.getDescription());
+        category.setHgu(sc.getUrl().replace("//minutka-nn.ru/shop", ""));
+        category.setName(sc.getName());
+        //TODO something
+//        category.setMetaTitle(sc.getName());
+
+        Integer parentId = sc.getParentId();
+        SnapshotCategory sParent = snapshotCategoryRepository.findById(parentId).orElse(null);
+        Category parent = null;
+        if(sParent != null) {
+            parent = convertToDbCategory(sParent);
+        }
+        category.setParent(parent);
+        if(!StringUtils.isEmpty(sc.getImageUrl())) {
+            try {
+                CategoryImage image = new CategoryImage();
+                String imageName = "/img/c/" + sc.getId() + "." + fileStorageService.getFileExtension(sc.getImageUrl());
+//                fileStorageService.store("http://minutka-nn.ru" + sc.getImageUrl(), "/img/c/" + sc.getId());
+                image.setUrl(imageName);
+                image.setEntity(category);
+                image.setTitle(sc.getName());
+                image.setAlt(sc.getName());
+                category.addImage(image);
+            } catch (Exception e) {
+                log.error("Can't save image for category", e.getMessage());
+            }
+        }
+        try {
+            if(null == categoryService.getByName(category.getName())) {
+                category = categoryService.create(category);
+            } else {
+                category = categoryService.update(category);
+            }
+        } catch (NotFoundException e) {
+            category = categoryService.create(category);
+        }
+
+        return category;
     }
 }

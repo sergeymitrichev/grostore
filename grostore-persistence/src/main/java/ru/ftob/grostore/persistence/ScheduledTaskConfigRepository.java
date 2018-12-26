@@ -2,7 +2,7 @@ package ru.ftob.grostore.persistence;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ftob.grostore.model.ScheduledTaskConfig;
+import ru.ftob.grostore.model.scheduled.ScheduledTaskConfig;
 
 import java.util.List;
 

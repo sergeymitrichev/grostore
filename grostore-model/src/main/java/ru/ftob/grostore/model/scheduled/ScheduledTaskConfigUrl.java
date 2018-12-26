@@ -1,4 +1,4 @@
-package ru.ftob.grostore.model;
+package ru.ftob.grostore.model.scheduled;
 
 import org.hibernate.validator.constraints.URL;
 import ru.ftob.grostore.model.productlist.Category;

@@ -22,6 +22,8 @@ public class ModelMapperUtils {
         modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
+        modelMapper.addConverter(new DbModificationFloatValueGuiConverter());
+        modelMapper.addConverter(new DbModificationStringValueGuiConverter());
     }
 
     /**

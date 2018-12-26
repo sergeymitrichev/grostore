@@ -1,4 +1,4 @@
-package ru.ftob.grostore.model;
+package ru.ftob.grostore.model.scheduled;
 
 public enum ScheduledTaskConfigStatus {
     SCHEDULED_TASK_NEW,

@@ -1,6 +1,9 @@
 package ru.ftob.grostore.model.product;
 
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
+import ru.ftob.grostore.model.image.ProductImage;
+import ru.ftob.grostore.model.modification.ModificationFloatValue;
+import ru.ftob.grostore.model.modification.ModificationStringValue;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
@@ -13,14 +16,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = "sku", name = "product_unique_sku_idx")})
-@NamedEntityGraph(name = "Product.detail", includeAllAttributes = true
-//        attributeNodes = {
-//                @NamedAttributeNode("categories"),
-//                @NamedAttributeNode("images"),
-//                @NamedAttributeNode("prices")
-//        }
+@NamedEntityGraph(name = "Product.detail",
+        attributeNodes = {
+                @NamedAttributeNode("categories"),
+                @NamedAttributeNode("modificationFloatValues"),
+                @NamedAttributeNode("modificationStringValues")
+        }
 )
-public class Product extends AbstractPublishedEntity {
+public class Product extends AbstractPublishedEntity<ProductImage> {
 
     @Column(name = "sku")
     @Size(min = 4, max = 56)
@@ -42,6 +45,28 @@ public class Product extends AbstractPublishedEntity {
     @CollectionTable(name = "price", joinColumns = @JoinColumn(name = "product_id"))
     @NotNull(message = "Product prices must not be null")
     private List<Price> prices = new ArrayList<>();
+
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "modification_value", joinColumns = @JoinColumn(name = "product_id"))
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable
+            (
+                    name = "product_modification_float_value",
+                    joinColumns = {@JoinColumn(name = "product_id")},
+                    inverseJoinColumns = {@JoinColumn(name = "modification_float_value_id")}
+            )
+    @OrderBy("modification_float_id")
+    private Set<ModificationFloatValue> modificationFloatValues = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable
+            (
+                    name = "product_modification_string_value",
+                    joinColumns = {@JoinColumn(name = "product_id")},
+                    inverseJoinColumns = {@JoinColumn(name = "modification_string_value_id")}
+            )
+    @OrderBy("modification_string_id")
+    private Set<ModificationStringValue> modificationStringValues = new HashSet<>();
 
     public Product() {
     }
@@ -80,6 +105,30 @@ public class Product extends AbstractPublishedEntity {
 
     public void addCategory(Category category) {
         categories.add(category);
+    }
+
+    public Set<ModificationFloatValue> getModificationFloatValues() {
+        return modificationFloatValues;
+    }
+
+    public void setModificationFloatValues(Set<ModificationFloatValue> modificationFloatValues) {
+        this.modificationFloatValues = modificationFloatValues;
+    }
+
+    public void addModificationFloatValue(ModificationFloatValue modificationFloatValue) {
+        modificationFloatValues.add(modificationFloatValue);
+    }
+
+    public Set<ModificationStringValue> getModificationStringValues() {
+        return modificationStringValues;
+    }
+
+    public void setModificationStringValues(Set<ModificationStringValue> modificationStringValues) {
+        this.modificationStringValues = modificationStringValues;
+    }
+
+    public void addModificationStringValue(ModificationStringValue modificationStringValue) {
+        this.modificationStringValues.add(modificationStringValue);
     }
 
     @Override

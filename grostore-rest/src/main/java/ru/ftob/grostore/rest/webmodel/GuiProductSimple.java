@@ -1,6 +1,7 @@
 package ru.ftob.grostore.rest.webmodel;
 
 import java.util.List;
+import java.util.Set;
 
 public class GuiProductSimple {
     private Integer id;
@@ -11,6 +12,7 @@ public class GuiProductSimple {
     private String unit;
     private Boolean enabled;
     private List<GuiPrice> prices;
+    private Set<GuiImage> images;
 
     public GuiProductSimple() {
     }
@@ -77,5 +79,13 @@ public class GuiProductSimple {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<GuiImage> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<GuiImage> images) {
+        this.images = images;
     }
 }

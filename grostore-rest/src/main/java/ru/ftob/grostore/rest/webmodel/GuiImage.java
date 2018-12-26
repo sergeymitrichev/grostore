@@ -1,11 +1,11 @@
 package ru.ftob.grostore.rest.webmodel;
 
-public class GuiImages {
+public class GuiImage {
     private String url;
     private String alt;
     private String title;
 
-    public GuiImages() {
+    public GuiImage() {
     }
 
     public String getUrl() {

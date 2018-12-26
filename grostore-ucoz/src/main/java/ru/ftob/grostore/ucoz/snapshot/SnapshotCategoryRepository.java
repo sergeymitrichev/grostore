@@ -14,4 +14,6 @@ public interface SnapshotCategoryRepository extends CrudRepository<SnapshotCateg
     Iterable<SnapshotCategory> findAll();
 
     SnapshotCategory findByName(String name);
+
+    Iterable<SnapshotCategory> findAllByParentId(Integer parentId);
 }
