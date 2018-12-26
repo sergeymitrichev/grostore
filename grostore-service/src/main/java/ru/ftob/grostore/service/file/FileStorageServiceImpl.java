@@ -19,11 +19,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
         Assert.notNull(link, "URL must not be null");
         link = link.replace("https://", "http://");
-        String extension = "";
-        int i = link.lastIndexOf('.');
-        if (i > 0) {
-            extension = link.substring(i+1);
-        }
+        String extension = getFileExtension(link);
 
         String filePath = STORAGE_ROOT + fileName + "." + extension;
         //TODO compare files if existing
@@ -52,5 +48,14 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public void delete(String filename) {
 
+    }
+
+    public String getFileExtension(String file) {
+        String extension = "";
+        int i = file.lastIndexOf('.');
+        if (i > 0) {
+            extension = file.substring(i + 1);
+        }
+        return extension;
     }
 }

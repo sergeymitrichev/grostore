@@ -2,8 +2,8 @@ package ru.ftob.grostore.scheduler.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.ftob.grostore.model.ScheduledTaskConfig;
-import ru.ftob.grostore.model.ScheduledTaskConfigStatus;
+import ru.ftob.grostore.model.scheduled.ScheduledTaskConfig;
+import ru.ftob.grostore.model.scheduled.ScheduledTaskConfigStatus;
 import ru.ftob.grostore.service.ScheduledTaskConfigService;
 import ru.ftob.grostore.service.file.FileStorageService;
 import ru.ftob.grostore.service.product.ProductService;

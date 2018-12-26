@@ -3,7 +3,7 @@ import java.nio.charset.StandardCharsets
 apply plugin: "idea"
 apply plugin: "eclipse"
 
-version = '0.6.0'
+version = '0.7.0'
 def name = 'grostore'
 
 subprojects {
@@ -21,6 +21,7 @@ subprojects {
     }
     apply from: file("$rootProject.projectDir/gradle/heroku/stage.gradle")
 }
+
 task wrapper(type: Wrapper) {
     gradleVersion = "4.8.1"
 }

@@ -18,7 +18,9 @@ public class GuiProduct {
     private String sku;
     private Set<GuiCategorySimple> categories;
     private Set<GuiPrice> prices;
-    private Set<GuiImages> images;
+    private Set<GuiImage> images;
+    private Set<GuiModificationStringValue> modificationStringValues;
+    private Set<GuiModificationFloatValue> modificationFloatValues;
 
     public GuiProduct() {
     }
@@ -29,11 +31,11 @@ public class GuiProduct {
         this.categories = categories;
     }
 
-    public Set<GuiImages> getImages() {
+    public Set<GuiImage> getImages() {
         return images;
     }
 
-    public void setImages(Set<GuiImages> images) {
+    public void setImages(Set<GuiImage> images) {
         this.images = images;
     }
 
@@ -139,5 +141,21 @@ public class GuiProduct {
 
     public void setHgu(String hgu) {
         this.hgu = hgu;
+    }
+
+    public Set<GuiModificationStringValue> getModificationStringValues() {
+        return modificationStringValues;
+    }
+
+    public void setModificationStringValues(Set<GuiModificationStringValue> modificationStringValues) {
+        this.modificationStringValues = modificationStringValues;
+    }
+
+    public Set<GuiModificationFloatValue> getModificationFloatValues() {
+        return modificationFloatValues;
+    }
+
+    public void setModificationFloatValues(Set<GuiModificationFloatValue> modificationFloatValues) {
+        this.modificationFloatValues = modificationFloatValues;
     }
 }

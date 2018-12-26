@@ -15,7 +15,7 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
 
     @NonNull
     @Override
-    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"products"})
+    @EntityGraph(value = "Category.detail", type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT c FROM Category c WHERE c.id=?1")
     Optional<Category> findById(@NonNull Integer id);
 

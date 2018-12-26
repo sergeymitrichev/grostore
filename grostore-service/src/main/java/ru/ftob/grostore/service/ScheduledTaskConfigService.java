@@ -2,7 +2,7 @@ package ru.ftob.grostore.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ru.ftob.grostore.model.ScheduledTaskConfig;
+import ru.ftob.grostore.model.scheduled.ScheduledTaskConfig;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 
 import java.util.List;

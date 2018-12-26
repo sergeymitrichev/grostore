@@ -1,7 +1,5 @@
 package ru.ftob.grostore.model.base;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import ru.ftob.grostore.model.utils.TextUtils;
 
 import javax.persistence.*;
@@ -10,10 +8,9 @@ import javax.validation.constraints.Size;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class AbstractPublishedEntity extends AbstractDescribedEntity {
+public abstract class AbstractPublishedEntity<T extends AbstractEntityImage> extends AbstractDescribedEntity<T> {
 
-    @NotBlank
-    @Size(min = 10, max = 100)
+    @Size(max = 100)
     @Column(name = "meta_title")
     private String metaTitle;
 
@@ -30,23 +27,24 @@ public abstract class AbstractPublishedEntity extends AbstractDescribedEntity {
     @Column(name = "meta_keywords")
     private String metaKeywords;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "url", column = @Column(name = "meta_image_url")),
-            @AttributeOverride(name = "alt", column = @Column(name = "meta_image_alt")),
-            @AttributeOverride(name = "title", column = @Column(name = "meta_image_title"))
-    })
-    @LazyCollection(LazyCollectionOption.TRUE)
-    private DescribedEntityImage metaImage;
+    @Transient
+//    @Embedded
+//    @AttributeOverrides({
+//            @AttributeOverride(name = "url", column = @Column(name = "meta_image_url")),
+//            @AttributeOverride(name = "alt", column = @Column(name = "meta_image_alt")),
+//            @AttributeOverride(name = "title", column = @Column(name = "meta_image_title"))
+//    })
+//    @LazyCollection(LazyCollectionOption.TRUE)
+    private AbstractEntityImage metaImage;
 
     public AbstractPublishedEntity() {
     }
 
-    public DescribedEntityImage getMetaImage() {
+    public AbstractEntityImage getMetaImage() {
         return metaImage;
     }
 
-    public void setMetaImage(DescribedEntityImage metaImage) {
+    public void setMetaImage(AbstractEntityImage metaImage) {
         this.metaImage = metaImage;
     }
 

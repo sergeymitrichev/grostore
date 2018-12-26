@@ -7,12 +7,19 @@ import java.util.Set;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-@NamedEntityGraph()
-public class AbstractDescribedEntity extends AbstractNamedEntity {
+public class AbstractDescribedEntity<T extends AbstractEntityImage> extends AbstractNamedEntity {
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "entity_id"))
-    private Set<DescribedEntityImage> images = new HashSet<>();
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "entity_id"))
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "entity_id")
+    @OneToMany(
+            mappedBy = "entity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    private Set<T> images = new HashSet<>();
 
     @Column(name = "brief")
     @Size(max = 255)
@@ -25,15 +32,15 @@ public class AbstractDescribedEntity extends AbstractNamedEntity {
     public AbstractDescribedEntity() {
     }
 
-    public Set<DescribedEntityImage> getImages() {
+    public Set<T> getImages() {
         return images;
     }
 
-    public void addImage(DescribedEntityImage image) {
+    public void addImage(T image) {
         images.add(image);
     }
 
-    public void setImages(Set<DescribedEntityImage> images) {
+    public void setImages(Set<T> images) {
         this.images = images;
     }
 

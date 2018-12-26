@@ -8,13 +8,11 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.*;
 
-@Service
 public class ApiClient {
 
     private final String SITE_URL;

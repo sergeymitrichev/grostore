@@ -1,4 +1,4 @@
-package ru.ftob.grostore.model;
+package ru.ftob.grostore.model.scheduled;
 
 import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.model.base.AbstractNamedEntity;
