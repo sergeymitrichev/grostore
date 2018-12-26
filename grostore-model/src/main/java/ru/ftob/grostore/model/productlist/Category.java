@@ -9,9 +9,7 @@ import ru.ftob.grostore.model.modification.ModificationString;
 import ru.ftob.grostore.model.product.Product;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -42,13 +40,15 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
     @JoinTable(name = "category_float_modification",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "modification_float_id"))
-    private List<ModificationFloat> floatModifications = new ArrayList<>();
+    @OrderBy("entity_order")
+    private Set<ModificationFloat> floatModifications = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "category_string_modification",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "modification_string_id"))
-    private List<ModificationString> stringModifications = new ArrayList<>();
+    @OrderBy("entity_order")
+    private Set<ModificationString> stringModifications = new HashSet<>();
 
     public Category() {
     }
@@ -78,11 +78,11 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
         this.products = products;
     }
 
-    public List<ModificationFloat> getFloatModifications() {
+    public Set<ModificationFloat> getFloatModifications() {
         return floatModifications;
     }
 
-    public void setFloatModifications(List<ModificationFloat> floatModifications) {
+    public void setFloatModifications(Set<ModificationFloat> floatModifications) {
         this.floatModifications = floatModifications;
     }
 
@@ -90,11 +90,11 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
         floatModifications.add(modification);
     }
 
-    public List<ModificationString> getStringModifications() {
+    public Set<ModificationString> getStringModifications() {
         return stringModifications;
     }
 
-    public void setStringModifications(List<ModificationString> stringModifications) {
+    public void setStringModifications(Set<ModificationString> stringModifications) {
         this.stringModifications = stringModifications;
     }
 

@@ -27,10 +27,31 @@ values (1, 'PRICE_TYPE_IN'),
 INSERT INTO modification_float (id, forename, unit)
 values  (1, 'Срок годности', 'дн.');
 
-INSERT INTO modification_float_value (value, modification_float_id)
-values (5, 1);
+INSERT INTO modification_string (id, forename)
+values  (1, 'Диетический стол №5');
+
+INSERT INTO modification_string (id, forename)
+values  (2, 'Диетический стол №9');
+
+INSERT INTO modification_float_value (id, value, modification_float_id)
+values (1, 5, 1);
+
+INSERT INTO modification_string_value (id, value, modification_string_id)
+values (1, '', 1);
+
+INSERT INTO modification_string_value (id, value, modification_string_id)
+values (2, '', 2);
 
 INSERT INTO category_float_modification (category_id, modification_float_id)
 VALUES (1, 1);
 INSERT INTO product_modification_float_value (product_id, modification_float_value_id)
 VALUES (1, 1);
+
+INSERT INTO category_string_modification (category_id, modification_string_id)
+VALUES (1, 1);
+INSERT INTO category_string_modification (category_id, modification_string_id)
+VALUES (1, 2);
+INSERT INTO product_modification_string_value (product_id, modification_string_value_id)
+VALUES (1, 1);
+INSERT INTO product_modification_string_value (product_id, modification_string_value_id)
+VALUES (1, 2);

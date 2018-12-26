@@ -1,15 +1,12 @@
 package ru.ftob.grostore.rest.webmodel;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-public class GuiModificationValue {
+public class GuiModificationFloatValue {
     private Integer id;
     private String name;
-    private String value;
+    private Float value;
     private String unit;
 
-    public GuiModificationValue() {
+    public GuiModificationFloatValue() {
     }
 
     public Integer getId() {
@@ -28,11 +25,11 @@ public class GuiModificationValue {
         this.name = name;
     }
 
-    public String getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 

@@ -9,7 +9,8 @@ public class GuiCategory {
     private String description;
     private String name;
     private List<GuiProductSimple> products;
-    private List<GuiModification> modifications;
+    private List<GuiModificationString> stringModifications;
+    private List<GuiModificationFloat> floatModifications;
 
     public GuiCategory() {
     }
@@ -58,11 +59,19 @@ public class GuiCategory {
         this.name = name;
     }
 
-    public List<GuiModification> getModifications() {
-        return modifications;
+    public List<GuiModificationString> getStringModifications() {
+        return stringModifications;
     }
 
-    public void setModifications(List<GuiModification> modifications) {
-        this.modifications = modifications;
+    public void setStringModifications(List<GuiModificationString> stringModifications) {
+        this.stringModifications = stringModifications;
+    }
+
+    public List<GuiModificationFloat> getFloatModifications() {
+        return floatModifications;
+    }
+
+    public void setFloatModifications(List<GuiModificationFloat> floatModifications) {
+        this.floatModifications = floatModifications;
     }
 }

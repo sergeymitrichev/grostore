@@ -3,14 +3,14 @@ package ru.ftob.grostore.rest.util;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 import ru.ftob.grostore.model.modification.ModificationFloatValue;
-import ru.ftob.grostore.rest.webmodel.GuiModificationValue;
+import ru.ftob.grostore.rest.webmodel.GuiModificationFloatValue;
 
-public class DbModificationFloatValueGuiConverter implements Converter<ModificationFloatValue, GuiModificationValue> {
+public class DbModificationFloatValueGuiConverter implements Converter<ModificationFloatValue, GuiModificationFloatValue> {
     @Override
-    public GuiModificationValue convert(MappingContext<ModificationFloatValue, GuiModificationValue> context) {
-        GuiModificationValue result = new GuiModificationValue();
+    public GuiModificationFloatValue convert(MappingContext<ModificationFloatValue, GuiModificationFloatValue> context) {
+        GuiModificationFloatValue result = new GuiModificationFloatValue();
         result.setId(context.getSource().getId());
-        result.setValue(context.getSource().getValue().toString());
+        result.setValue(context.getSource().getValue());
         result.setName(context.getSource().getModificationFloat().getName());
         result.setUnit(context.getSource().getModificationFloat().getUnit());
         return result;

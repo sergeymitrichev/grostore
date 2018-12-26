@@ -2,19 +2,18 @@ package ru.ftob.grostore.rest.webmodel;
 
 import java.util.List;
 
-public class GuiModification {
+public class GuiModificationString {
     private String name;
-    private List<GuiModificationValue> values;
+    private List<GuiModificationStringValue> values;
 
-
-    public GuiModification() {
+    public GuiModificationString() {
     }
 
-    public List<GuiModificationValue> getValues() {
+    public List<GuiModificationStringValue> getValues() {
         return values;
     }
 
-    public void setValues(List<GuiModificationValue> values) {
+    public void setValues(List<GuiModificationStringValue> values) {
         this.values = values;
     }
 
