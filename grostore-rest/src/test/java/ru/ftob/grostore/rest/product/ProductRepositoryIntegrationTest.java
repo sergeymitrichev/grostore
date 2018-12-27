@@ -1,5 +1,6 @@
 package ru.ftob.grostore.rest.product;
 
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@AutoConfigureEmbeddedDatabase
 public class ProductRepositoryIntegrationTest {
 
     private final Product PRODUCT = new Product();
@@ -25,9 +27,6 @@ public class ProductRepositoryIntegrationTest {
     private final String PRODUCT_SKU = "Product SKU";
     private final Integer PRICE_VALUE = 10;
     private final PriceType PRICE_TYPE = PriceType.PRICE_TYPE_IN;
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private ProductRepository productRepository;
@@ -41,19 +40,21 @@ public class ProductRepositoryIntegrationTest {
         List<Price> prices = new ArrayList<>();
         prices.add(new Price(PRICE_VALUE, PRICE_TYPE));
         PRODUCT.setPrices(prices);
+        Product saved = productRepository.save(PRODUCT);
+        PRODUCT.setId(saved.getId());
     }
 
     @Test
     public void whenFindById_thenReturnProduct() {
-        Integer id = (Integer) entityManager.persistAndGetId(PRODUCT);
-        Product found = productRepository.findById(id).get();
+        assert PRODUCT.getId() != null;
+        Product found = productRepository.findById(PRODUCT.getId()).orElse(null);
         Assertions.assertThat(found).isEqualTo(PRODUCT);
     }
 
     @Test
     public void whenFindBySku_thenReturnProduct() {
-        entityManager.persistAndGetId(PRODUCT);
-        Product found = productRepository.findBySku(PRODUCT_SKU).get();
+        assert PRODUCT.getSku() != null;
+        Product found = productRepository.findBySku(PRODUCT.getSku()).orElse(null);
         Assertions.assertThat(found).isEqualTo(PRODUCT);
     }
 }
