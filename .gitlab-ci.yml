@@ -30,11 +30,17 @@ test:
   stage: test
   script:
     - ./gradlew check --stacktrace
+  only:
+    - master
+    - develop
 
 deploy:
   stage: deploy
   script:
     - ./gradlew ftp
+  only:
+    - master
+    - develop
 
 after_script:
 - echo "End CI"

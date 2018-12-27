@@ -1,5 +1,6 @@
 package ru.ftob.grostore.rest.stock;
 
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,10 +16,8 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@AutoConfigureEmbeddedDatabase
 public class StockRepositoryIntegrationTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private StockRepository stockRepository;
@@ -29,21 +28,22 @@ public class StockRepositoryIntegrationTest {
     @Before
     public void init() {
         STOCK.setName(STOCK_NAME);
+        Stock saved = stockRepository.save(STOCK);
+        STOCK.setId(saved.getId());
     }
 
     @Test
     public void whenFindById_thenReturnStock() {
-        Integer id = (Integer) entityManager.persistAndGetId(STOCK);
-        Stock found = stockRepository.findById(id).get();
+        assert STOCK.getId() != null;
+        Stock found = stockRepository.findById(STOCK.getId()).orElse(null);
         Assertions.assertThat(found.getName()).isEqualTo(STOCK_NAME);
     }
 
     @Test
     public void whenFindAll_thenReturnStocks() {
-        entityManager.persistAndFlush(STOCK);
         Stock stock = new Stock();
         stock.setName("Another stock");
-        entityManager.persistAndFlush(stock);
+        stock = stockRepository.save(stock);
         List<Stock> found = stockRepository.findAll();
 
         Assertions.assertThat(found).containsExactly(STOCK, stock);
@@ -51,15 +51,15 @@ public class StockRepositoryIntegrationTest {
 
     @Test
     public void whenFindByName_thenReturnStock() {
-        entityManager.persistAndFlush(STOCK);
-        Stock found = stockRepository.findByName(STOCK_NAME).get();
-        Assertions.assertThat(found.getName()).isEqualTo(STOCK_NAME);
+        Stock found = stockRepository.findByName(STOCK.getName()).orElse(null);
+        assert found != null;
+        Assertions.assertThat(found.getName()).isEqualTo(STOCK.getName());
     }
 
     @Test
     public void whenSave_thenReturnStock() {
 
         Stock saved = stockRepository.save(STOCK);
-        Assertions.assertThat(saved.getName()).isEqualTo(STOCK.getName());
+        Assertions.assertThat(saved).isEqualTo(STOCK);
     }
 }

@@ -53,7 +53,7 @@ task ftp << {
                 classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
                 classpath: configurations.ftpAntTask.asPath)
         ftp(server: "217.107.219.72", port: "21", userid: "j597411", password: "1q2w3e4R", passive: "yes", verbose: "yes") {
-            fileset(dir: "$rootProject.projectDir/grostore-rest/build/libs") {
+            fileset(dir: "$rootProject.projectDir/build/libs") {
                 include(name: 'grostore-rest-' + version + '.jar')
             }
         }

@@ -32,5 +32,5 @@ dependencies {
     compile "org.springframework.boot:spring-boot-configuration-processor"
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.0.RELEASE'
-    testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
+    testCompile group: 'io.zonky.test', name: 'embedded-database-spring-test', version: '1.3.4'
 }
