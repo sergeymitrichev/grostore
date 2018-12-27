@@ -46,15 +46,27 @@ public class ProductRepositoryIntegrationTest {
 
     @Test
     public void whenFindById_thenReturnProduct() {
+
         assert PRODUCT.getId() != null;
         Product found = productRepository.findById(PRODUCT.getId()).orElse(null);
         Assertions.assertThat(found).isEqualTo(PRODUCT);
+
     }
 
     @Test
     public void whenFindBySku_thenReturnProduct() {
+
         assert PRODUCT.getSku() != null;
         Product found = productRepository.findBySku(PRODUCT.getSku()).orElse(null);
         Assertions.assertThat(found).isEqualTo(PRODUCT);
+
+    }
+
+    @Test
+    public void whenSave_thenReturnProduct() {
+
+        Product saved = productRepository.save(PRODUCT);
+        Assertions.assertThat(saved).isEqualTo(PRODUCT);
+
     }
 }
