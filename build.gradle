@@ -3,7 +3,7 @@ import java.nio.charset.StandardCharsets
 apply plugin: "idea"
 apply plugin: "eclipse"
 
-version = '0.7.0'
+version = '0.7.1'
 def name = 'grostore'
 
 subprojects {
