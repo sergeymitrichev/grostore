@@ -4,7 +4,7 @@
 
 GroStore application based on Spring: Boot, MVC, Data JPA, Flyway, Security (OAuth); Jackson; Vue; NuxtJs.
 
-## v0.7.0
+## v0.7
 Update Spring versions
 
 **Model** 
@@ -13,6 +13,9 @@ Update Spring versions
 * Add Spring Data JPA auditing
 * Add entity images to AbstractDescribedEntity 
 * Add product modifications
+
+**Test**
+Change DB for tests to PostgreSQL.
 
 ## v0.6.0
 **REST module**. Add described model for publishing articles and SEO items
