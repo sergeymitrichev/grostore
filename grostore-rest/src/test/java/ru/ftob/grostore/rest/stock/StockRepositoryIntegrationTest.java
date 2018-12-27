@@ -33,7 +33,17 @@ public class StockRepositoryIntegrationTest {
     }
 
     @Test
+    public void test() {
+    }
+
+    @Test
+    public void testAutowiredStockRepository() {
+        Assertions.assertThat(stockRepository).isNotEqualTo(null);
+    }
+
+    @Test
     public void whenFindById_thenReturnStock() {
+
         assert STOCK.getId() != null;
         Stock found = stockRepository.findById(STOCK.getId()).orElse(null);
         Assertions.assertThat(found.getName()).isEqualTo(STOCK_NAME);
@@ -41,6 +51,7 @@ public class StockRepositoryIntegrationTest {
 
     @Test
     public void whenFindAll_thenReturnStocks() {
+
         Stock stock = new Stock();
         stock.setName("Another stock");
         stock = stockRepository.save(stock);
@@ -51,6 +62,7 @@ public class StockRepositoryIntegrationTest {
 
     @Test
     public void whenFindByName_thenReturnStock() {
+
         Stock found = stockRepository.findByName(STOCK.getName()).orElse(null);
         assert found != null;
         Assertions.assertThat(found.getName()).isEqualTo(STOCK.getName());
@@ -61,5 +73,6 @@ public class StockRepositoryIntegrationTest {
 
         Stock saved = stockRepository.save(STOCK);
         Assertions.assertThat(saved).isEqualTo(STOCK);
+
     }
 }
