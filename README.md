@@ -15,7 +15,7 @@ Update Spring versions
 * Add product modifications
 
 **Test**
-Change DB for tests to PostgreSQL.
+Add MockMVC for tests.
 
 ## v0.6.0
 **REST module**. Add described model for publishing articles and SEO items
