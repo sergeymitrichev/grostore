@@ -13,8 +13,10 @@ import ru.ftob.grostore.rest.webmodel.GuiProduct;
 import ru.ftob.grostore.rest.webmodel.GuiProductSimple;
 import ru.ftob.grostore.service.product.ProductService;
 
+import static ru.ftob.grostore.rest.config.RestUrlMappingConstants.PRODUCT_MAPPING;
+
 @RestController
-@RequestMapping("/products")
+@RequestMapping(PRODUCT_MAPPING)
 public class ProductController extends AbstractRestController<Product, Integer, GuiProduct> {
 
     private final ProductService service;
