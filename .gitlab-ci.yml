@@ -1,9 +1,17 @@
 image: java:8-jdk
 
+services:
+- postgres:10.6
+
 stages:
   - build
   - test
   - deploy
+
+variables:
+  POSTGRES_DB: grostore
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: "password"
 
 before_script:
 #  - echo `pwd` # debug
@@ -21,7 +29,7 @@ build:
     - ./gradlew assemble
   artifacts:
     paths:
-      - build/libs/*.jar
+      - grostore-rest/build/libs/*.jar
     expire_in: 1 week
   only:
     - master
