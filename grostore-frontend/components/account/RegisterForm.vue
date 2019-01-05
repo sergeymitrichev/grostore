@@ -11,7 +11,7 @@
       </v-card-title>
       <v-card-text class="pb-0">
         <v-text-field
-          v-validate="'required'"
+          v-if="!simple"
           v-model="name"
           :rules="nameRules"
           :counter="10"
@@ -21,17 +21,19 @@
         <v-text-field
           v-validate="'required|email'"
           v-model="email"
-          label="E-mail"
+          label="E-mail или телефон"
           required
         />
         <v-text-field
           v-validate="'required'"
+          v-if="!simple"
           v-model="password"
           label="Пароль"
           required
         />
         <v-checkbox
           v-validate="'required'"
+          v-if="!simple"
           v-model="checkbox"
           value="1"
           label="Согласие на обработку информации"
@@ -63,6 +65,10 @@ export default {
     btnValue: {
       type: String,
       default: 'Зарегистрироваться'
+    },
+    simple: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
