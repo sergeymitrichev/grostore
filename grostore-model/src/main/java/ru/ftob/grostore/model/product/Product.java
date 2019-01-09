@@ -2,6 +2,7 @@ package ru.ftob.grostore.model.product;
 
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.image.ProductImage;
+import ru.ftob.grostore.model.ingredient.Ingredient;
 import ru.ftob.grostore.model.modification.ModificationFloatValue;
 import ru.ftob.grostore.model.modification.ModificationStringValue;
 import ru.ftob.grostore.model.productlist.Category;
@@ -20,7 +21,8 @@ import java.util.Set;
         attributeNodes = {
                 @NamedAttributeNode("categories"),
                 @NamedAttributeNode("modificationFloatValues"),
-                @NamedAttributeNode("modificationStringValues")
+                @NamedAttributeNode("modificationStringValues"),
+                @NamedAttributeNode("ingredients")
         }
 )
 public class Product extends AbstractPublishedEntity<ProductImage> {
@@ -67,6 +69,13 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
             )
     @OrderBy("modification_string_id")
     private Set<ModificationStringValue> modificationStringValues = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "product_ingredient",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+    @OrderBy("forename")
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     public Product() {
     }
@@ -129,6 +138,14 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void addModificationStringValue(ModificationStringValue modificationStringValue) {
         this.modificationStringValues.add(modificationStringValue);
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override

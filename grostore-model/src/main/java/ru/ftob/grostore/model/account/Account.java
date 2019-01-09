@@ -5,6 +5,7 @@ import org.springframework.util.CollectionUtils;
 import ru.ftob.grostore.model.base.AbstractNamedEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.Set;
 public class Account extends AbstractNamedEntity {
 
     @Column(name = "phone")
+    @Digits(fraction = 0, integer = 10)
     private String phone;
 
     @Column(name = "email")
@@ -29,6 +31,9 @@ public class Account extends AbstractNamedEntity {
     @NotNull
     private String password;
 
+    //TODO add birthday
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    
     @Column(name = "visited", columnDefinition = "timestamp")
     private LocalDateTime visited;
 

@@ -21,6 +21,7 @@ public class GuiProduct {
     private Set<GuiImage> images;
     private Set<GuiModificationStringValue> modificationStringValues;
     private Set<GuiModificationFloatValue> modificationFloatValues;
+    private Set<GuiIngredient> ingredients;
 
     public GuiProduct() {
     }
@@ -157,5 +158,13 @@ public class GuiProduct {
 
     public void setModificationFloatValues(Set<GuiModificationFloatValue> modificationFloatValues) {
         this.modificationFloatValues = modificationFloatValues;
+    }
+
+    public Set<GuiIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<GuiIngredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }
