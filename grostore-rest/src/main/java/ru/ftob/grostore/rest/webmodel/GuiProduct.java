@@ -22,6 +22,7 @@ public class GuiProduct {
     private Set<GuiModificationStringValue> modificationStringValues;
     private Set<GuiModificationFloatValue> modificationFloatValues;
     private Set<GuiIngredient> ingredients;
+    private GuiProductAnalytic analytic;
 
     public GuiProduct() {
     }
@@ -166,5 +167,13 @@ public class GuiProduct {
 
     public void setIngredients(Set<GuiIngredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public GuiProductAnalytic getAnalytic() {
+        return analytic;
+    }
+
+    public void setAnalytic(GuiProductAnalytic analytic) {
+        this.analytic = analytic;
     }
 }

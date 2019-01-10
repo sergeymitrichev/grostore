@@ -1,59 +1,18 @@
-package ru.ftob.grostore.model.analytics;
+package ru.ftob.grostore.rest.webmodel;
 
-
-import ru.ftob.grostore.model.base.AbstractBaseEntity;
-import ru.ftob.grostore.model.product.Product;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "product_analytic")
-public class ProductAnalytic extends AbstractBaseEntity {
-
-    @MapsId
-    @OneToOne(mappedBy = "analytic")
-    @JoinColumn(name = "id")
-    private Product product;
-
-    @Column(name = "add_to_cart")
+public class GuiProductAnalytic {
     private Long additionsToCart;
-
-    @Column(name = "add_to_cart_quantity")
     private Long additionsToCartQuantity;
-
-    @Column(name = "sales")
     private Long sales;
-
-    @Column(name = "sales_quantity")
     private Long salesQuantity;
-
-    @Column(name = "deliveries")
     private Long deliveries;
-
-    @Column(name = "deliveries_quantity")
     private Long deliveriesQuantity;
-
-    @Column(name = "out_of_stocks")
     private Long outOfStocks;
-
-    @Column(name = "price_inc")
     private Long priceIncreases;
-
-    @Column(name = "price_dec")
     private Long priceDecreases;
-
-    @Column(name = "views")
     private Long views;
 
-    public ProductAnalytic() {
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
+    public GuiProductAnalytic() {
     }
 
     public Long getAdditionsToCart() {

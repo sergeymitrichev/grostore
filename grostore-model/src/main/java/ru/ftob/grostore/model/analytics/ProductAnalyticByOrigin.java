@@ -1,19 +1,28 @@
 package ru.ftob.grostore.model.analytics;
 
-
 import ru.ftob.grostore.model.base.AbstractBaseEntity;
 import ru.ftob.grostore.model.product.Product;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "product_analytic")
-public class ProductAnalytic extends AbstractBaseEntity {
+@Table(
+        name = "product_analytic_by_origin",
+        uniqueConstraints = {@UniqueConstraint(
+                columnNames = {"product_id", "origin"},
+                name = "product_analytic_unique_product_id_origin_idx")})
+public class ProductAnalyticByOrigin extends AbstractBaseEntity implements Viewable, Saleable, Storable {
 
-    @MapsId
-    @OneToOne(mappedBy = "analytic")
-    @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column(name = "origin")
+    @Size(min = 4, max = 16)
+    @NotEmpty
+    private String origin;
 
     @Column(name = "add_to_cart")
     private Long additionsToCart;
@@ -45,7 +54,59 @@ public class ProductAnalytic extends AbstractBaseEntity {
     @Column(name = "views")
     private Long views;
 
-    public ProductAnalytic() {
+    @Override
+    public String getOrigin() {
+        return origin;
+    }
+
+    @Override
+    public Long getAdditionsToCart() {
+        return additionsToCart;
+    }
+
+    @Override
+    public Long getAdditionsToCartQuantity() {
+        return additionsToCartQuantity;
+    }
+
+    @Override
+    public Long getSales() {
+        return sales;
+    }
+
+    @Override
+    public Long getSalesQuantity() {
+        return salesQuantity;
+    }
+
+    @Override
+    public Long getDeliveries() {
+        return deliveries;
+    }
+
+    @Override
+    public Long getQuantityDeliveries() {
+        return deliveriesQuantity;
+    }
+
+    @Override
+    public Long getOutOfStocks() {
+        return outOfStocks;
+    }
+
+    @Override
+    public Long getPriceIncreases() {
+        return priceIncreases;
+    }
+
+    @Override
+    public Long getPriceDecreases() {
+        return priceDecreases;
+    }
+
+    @Override
+    public Long getViews() {
+        return views;
     }
 
     public Product getProduct() {
@@ -56,40 +117,24 @@ public class ProductAnalytic extends AbstractBaseEntity {
         this.product = product;
     }
 
-    public Long getAdditionsToCart() {
-        return additionsToCart;
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
     public void setAdditionsToCart(Long additionsToCart) {
         this.additionsToCart = additionsToCart;
     }
 
-    public Long getAdditionsToCartQuantity() {
-        return additionsToCartQuantity;
-    }
-
     public void setAdditionsToCartQuantity(Long additionsToCartQuantity) {
         this.additionsToCartQuantity = additionsToCartQuantity;
-    }
-
-    public Long getSales() {
-        return sales;
     }
 
     public void setSales(Long sales) {
         this.sales = sales;
     }
 
-    public Long getSalesQuantity() {
-        return salesQuantity;
-    }
-
     public void setSalesQuantity(Long salesQuantity) {
         this.salesQuantity = salesQuantity;
-    }
-
-    public Long getDeliveries() {
-        return deliveries;
     }
 
     public void setDeliveries(Long deliveries) {
@@ -104,32 +149,16 @@ public class ProductAnalytic extends AbstractBaseEntity {
         this.deliveriesQuantity = deliveriesQuantity;
     }
 
-    public Long getOutOfStocks() {
-        return outOfStocks;
-    }
-
     public void setOutOfStocks(Long outOfStocks) {
         this.outOfStocks = outOfStocks;
-    }
-
-    public Long getPriceIncreases() {
-        return priceIncreases;
     }
 
     public void setPriceIncreases(Long priceIncreases) {
         this.priceIncreases = priceIncreases;
     }
 
-    public Long getPriceDecreases() {
-        return priceDecreases;
-    }
-
     public void setPriceDecreases(Long priceDecreases) {
         this.priceDecreases = priceDecreases;
-    }
-
-    public Long getViews() {
-        return views;
     }
 
     public void setViews(Long views) {
