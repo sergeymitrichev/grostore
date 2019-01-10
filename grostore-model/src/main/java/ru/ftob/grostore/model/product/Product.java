@@ -1,5 +1,6 @@
 package ru.ftob.grostore.model.product;
 
+import ru.ftob.grostore.model.analytics.ProductAnalytic;
 import ru.ftob.grostore.model.base.AbstractPublishedEntity;
 import ru.ftob.grostore.model.image.ProductImage;
 import ru.ftob.grostore.model.ingredient.Ingredient;
@@ -22,7 +23,8 @@ import java.util.Set;
                 @NamedAttributeNode("categories"),
                 @NamedAttributeNode("modificationFloatValues"),
                 @NamedAttributeNode("modificationStringValues"),
-                @NamedAttributeNode("ingredients")
+                @NamedAttributeNode("ingredients"),
+                @NamedAttributeNode("analytic")
         }
 )
 public class Product extends AbstractPublishedEntity<ProductImage> {
@@ -48,8 +50,6 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @NotNull(message = "Product prices must not be null")
     private List<Price> prices = new ArrayList<>();
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "modification_value", joinColumns = @JoinColumn(name = "product_id"))
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable
             (
@@ -76,6 +76,10 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     @OrderBy("forename")
     private Set<Ingredient> ingredients = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private ProductAnalytic analytic;
 
     public Product() {
     }
@@ -146,6 +150,14 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public ProductAnalytic getAnalytic() {
+        return analytic;
+    }
+
+    public void setAnalytic(ProductAnalytic analytic) {
+        this.analytic = analytic;
     }
 
     @Override
