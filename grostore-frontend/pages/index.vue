@@ -122,26 +122,17 @@
       </v-container>
     </v-parallax>
     <v-container
-      fluid 
       grid-list-xl
       pt-5
     >
-      <v-layout 
-        row 
-        justify-center>
-        <v-flex 
-          sm12
-          md8>
-          <h2 class="display-1 font-weight-thin mb-2">Как работает доставка продуктов на дом?</h2>
-        </v-flex>
-      </v-layout>
+      <h2 class="display-1 font-weight-thin mb-2">Как работает доставка продуктов на дом?</h2>
       <v-layout 
         row 
         justify-center>
         <v-flex 
           xs12
           sm6
-          md2>
+          md3>
           <v-card>
             <v-img src="https://images.pexels.com/photos/5205/food-healthy-vegetables-potatoes.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
             <v-card-title class="pb-0">
@@ -160,7 +151,7 @@
         <v-flex 
           xs12
           sm6
-          md2>
+          md3>
           <v-card>
             <v-img src="https://images.pexels.com/photos/36351/the-eleventh-hour-disaster-alarm-clock-clock.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
             <v-card-title class="pb-0">
@@ -181,7 +172,7 @@
         <v-flex 
           xs12
           sm6
-          md2>
+          md3>
           <v-card>
             <v-img 
               height="167" 
@@ -204,7 +195,7 @@
         <v-flex 
           xs12
           sm6
-          md2>
+          md3>
           <v-card>
             <v-img src="https://t3.ftcdn.net/jpg/00/96/37/86/240_F_96378623_3KwikzlO2ADdX9PPVCdjzSkktLTRWyyP.jpg"/>
             <v-card-title class="pb-0">
@@ -225,29 +216,23 @@
       </v-layout>
     </v-container>
     <v-container
-      fluid 
+      fluid
       grid-list-xl
       pt-5
       warning
     >
-      <v-layout 
-        row 
-        justify-center>
-        <v-flex 
-          sm12
-          md8>
-          <h2 class="display-1 font-weight-thin mb-2">Как мы гарантируем качество продуктов?</h2>
-        </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex>
-          <ul>
-            <li> Выбор срока годности </li>
-            <li> Опыт поиска продуктов </li>
-            <li> Согласование спорных продуктов </li>
-          </ul>
-        </v-flex>
-      </v-layout>
+      <v-container>
+        <h2 class="display-1 font-weight-thin mb-2">Как мы гарантируем качество продуктов?</h2>
+        <v-layout>
+          <v-flex>
+            <ul>
+              <li> Выбор срока годности </li>
+              <li> Опыт поиска продуктов </li>
+              <li> Согласование спорных продуктов </li>
+            </ul>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-container>
   </div>
 </template>
