@@ -23,6 +23,8 @@ public class GuiProduct {
     private Set<GuiModificationFloatValue> modificationFloatValues;
     private Set<GuiIngredient> ingredients;
     private GuiProductAnalytic analytic;
+    private Set<GuiProductSimple> recommended;
+    private Set<GuiProductSimple> alsoBuy;
 
     public GuiProduct() {
     }
@@ -175,5 +177,21 @@ public class GuiProduct {
 
     public void setAnalytic(GuiProductAnalytic analytic) {
         this.analytic = analytic;
+    }
+
+    public Set<GuiProductSimple> getRecommended() {
+        return recommended;
+    }
+
+    public void setRecommended(Set<GuiProductSimple> recommended) {
+        this.recommended = recommended;
+    }
+
+    public Set<GuiProductSimple> getAlsoBuy() {
+        return alsoBuy;
+    }
+
+    public void setAlsoBuy(Set<GuiProductSimple> alsoBuy) {
+        this.alsoBuy = alsoBuy;
     }
 }

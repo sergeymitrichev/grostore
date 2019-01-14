@@ -24,6 +24,8 @@ import java.util.Set;
                 @NamedAttributeNode("modificationFloatValues"),
                 @NamedAttributeNode("modificationStringValues"),
                 @NamedAttributeNode("ingredients"),
+                @NamedAttributeNode("alsoBuy"),
+                @NamedAttributeNode("recommended"),
                 @NamedAttributeNode("analytic")
         }
 )
@@ -80,6 +82,20 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private ProductAnalytic analytic;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "product_also_buy",
+            joinColumns = @JoinColumn(name = "parent_id"),
+            inverseJoinColumns = @JoinColumn(name = "child_id"))
+    @OrderColumn(name = "weight")
+    private Set<Product> alsoBuy;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "product_recommended",
+            joinColumns = @JoinColumn(name = "parent_id"),
+            inverseJoinColumns = @JoinColumn(name = "child_id"))
+    @OrderColumn(name = "weight")
+    private Set<Product> recommended;
 
     public Product() {
     }
@@ -158,6 +174,22 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void setAnalytic(ProductAnalytic analytic) {
         this.analytic = analytic;
+    }
+
+    public Set<Product> getAlsoBuy() {
+        return alsoBuy;
+    }
+
+    public void setAlsoBuy(Set<Product> alsoBuy) {
+        this.alsoBuy = alsoBuy;
+    }
+
+    public Set<Product> getRecommended() {
+        return recommended;
+    }
+
+    public void setRecommended(Set<Product> recommended) {
+        this.recommended = recommended;
     }
 
     @Override
