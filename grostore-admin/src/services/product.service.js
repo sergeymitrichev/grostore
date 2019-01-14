@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = '/';
+const BASE_URL = '/api/';
 
 export default class ProductService {
 
