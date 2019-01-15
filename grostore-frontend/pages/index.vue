@@ -1,29 +1,37 @@
 <template>
   <div>
     <v-parallax 
-      height="500"
+      height="700"
       src="/index.png">
       <v-container 
-        fluid 
-        grid-list-xl>
-        <v-layout 
-          row 
-          justify-space-between>
+        fluid>
+        <v-layout
+          wrap>
           <v-flex 
             xs12
             sm6
             md4
             lg3
+            order-xs2
+            order-sm1
+            order-md1
             pa-0>
-            <div class="display-1 mb-2 mt-2">+7(831)410-74-43</div>
-            <h3>Доставка сегодня 19:00 - 21:00</h3>
+            <div class="text-xs-center text-sm-left text-md-left">
+              <div class="display-1 mb-2 mt-2">+7(831)410-74-43</div>
+              <h3>ДОСТАВКА СЕГОДНЯ 19:00 - 21:00</h3>
+            </div>
           </v-flex>
           <v-flex 
-            lg3 
-            md6 
-            sm9 
+            lg4 
+            offset-lg1
+            md4 
+            sm12 
             xs12
-            pa-0>
+            order-xs1
+            order-sm3
+            order-md2
+            pa-0
+            mt-3>
             <div class="text-xs-center">
               <img
                 src="/minutka-logo.png"
@@ -37,8 +45,13 @@
             sm6
             md4
             lg3
-            pa-0>
-            <div class="text-xs-right">
+            offset-lg1
+            order-xs3
+            order-sm2
+            order-md3
+            pa-0
+            mb-3>
+            <div class="text-xs-center text-sm-right text-md-right">
               <v-btn 
                 v-if="!isAuthenticated"
                 large

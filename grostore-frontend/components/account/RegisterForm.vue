@@ -10,6 +10,7 @@
         <h3 class="headline">{{ title }}</h3>
       </v-card-title>
       <v-card-text class="pb-0">
+        <masked-input />
         <v-text-field
           v-if="!simple"
           v-model="name"
@@ -19,20 +20,17 @@
           required
         />
         <v-text-field
-          v-validate="'required|email'"
           v-model="email"
           label="E-mail или телефон"
           required
         />
         <v-text-field
-          v-validate="'required'"
           v-if="!simple"
           v-model="password"
           label="Пароль"
           required
         />
         <v-checkbox
-          v-validate="'required'"
           v-if="!simple"
           v-model="checkbox"
           value="1"
@@ -56,7 +54,11 @@
 </template>
 
 <script>
+import MaskedInput from '~/components/input/MaskedInput'
 export default {
+  components: {
+    MaskedInput
+  },
   props: {
     title: {
       type: String,
