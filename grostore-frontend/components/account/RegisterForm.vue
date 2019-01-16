@@ -47,7 +47,7 @@
           large
           round
           color="success"
-          @submit="submit">{{ btnValue }}</v-btn>
+          @click="submit">{{ btnValue }}</v-btn>
       </v-card-actions>
     </v-card>
   </form>

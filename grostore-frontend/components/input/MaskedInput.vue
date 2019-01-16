@@ -7,30 +7,20 @@
             xs4
           >
             <v-select
-              ref="phoneCountryPrefix"
-              :items="phoneCountryPrefixes"
-              v-model="phoneCountryPrefix"
-              prepend-icon="phone"
+              :items="phoneCodes"
+              v-model="phoneMask"
+              item-text="name_ru"
+              item-value="mask"
             />
           </v-flex>  
           <v-flex
-            xs3
-          >
-            <v-text-field
-              ref="phonePrefix"
-              v-model="phonePrefix"
-              size="3"
-              mask="(###)"
-              @keyup="changePhonePrefix"
-            />
-          </v-flex>
-          <v-flex
-            xs5
+            xs8
           >
             <v-text-field
               ref="phoneNumber"
-              v-model="phoneNumber"
-              mask="###-##-##"
+              v-model="phone"
+              :mask="phoneMask"
+              prepend-icon="phone"
               append-outer-icon="close"
               @click:append-outer="clear"
               @keyup.enter="submit"
@@ -52,7 +42,6 @@
   </div>
 </template>
 <script>
-import _ from 'lodash'
 export default {
   props: {
     required: {
@@ -70,11 +59,13 @@ export default {
 
       email: '',
 
-      phone: '',
-      phoneNumber: '',
-      phonePrefix: '',
-      phoneCountryPrefix: '',
-      phoneCountryPrefixes: ['+7', '+1', '+38']
+      phone: '+7(###)###-##-##',
+      phoneMask: '+7(###)###-##-##'
+    }
+  },
+  computed: {
+    phoneCodes() {
+      return this.$store.state.phoneCodes.list
     }
   },
   methods: {
@@ -82,33 +73,24 @@ export default {
       if (event.key.match(/[0-9]|\+/)) {
         this.isEmail = false
         this.isPhone = true
-        this.phoneCountryPrefix = this.phoneCountryPrefixes[0]
-        this.phonePrefix = this.contact
-        this.$refs.phonePrefix.focus()
+        this.$nextTick(() => this.$refs.phoneNumber.focus())
       } else if (event.key.match(/[A-z]|@|./)) {
         this.isPhone = false
         this.isEmail = true
       }
 
-      if (event.key == 13) {
+      if (event.key === 13) {
         this.submit()
       }
     },
 
-    selectPhoneCountryPrefix() {},
-
-    changePhonePrefix() {
-      if (this.phonePrefix.length == 3) {
-        this.$refs.phoneNumber.focus()
-      }
-    },
-
     submit() {
-      this.phone = this.phoneCountryPrefix + this.phonePrefix + this.phoneNumber
+      this.phone += ' phone submitted'
     },
 
     clear() {
       this.contact = ''
+      this.phone = '+7(###)###-##-##'
       this.isEmail = false
       this.isPhone = false
     }
