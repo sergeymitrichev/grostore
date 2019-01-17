@@ -27,7 +27,7 @@ public class AccountController /*extends AbstractRestController<Account, Integer
         this.accountService = accountService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> getAll(Pageable pageable) {
         Page<Account> accountPage = accountService.getAll(pageable);
         List<GuiAccount> accounts =accountPage.getContent().stream().map(

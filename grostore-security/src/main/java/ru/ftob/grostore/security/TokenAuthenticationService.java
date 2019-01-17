@@ -69,7 +69,7 @@ public class TokenAuthenticationService {
             }
         }
 
-        if (token != null) {
+        if (token != null && !token.equals("false")) {
 
             // parse the token.
             Claims claims = null;

@@ -34,7 +34,7 @@ public class AbstractRestController<T, ID, G> {
         this.service = service;
     }
 
-    @GetMapping(value = {"/", ""})
+    @GetMapping
     public ResponseEntity<?> getAll(Pageable pageable) {
         return ResponseEntity.ok(ModelMapperUtils.mapPage(service.getAll(pageable), guiClass, pageable));
     }
@@ -75,7 +75,7 @@ public class AbstractRestController<T, ID, G> {
         return response;
     }
 
-    @PostMapping(value = {"/", ""})
+    @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateAll(
             @RequestBody List<G> guiEntities
@@ -84,7 +84,7 @@ public class AbstractRestController<T, ID, G> {
         return ResponseEntity.ok(ModelMapperUtils.mapAll(dbEntities, guiClass));
     }
 
-    @DeleteMapping(value = {"/", ""})
+    @DeleteMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteAll(@RequestBody List<G> guiList) {
         List<T> dbList = ModelMapperUtils.mapAll(guiList, dbClass);
