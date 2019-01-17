@@ -1,6 +1,8 @@
 # GroStore
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6eb0ff0c92f64ea78e6d53727bda57b9)](https://app.codacy.com/app/sergeymitrichev/grostore?utm_source=github.com&utm_medium=referral&utm_content=sergeymitrichev/grostore&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://travis-ci.org/sergeymitrichev/grostore.svg?branch=master)](https://travis-ci.org/sergeymitrichev/grostore)
+[![pipeline status](https://gitlab.com/sergeymitrichev/grostore/badges/master/pipeline.svg)](https://gitlab.com/sergeymitrichev/grostore/commits/master)
+[![coverage report](https://gitlab.com/sergeymitrichev/grostore/badges/master/coverage.svg)](https://gitlab.com/sergeymitrichev/grostore/commits/master)
 
 GroStore application based on Spring: Boot, MVC, Data JPA, Flyway, Security (OAuth); Jackson; Vue; NuxtJs.
 

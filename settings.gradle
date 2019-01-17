@@ -3,5 +3,3 @@ rootProject.name = 'grostore'
 include 'grostore-model', 'grostore-persistence', 'grostore-service', 'grostore-ucoz', 'grostore-rest'
 include 'grostore-scheduler'
 include 'grostore-security'
-include 'grostore-presentation'
-
