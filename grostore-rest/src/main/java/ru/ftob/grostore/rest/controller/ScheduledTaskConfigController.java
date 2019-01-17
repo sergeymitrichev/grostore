@@ -30,7 +30,7 @@ public class ScheduledTaskConfigController {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> getAll(Pageable pageable) {
         Page<ScheduledTaskConfig> tasks = scheduledTaskConfigService.getAll(pageable);
         List<GuiScheduledTaskConfig> guiProducts = tasks.stream().map(
@@ -68,7 +68,7 @@ public class ScheduledTaskConfigController {
         return ResponseEntity.ok(id);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteAll(@RequestBody List<GuiScheduledTaskConfig> guiScheduledTaskConfigs) {
         scheduledTaskConfigService.deleteAll(guiScheduledTaskConfigs.stream().map(g -> modelMapper.map(g, ScheduledTaskConfig.class)).collect(Collectors.toList()));

@@ -69,7 +69,7 @@ public class UcozSynchronizeController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/products/snapshot/")
+    @PostMapping("/products/snapshot")
     public ResponseEntity<?> snapProducts(@RequestParam("file") MultipartFile file) {
         storageService.store(file);
         File tmp = new File(storageService.getRootLocation() + "/" + file.getOriginalFilename());
@@ -117,7 +117,7 @@ public class UcozSynchronizeController {
         return ResponseEntity.ok(handler.persistAllProducts(products));
     }
 
-    @PostMapping("/categories/snapshot/")
+    @PostMapping("/categories/snapshot")
     public ResponseEntity<?> snapCategories(@RequestParam(defaultValue = "/var/lib/grostore/ucoz-categories-snashot.json") String filePath) {
         ResponseEntity<?> response = null;
         File tmp = new File(filePath);
@@ -144,7 +144,7 @@ public class UcozSynchronizeController {
         return response;
     }
 
-    @PostMapping("/products/")
+    @PostMapping("/products")
     public ResponseEntity<?> products(@RequestParam("file") MultipartFile file, @RequestParam List<ProductImportFieldType> fields, int toSkip, String stock) {
         storageService.store(file);
         log.debug("Reading from file with fields: " + fields);
@@ -177,7 +177,7 @@ public class UcozSynchronizeController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/prices/")
+    @PostMapping("/prices")
     public ResponseEntity<?> prices(@RequestParam("file") MultipartFile file, @RequestParam int skuColumn, @RequestParam int priceColumn) {
         storageService.store(file);
         log.debug("Reading prices from file. Sky column: [" + skuColumn + "], price column: [" + priceColumn + "].");

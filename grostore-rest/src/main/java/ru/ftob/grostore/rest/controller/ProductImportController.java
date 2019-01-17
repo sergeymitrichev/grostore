@@ -35,7 +35,7 @@ public class ProductImportController /*extends AbstractRestController<ProductImp
         this.productImportService = productImportService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> getAll() {
         List<ProductImport> productImports = productImportService.getAll();
         List<GuiProductImport> guiProductImports = productImports.stream().map(
@@ -120,7 +120,7 @@ public class ProductImportController /*extends AbstractRestController<ProductImp
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+    public ResponseEntity<?> serveFile(@PathVariable String filename) {
 
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
