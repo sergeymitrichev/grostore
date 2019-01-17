@@ -118,3 +118,5 @@ gradle/wrapper/gradle-wrapper.properties
 
 # npm
 */node_modules/*
+*.lock
+*-lock.json
