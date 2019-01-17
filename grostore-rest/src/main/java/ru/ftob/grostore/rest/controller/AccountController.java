@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ftob.grostore.model.account.Account;
@@ -36,5 +37,16 @@ public class AccountController /*extends AbstractRestController<Account, Integer
         PageImpl page = new PageImpl<>(accounts, pageable, accountPage.getTotalElements());
 
         return ResponseEntity.ok(page);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(GuiAccount guiAccount) {
+        Account account = ModelMapperUtils.map(guiAccount, Account.class);
+        // Populate account
+        // Validate account (email/phone/password)
+        Account registered = accountService.create(account);
+        GuiAccount guiRegistered = ModelMapperUtils.map(registered, GuiAccount.class);
+        // 409 if already exists
+        return ResponseEntity.ok(guiRegistered);
     }
 }
