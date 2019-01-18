@@ -1,6 +1,6 @@
 package ru.ftob.grostore.model.base;
 
-import ru.ftob.grostore.model.utils.TextUtils;
+import ru.ftob.grostore.model.util.TextUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
