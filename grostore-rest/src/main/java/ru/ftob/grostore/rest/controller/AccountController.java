@@ -10,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,21 +41,13 @@ public class AccountController extends AbstractRestController<Account, Integer, 
         setService(service);
     }
 
-    @GetMapping("/anon-only")
-    @PreAuthorize("hasRole('ROLE_ANONYMOUS')")
-    public ResponseEntity<?> check() {
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/register")
+    @PreAuthorize("hasRole('ROLE_ANONYMOUS')")
     public ResponseEntity<?> register(
             GuiAccount guiAccount,
             final BindingResult result
     ) {
         ResponseEntity<?> response = null;
-
-        // Populate account
-
 
         // Validate account (email/phone/password)
         validator.validate(guiAccount, result);
@@ -82,6 +73,7 @@ public class AccountController extends AbstractRestController<Account, Integer, 
 
             } catch (ConstraintViolationException e) {
                 //TODO add message converter
+                log.error("Can't create account", e);
                 ApiError apiError = new ApiError(
                         HttpStatus.UNPROCESSABLE_ENTITY,
                         "Account data not valid",
