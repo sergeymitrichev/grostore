@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
@@ -39,14 +40,17 @@ public class AccountController extends AbstractRestController<Account, Integer, 
 
     private final TokenAuthenticationService tokenAuthenticationService;
 
+    private final BCryptPasswordEncoder encoder;
+
     @Autowired
     public AccountController(
             AccountService service,
             @Qualifier("accountValidator") Validator validator,
-            TokenAuthenticationService tokenAuthenticationService) {
+            TokenAuthenticationService tokenAuthenticationService, BCryptPasswordEncoder encoder) {
         this.service = service;
         this.validator = validator;
         this.tokenAuthenticationService = tokenAuthenticationService;
+        this.encoder = encoder;
         setService(service);
     }
 
@@ -78,8 +82,10 @@ public class AccountController extends AbstractRestController<Account, Integer, 
         } else {
             Account account = ModelMapperUtils.map(guiAccount, Account.class);
             try {
+                account.setPassword(encoder.encode(account.getPassword()));
                 Account registered = service.create(account);
                 GuiAccount guiRegistered = ModelMapperUtils.map(registered, GuiAccount.class);
+                guiRegistered.setPassword(guiAccount.getPassword());
                 tokenAuthenticationService.addAuthentication(res, new UserDetailsImpl(account.getEmail(), account.getPassword(), account.getRoles()));
                 response = ResponseEntity.ok(guiRegistered);
 

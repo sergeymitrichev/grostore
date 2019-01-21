@@ -66,7 +66,8 @@ module.exports = {
     proxy: true
   },
   proxy: {
-    '/api': { target: 'http://localhost:6100', pathRewrite: { '^/api/': '' } }
+    //'/api': { target: 'http://ovz1.j597433.m19vp.vps.myjino.ru:49341/', pathRewrite: { '^/api/': '' } }
+    '/api': { target: 'http://localhost:6100/', pathRewrite: { '^/api/': '' } }
   },
 
   auth: {
