@@ -47,7 +47,7 @@
           large
           round
           color="success"
-          @click="submit">{{ btnValue }}</v-btn>
+          @click="register">{{ btnValue }}</v-btn>
       </v-card-actions>
     </v-card>
   </form>
@@ -92,16 +92,26 @@ export default {
   mounted() {},
 
   methods: {
-    submit() {
-      console.log('submit')
-      if (this.$refs.form.validate()) {
-        // Native form submission is not yet supported
-        axios.post('/api/submit', {
-          name: this.name,
+    async register() {
+      try {
+        const resp = await this.$axios.post('api/accounts/register', {
           email: this.email,
-          select: this.select,
-          checkbox: this.checkbox
+          phone: this.phone,
+          password: this.password
         })
+
+        console.log(resp)
+
+        await this.$auth.loginWith('local', {
+          data: {
+            email: resp.data.email,
+            password: resp.data.password
+          }
+        })
+
+        this.$router.push('/me')
+      } catch (e) {
+        this.error = e.response.data.message
       }
     },
     clear() {

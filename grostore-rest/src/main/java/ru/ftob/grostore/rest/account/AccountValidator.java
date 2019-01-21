@@ -67,6 +67,7 @@ public class AccountValidator extends AbstractValidator<GuiAccount> {
     }
 
     private void populate(final GuiAccount guiAccount) {
+        guiAccount.setEnabled(true);
         if (StringUtils.isEmpty(guiAccount.getName())) {
             guiAccount.setName(VALIDATION_FIELD_EMPTY);
         }

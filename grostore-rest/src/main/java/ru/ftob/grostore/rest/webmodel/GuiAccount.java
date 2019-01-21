@@ -15,6 +15,7 @@ public class GuiAccount {
     private LocalDateTime created;
     private LocalDateTime updated;
     private LocalDateTime visited;
+    private Boolean enabled;
     private Set<Role> roles = new HashSet<>();
 
     public GuiAccount() {
@@ -94,6 +95,14 @@ public class GuiAccount {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
