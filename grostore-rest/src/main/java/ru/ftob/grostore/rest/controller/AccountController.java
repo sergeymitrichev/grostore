@@ -11,14 +11,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.rest.base.ApiError;
 import ru.ftob.grostore.rest.util.ModelMapperUtils;
 import ru.ftob.grostore.rest.webmodel.GuiAccount;
+import ru.ftob.grostore.security.TokenAuthenticationService;
+import ru.ftob.grostore.security.UserDetailsImpl;
 import ru.ftob.grostore.service.account.AccountService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
 
@@ -32,21 +37,27 @@ public class AccountController extends AbstractRestController<Account, Integer, 
 
     private final Validator validator;
 
+    private final TokenAuthenticationService tokenAuthenticationService;
+
     @Autowired
     public AccountController(
             AccountService service,
-            @Qualifier("accountValidator") Validator validator) {
+            @Qualifier("accountValidator") Validator validator,
+            TokenAuthenticationService tokenAuthenticationService) {
         this.service = service;
         this.validator = validator;
+        this.tokenAuthenticationService = tokenAuthenticationService;
         setService(service);
     }
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('ROLE_ANONYMOUS')")
     public ResponseEntity<?> register(
-            GuiAccount guiAccount,
-            final BindingResult result
-    ) {
+            @RequestBody GuiAccount guiAccount,
+            final BindingResult result,
+            final HttpServletRequest request,
+            HttpServletResponse res
+            ) {
         ResponseEntity<?> response = null;
 
         // Validate account (email/phone/password)
@@ -69,6 +80,7 @@ public class AccountController extends AbstractRestController<Account, Integer, 
             try {
                 Account registered = service.create(account);
                 GuiAccount guiRegistered = ModelMapperUtils.map(registered, GuiAccount.class);
+                tokenAuthenticationService.addAuthentication(res, new UserDetailsImpl(account.getEmail(), account.getPassword(), account.getRoles()));
                 response = ResponseEntity.ok(guiRegistered);
 
             } catch (ConstraintViolationException e) {

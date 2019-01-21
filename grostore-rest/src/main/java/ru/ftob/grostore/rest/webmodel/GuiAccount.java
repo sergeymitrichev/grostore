@@ -1,6 +1,10 @@
 package ru.ftob.grostore.rest.webmodel;
 
+import ru.ftob.grostore.model.account.Role;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GuiAccount {
     private Integer id;
@@ -11,7 +15,7 @@ public class GuiAccount {
     private LocalDateTime created;
     private LocalDateTime updated;
     private LocalDateTime visited;
-
+    private Set<Role> roles = new HashSet<>();
 
     public GuiAccount() {
     }
@@ -80,6 +84,18 @@ public class GuiAccount {
         this.password = password;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
     @Override
     public String toString() {
         return "GuiAccount{" +
@@ -90,6 +106,7 @@ public class GuiAccount {
                 ", created=" + created +
                 ", updated=" + updated +
                 ", visited=" + visited +
+                ", roles=" + roles +
                 '}';
     }
 }

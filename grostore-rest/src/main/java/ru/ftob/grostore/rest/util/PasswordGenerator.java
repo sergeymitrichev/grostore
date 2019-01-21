@@ -1,4 +1,4 @@
-package ru.ftob.grostore.model.util;
+package ru.ftob.grostore.rest.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +95,7 @@ public final class PasswordGenerator {
         /**
          * Get an object to use.
          *
-         * @return the {@link ru.ftob.grostore.model.util.PasswordGenerator}
+         * @return the {@link PasswordGenerator}
          * object.
          */
         public PasswordGenerator build() {
