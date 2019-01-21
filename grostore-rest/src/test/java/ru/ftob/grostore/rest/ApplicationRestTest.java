@@ -9,10 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.ftob.grostore.rest.config.RestUrlMappingConstants.HOME_MAPPING;
 
@@ -33,7 +31,6 @@ public class ApplicationRestTest {
     public void testHomeController() throws Exception {
         mockMvc.perform(get(HOME_MAPPING))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello from dashboard, guest")));
+                .andExpect(status().isOk());
     }
 }

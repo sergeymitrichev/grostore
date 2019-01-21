@@ -13,8 +13,7 @@ import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.rest.util.ModelMapperUtils;
 import ru.ftob.grostore.rest.webmodel.GuiAccount;
 import ru.ftob.grostore.service.account.AccountService;
-
-import java.util.Optional;
+import ru.ftob.grostore.service.util.exception.NotFoundException;
 
 @RestController
 @RequestMapping("/me")
@@ -33,10 +32,10 @@ public class MeController {
         ResponseEntity response = null;
         UserDetails userDetails =
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<Account> me = accountService.getByEmail(userDetails.getUsername());
-        if (me.isPresent()) {
-            response = ResponseEntity.ok(ModelMapperUtils.map(me.get(), GuiAccount.class));
-        } else {
+        try {
+            Account me = accountService.getByEmail(userDetails.getUsername());
+            response = ResponseEntity.ok(ModelMapperUtils.map(me, GuiAccount.class));
+        } catch (NotFoundException e) {
             response = ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 

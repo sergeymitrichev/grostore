@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ModelMapperUtils {
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static ModelMapper modelMapper;
 
     /**
      * Model mapper property setting are specified in the following block.
