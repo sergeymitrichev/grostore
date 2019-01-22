@@ -9,11 +9,12 @@ build frontend:
   - cd grostore-frontend
   - yarn
   - yarn run build
+  - ls -a
   - echo "build front successfull"
   artifacts:
     expire_in: 1 week
     paths:
-    - dist
+    - grostore-frontend/dist
 
 cache:
   paths:
@@ -46,6 +47,12 @@ deploy frontend:
   script:
   - ls -a
   - echo "deploy frontend"
+  - apk add --no-cache rsync openssh
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+  - chmod 600 ~/.ssh/id_dsa
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - rsync -rav --delete dist/ root@ovz1.j597433.m19vp.vps.myjino.ru:/var/www/domains/ovz1.j597433.m19vp.vps.myjino.ru/frontend/
 #  - apk add --no-cache rsync openssh
 #  - mkdir -p ~/.ssh
 #  - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
