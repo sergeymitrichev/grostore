@@ -1,13 +1,15 @@
 stages:
-  - build
-  - deploy
+- build
+- deploy
 
 build frontend:
   image: node:6.10.0
   stage: build
   script:
+  - cd grostore-frontend
   - yarn
   - yarn run build
+  - echo "build front successfull"
   artifacts:
     expire_in: 1 week
     paths:
@@ -22,28 +24,28 @@ build backend:
   image: java:8-jdk
   stage: build
   script:
-    - ./gradlew assemble
-    - ls -a
+  - ./gradlew assemble
+  - ls -a
   artifacts:
     paths:
-      - grostore-rest/build/libs/*.jar
+    - grostore-rest/build/libs/*.jar
     expire_in: 1 week
 
 deploy backend:
   stage: deploy
   script:
-    - ls -a
-    - echo "deploy frontend"
+  - ls -a
+  - echo "deploy frontend"
   only:
-    - master
-    - develop
+  - master
+  - develop
 
 deploy frontend:
   image: alpine
   stage: deploy
   script:
-   - ls -a
-   - echo "deploy frontend"
+  - ls -a
+  - echo "deploy frontend"
 #  - apk add --no-cache rsync openssh
 #  - mkdir -p ~/.ssh
 #  - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
