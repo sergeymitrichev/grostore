@@ -49,25 +49,29 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    [
+      '@nuxtjs/axios',
+      {
+        baseURL: 'http://localhost:6100'
+      }
+    ],
+    '@nuxtjs/auth',
+    '@nuxtjs/proxy'
   ],
   /*
   ** Axios module configuration
   */
-  /*
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'http://localhost:6100',
-    withCredentials: true,
-    debug: true
-  } */
-  axios: {
-    proxy: true
+    proxy: true,
+    logLevel: 'debug'
   },
   proxy: {
     //'/api': { target: 'http://ovz1.j597433.m19vp.vps.myjino.ru:49341/', pathRewrite: { '^/api/': '' } }
-    '/api': { target: 'http://localhost:6100/', pathRewrite: { '^/api/': '' } }
+    //'/api': { target: 'http://127.0.0.1:49341/', pathRewrite: { '^/api': '' } }
+    '/api/': {
+      target: 'http://localhost:6100/',
+      pathRewrite: { '^/api/': '/' }
+    }
   },
 
   auth: {
