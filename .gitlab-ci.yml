@@ -14,12 +14,13 @@ build frontend:
   artifacts:
     expire_in: 1 week
     paths:
-    - grostore-frontend/dist
+    - grostore-frontend/.nuxt/dist
 
 cache:
   paths:
   - .gradle/wrapper
   - .gradle/caches
+  - grostore-frontend/node_modules
 
 build backend:
   image: java:8-jdk
@@ -52,13 +53,7 @@ deploy frontend:
   - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
   - chmod 600 ~/.ssh/id_dsa
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-  - rsync -rav --delete dist/ root@ovz1.j597433.m19vp.vps.myjino.ru:/var/www/domains/ovz1.j597433.m19vp.vps.myjino.ru/frontend/
-#  - apk add --no-cache rsync openssh
-#  - mkdir -p ~/.ssh
-#  - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
-#  - chmod 600 ~/.ssh/id_dsa
-#  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-#  - rsync -rav --delete dist/ user@server.com:/your/project/path/
+  - rsync -rav --delete dist/ gitlab@ovz1.j597433.m19vp.vps.myjino.ru:/var/www/domains/ovz1.j597433.m19vp.vps.myjino.ru/frontend/
 #image: java:8-jdk
 #
 #services:
