@@ -70,7 +70,7 @@ module.exports = {
     //'/api': { target: 'http://127.0.0.1:49341/', pathRewrite: { '^/api': '' } }
     '/api/': {
       target: 'http://localhost:6100/',
-      pathRewrite: { '^/api/': '/' }
+      pathRewrite: { '^/api/': '' }
     }
   },
 

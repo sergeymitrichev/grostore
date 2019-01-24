@@ -223,7 +223,7 @@ public class UcozSynchronizeController {
     public ResponseEntity<?> syncCategoriesFromSnap() {
         List<Category> categories = new ArrayList<>();
         //TODO download backup and change to local host
-        snapshotCategoryRepository.findAll().forEach(sc -> {
+        snapshotCategoryRepository.findAllByOrderByLevelAsc().forEach(sc -> {
             categories.add(convertToDbCategory(sc));
         });
         categoryService.updateAll(categories);
@@ -237,14 +237,12 @@ public class UcozSynchronizeController {
         category.setName(sc.getName());
         //TODO something
 //        category.setMetaTitle(sc.getName());
-
-        Integer parentId = sc.getParentId();
-        SnapshotCategory sParent = snapshotCategoryRepository.findById(parentId).orElse(null);
-        Category parent = null;
-        if(sParent != null) {
-            parent = convertToDbCategory(sParent);
+        if (sc.getParentId() != 0) {
+            category.setParent(
+                    categoryService.getByName(
+                            snapshotCategoryRepository.findById(
+                                    sc.getParentId()).get().getName()));
         }
-        category.setParent(parent);
         if(!StringUtils.isEmpty(sc.getImageUrl())) {
             try {
                 CategoryImage image = new CategoryImage();

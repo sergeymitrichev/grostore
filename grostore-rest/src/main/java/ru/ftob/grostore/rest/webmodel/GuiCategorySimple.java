@@ -6,6 +6,7 @@ public class GuiCategorySimple {
 
     private Integer id;
     private List<GuiCategorySimple> children;
+    private List<GuiImage> images;
     private String description;
     private String name;
     private Integer entriesCount;
@@ -55,5 +56,13 @@ public class GuiCategorySimple {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<GuiImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<GuiImage> images) {
+        this.images = images;
     }
 }

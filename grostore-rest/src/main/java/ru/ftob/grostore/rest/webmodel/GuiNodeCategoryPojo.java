@@ -4,7 +4,11 @@ public class GuiNodeCategoryPojo {
     private Integer id;
     private String name;
     private String description;
+    private String imageUrl;
+    private String imageAlt;
+    private String imageTitle;
     private GuiNodeCategoryPojo parent;
+    private String hgu;
 
     public GuiNodeCategoryPojo() {
     }
@@ -44,5 +48,37 @@ public class GuiNodeCategoryPojo {
 
     public void setParent(GuiNodeCategoryPojo parent) {
         this.parent = parent;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageAlt() {
+        return imageAlt;
+    }
+
+    public void setImageAlt(String imageAlt) {
+        this.imageAlt = imageAlt;
+    }
+
+    public String getImageTitle() {
+        return imageTitle;
+    }
+
+    public void setImageTitle(String imageTitle) {
+        this.imageTitle = imageTitle;
+    }
+
+    public String getHgu() {
+        return hgu;
+    }
+
+    public void setHgu(String hgu) {
+        this.hgu = hgu;
     }
 }

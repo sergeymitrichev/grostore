@@ -60,6 +60,11 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      menu: false
+    }
+  },
   computed: {
     ...mapGetters(['loggedInUser'])
   },

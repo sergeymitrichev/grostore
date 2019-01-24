@@ -122,7 +122,9 @@
                     flat
                     large
                     round 
-                    color="success">Каталог продуктов</v-btn>
+                    color="success"
+                    @click.stop="showCategoryTree"
+                  >Каталог продуктов</v-btn>
                   <v-btn 
                     large
                     round
@@ -247,6 +249,7 @@
         </v-layout>
       </v-container>
     </v-container>
+    <category-tree :drawer="categoryTree.drawer"/>
   </div>
 </template>
 
@@ -256,6 +259,7 @@ import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import RegisterForm from '~/components/account/RegisterForm.vue'
 import Notification from '~/components/Notification.vue'
 import AccountMenu from '~/components/account/AccountMenu'
+import CategoryTree from '~/components/category/CategoryTree.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -265,10 +269,14 @@ export default {
     VuetifyLogo,
     RegisterForm,
     Notification,
-    AccountMenu
+    AccountMenu,
+    CategoryTree
   },
   data() {
     return {
+      categoryTree: {
+        drawer: false
+      },
       dialog: false,
       valid: true,
       email: 'sergeymitrichev@gmail.com',
@@ -296,10 +304,13 @@ export default {
         this.$router.push('/')
         this.dialog = false
       } catch (e) {
-        console.log(Cookie.get('auth._token.local'))
         console.log(e)
         this.error = e.response.data.message
       }
+    },
+    showCategoryTree() {
+      this.categoryTree.drawer = null
+      this.categoryTree.drawer = true
     }
   }
 }

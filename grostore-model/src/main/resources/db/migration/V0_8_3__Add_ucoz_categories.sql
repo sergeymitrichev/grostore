@@ -1,3 +1,5 @@
+ALTER TABLE ucoz_categories_snapshot ALTER COLUMN descr TYPE varchar(4000);
+
 INSERT INTO ucoz_categories_snapshot (id, descr, cat_img_url, cat_level, forename, parent_id, num_entries, url) VALUES (24048, '', '', 2, 'Тайская косметика', 20991, 35, '//minutka-nn.ru/shop/gigiena-i-kosmetika/tajskaja-kosmetika') ON CONFLICT (id) DO NOTHING;
 INSERT INTO ucoz_categories_snapshot (id, descr, cat_img_url, cat_level, forename, parent_id, num_entries, url) VALUES (20959, '', '/_sh/209/20959c.jpg', 1, 'Фрукты, Овощи, Грибы, Ягоды и Зелень', 0, 400, '//minutka-nn.ru/shop/frukty-ovoshhi-griby-jagody-i-zelen') ON CONFLICT (id) DO NOTHING;
 INSERT INTO ucoz_categories_snapshot (id, descr, cat_img_url, cat_level, forename, parent_id, num_entries, url) VALUES (20960, '', '/_sh/209/20960c.jpg', 2, 'Овощи', 20959, 180, '//minutka-nn.ru/shop/frukty-ovoshhi-griby-jagody-i-zelen/ovoshhi') ON CONFLICT (id) DO NOTHING;

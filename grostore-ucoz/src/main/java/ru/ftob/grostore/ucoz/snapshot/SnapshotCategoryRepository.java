@@ -13,6 +13,8 @@ public interface SnapshotCategoryRepository extends CrudRepository<SnapshotCateg
     @Override
     Iterable<SnapshotCategory> findAll();
 
+    Iterable<SnapshotCategory> findAllByOrderByLevelAsc();
+
     SnapshotCategory findByName(String name);
 
     Iterable<SnapshotCategory> findAllByParentId(Integer parentId);
