@@ -1,10 +1,14 @@
 export const state = () => ({
-  user: null
+  loading: true
 })
 
 export const getters = {
   isAuthenticated(state) {
     return state.auth.loggedIn
+  },
+
+  isLoading(state) {
+    return state.loading
   },
 
   loggedInUser(state) {
@@ -13,8 +17,8 @@ export const getters = {
 }
 
 export const mutations = {
-  SET_PROFILE: (state, user) => {
-    state.user = user
+  SET_LOADING: (state, loading) => {
+    state.loading = loading
   }
 }
 
@@ -23,5 +27,6 @@ export const actions = {
     console.log('*** init. store is:')
     console.log(store)
     await store.dispatch('categories/GET_CATEGORIES_TREE')
+    await store.dispatch('categories/GET_CATEGORIES_LIST')
   }
 }

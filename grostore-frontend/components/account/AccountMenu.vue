@@ -70,7 +70,9 @@ export default {
   },
   methods: {
     async logout() {
+      this.$store.commit('SET_LOADING', true)
       await this.$auth.logout()
+      this.$store.commit('SET_LOADING', false)
     }
   }
 }

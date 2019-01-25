@@ -7,7 +7,7 @@
     flat
   >
     <v-list 
-      two-line="true"
+      two-line
       class="warning">
       <v-list-tile 
         color="white">

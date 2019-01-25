@@ -2,6 +2,7 @@
   <div>
     <v-parallax 
       height="700"
+      class="warning"
       src="/index.png">
       <v-container 
         fluid>
@@ -58,7 +59,17 @@
                 round
                 color="info"
                 @click="dialog = true"
-              >Вход</v-btn>
+              >
+                <template v-if="isLoading">
+                  <v-progress-circular
+                    indeterminate
+                    color="white"
+                  />
+                </template>
+                <template v-else>
+                  Вход
+                </template>
+              </v-btn>
               <account-menu v-if="isAuthenticated" />
             </div>
           </v-flex>
@@ -93,6 +104,7 @@
           </v-card>
         </v-dialog>
         <v-layout 
+          v-if="!isLoading"
           row 
           justify-center>
           <v-flex 
@@ -290,10 +302,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['isAuthenticated', 'isLoading'])
+  },
+  mounted() {
+    this.$store.commit('SET_LOADING', false)
   },
   methods: {
     async login() {
+      this.$store.commit('SET_LOADING', true)
       try {
         await this.$auth.loginWith('local', {
           data: {
@@ -306,6 +322,8 @@ export default {
       } catch (e) {
         console.log(e)
         this.error = e.response.data.message
+      } finally {
+        this.$store.commit('SET_LOADING', false)
       }
     },
     showCategoryTree() {

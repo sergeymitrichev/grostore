@@ -52,7 +52,8 @@ module.exports = {
     [
       '@nuxtjs/axios',
       {
-        baseURL: 'http://localhost:6100'
+        //baseURL: 'http://localhost:6100'
+        baseURL: 'http://ovz1.j597433.m19vp.vps.myjino.ru:49341'
       }
     ],
     '@nuxtjs/auth',
@@ -66,12 +67,12 @@ module.exports = {
     logLevel: 'debug'
   },
   proxy: {
-    //'/api': { target: 'http://ovz1.j597433.m19vp.vps.myjino.ru:49341/', pathRewrite: { '^/api/': '' } }
+    '/api': { target: 'http://ovz1.j597433.m19vp.vps.myjino.ru:49341/', pathRewrite: { '^/api/': '' } }
     //'/api': { target: 'http://127.0.0.1:49341/', pathRewrite: { '^/api': '' } }
-    '/api/': {
+    /*'/api/': {
       target: 'http://localhost:6100/',
       pathRewrite: { '^/api/': '' }
-    }
+    }*/
   },
 
   auth: {
