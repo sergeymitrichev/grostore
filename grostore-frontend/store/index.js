@@ -27,6 +27,5 @@ export const actions = {
     console.log('*** init. store is:')
     console.log(store)
     await store.dispatch('categories/GET_CATEGORIES_TREE')
-    await store.dispatch('categories/GET_CATEGORIES_LIST')
   }
 }

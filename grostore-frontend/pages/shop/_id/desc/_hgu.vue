@@ -10,7 +10,7 @@ import { mapGetters } from 'vuex'
 export default {
   layout: 'catalog',
   computed: mapGetters({
-    products: 'products/get'
+    product: 'products/getDetail'
   })
 }
 </script>

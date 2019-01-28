@@ -21,7 +21,7 @@ export default {
   async fetch({ store, params }) {
     await store.dispatch('categories/GET_CATEGORY', params)
     await store.dispatch('products/getCategoryProductList', {
-      catId: store.state.categories.categoryDetail.id
+      cid: this.category.id
     })
   }
 }

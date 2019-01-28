@@ -4,18 +4,11 @@ export const state = () => ({
   categoryDetail: null
 })
 
-import {
-  SET_CATEGORIES_TREE,
-  SET_CATEGORIES_LIST,
-  SET_CATEGORY
-} from '../mutation-types'
+import { SET_CATEGORIES_TREE, SET_CATEGORY } from '../mutation-types'
 
 export const mutations = {
   [SET_CATEGORIES_TREE]: (state, tree) => {
     state.tree = tree
-  },
-  [SET_CATEGORIES_LIST]: (state, page) => {
-    state.list = page.content
   },
   [SET_CATEGORY]: (state, categoryDetail) => {
     state.categoryDetail = categoryDetail
@@ -40,10 +33,6 @@ export const actions = {
   async GET_CATEGORIES_TREE({ commit }) {
     const { data } = await this.$axios.get('/categories/tree')
     commit(types.SET_CATEGORIES_TREE, data)
-  },
-  async GET_CATEGORIES_LIST({ commit }) {
-    const { data } = await this.$axios.get('/categories')
-    commit(types.SET_CATEGORIES_LIST, data)
   },
   async GET_CATEGORY({ commit }, payload) {
     const { data } = await this.$axios.get(`/categories/1`)
