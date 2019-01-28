@@ -40,6 +40,10 @@ public abstract class AbstractPublishedEntity<T extends AbstractEntityImage> ext
     public AbstractPublishedEntity() {
     }
 
+    public AbstractPublishedEntity(@NotBlank @Size(min = 2, max = 100) String name) {
+        super(name);
+    }
+
     public AbstractEntityImage getMetaImage() {
         return metaImage;
     }

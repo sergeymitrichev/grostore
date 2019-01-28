@@ -3,7 +3,11 @@ package ru.ftob.grostore.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poiji.bind.Poiji;
 import com.poiji.option.PoijiOptions;
-import javassist.compiler.NoFieldException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ftob.grostore.model.image.CategoryImage;
+import ru.ftob.grostore.model.product.Price;
+import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
+import ru.ftob.grostore.model.productlist.Brand;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.rest.storage.StorageService;
-import ru.ftob.grostore.service.file.FileStorageService;
 import ru.ftob.grostore.service.file.FileStorageServiceImpl;
 import ru.ftob.grostore.service.productlist.CategoryService;
 import ru.ftob.grostore.service.util.XlsHandlerUtil;
@@ -32,15 +38,18 @@ import ru.ftob.grostore.ucoz.snapshot.SnapshotCategory;
 import ru.ftob.grostore.ucoz.snapshot.SnapshotCategoryRepository;
 import ru.ftob.grostore.ucoz.snapshot.SnapshotProduct;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static ru.ftob.grostore.model.product.PriceType.*;
 
 @RestController
 @RequestMapping("/sync")
@@ -186,8 +195,8 @@ public class UcozSynchronizeController {
             File tmp = new File(storageService.getRootLocation() + "/" + file.getOriginalFilename());
             ArrayList<ProductImportFieldType> fields = new ArrayList<>();
             int i = 0;
-            while(i <= Math.max(skuColumn, priceColumn)) {
-                if(i == skuColumn) {
+            while (i <= Math.max(skuColumn, priceColumn)) {
+                if (i == skuColumn) {
                     fields.add(ProductImportFieldType.SKU);
                 } else if (i == priceColumn) {
                     fields.add(ProductImportFieldType.PRICE_IN);
@@ -223,7 +232,7 @@ public class UcozSynchronizeController {
     public ResponseEntity<?> syncCategoriesFromSnap() {
         List<Category> categories = new ArrayList<>();
         //TODO download backup and change to local host
-        snapshotCategoryRepository.findAll().forEach(sc -> {
+        snapshotCategoryRepository.findAllByOrderByLevelAsc().forEach(sc -> {
             categories.add(convertToDbCategory(sc));
         });
         categoryService.updateAll(categories);
@@ -237,15 +246,13 @@ public class UcozSynchronizeController {
         category.setName(sc.getName());
         //TODO something
 //        category.setMetaTitle(sc.getName());
-
-        Integer parentId = sc.getParentId();
-        SnapshotCategory sParent = snapshotCategoryRepository.findById(parentId).orElse(null);
-        Category parent = null;
-        if(sParent != null) {
-            parent = convertToDbCategory(sParent);
+        if (sc.getParentId() != 0) {
+            category.setParent(
+                    categoryService.getByName(
+                            snapshotCategoryRepository.findById(
+                                    sc.getParentId()).get().getName()));
         }
-        category.setParent(parent);
-        if(!StringUtils.isEmpty(sc.getImageUrl())) {
+        if (!StringUtils.isEmpty(sc.getImageUrl())) {
             try {
                 CategoryImage image = new CategoryImage();
                 String imageName = "/img/c/" + sc.getId() + "." + fileStorageService.getFileExtension(sc.getImageUrl());
@@ -260,7 +267,7 @@ public class UcozSynchronizeController {
             }
         }
         try {
-            if(null == categoryService.getByName(category.getName())) {
+            if (null == categoryService.getByName(category.getName())) {
                 category = categoryService.create(category);
             } else {
                 category = categoryService.update(category);
@@ -270,5 +277,66 @@ public class UcozSynchronizeController {
         }
 
         return category;
+    }
+
+    @PostMapping("/products-from-backup")
+    public ResponseEntity<?> productsFromBackup(@RequestParam("file") MultipartFile file) {
+        try {
+            InputStream inputStream = new ByteArrayInputStream(file.getBytes());
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            Sheet firstSheet = workbook.getSheetAt(0);
+
+            Iterator<Row> iterator = firstSheet.iterator();
+            Row row = firstSheet.getRow(1);
+
+            Iterator<Cell> cellIterator = row.cellIterator();
+
+            List<Product> products = new ArrayList<>();
+            while (iterator.hasNext()) {
+                Product product = new Product();
+                product.addCategory(
+                        categoryService.get(
+                                new Double(row.getCell(1).getNumericCellValue()).intValue()));
+                product.setHgu(row.getCell(3).getStringCellValue());
+                product.setBrand(new Brand(row.getCell(4).getStringCellValue()));
+                product.setBrief(row.getCell(5).getStringCellValue());
+                product.setName(row.getCell(6).getStringCellValue());
+                product.setDescription(row.getCell(7).getStringCellValue());
+                product.addPrice(new Price(
+                        new Double(row.getCell(11).getNumericCellValue()).intValue(),
+                        PRICE_TYPE_SOLD
+                        ));
+                product.addPrice(new Price(
+                        new Double(row.getCell(12).getNumericCellValue()).intValue(),
+                        PRICE_TYPE_IN
+                ));
+                product.addPrice(new Price(
+                        new Double(row.getCell(13).getNumericCellValue()).intValue(),
+                        PRICE_TYPE_OLD_SOLD
+                ));
+                product.setEnabled(!row.getCell(15).getBooleanCellValue());
+                product.setMetaTitle(row.getCell(17).getStringCellValue());
+                product.setDescription(row.getCell(18).getStringCellValue());
+                product.setCreated(
+                        LocalDateTime.ofInstant(
+                                Instant.ofEpochMilli(
+                                        new Double(
+                                                row.getCell(21)
+                                                        .getNumericCellValue())
+                                                .intValue()), TimeZone
+                        .getDefault().toZoneId()));
+                product.setUpdated(
+                        LocalDateTime.ofInstant(
+                                Instant.ofEpochMilli(
+                                        new Double(
+                                                row.getCell(23)
+                                                        .getNumericCellValue())
+                                                .intValue()), TimeZone
+                                        .getDefault().toZoneId()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok().build();
     }
 }

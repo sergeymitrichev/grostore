@@ -6,6 +6,7 @@ import ru.ftob.grostore.model.image.ProductImage;
 import ru.ftob.grostore.model.ingredient.Ingredient;
 import ru.ftob.grostore.model.modification.ModificationFloatValue;
 import ru.ftob.grostore.model.modification.ModificationStringValue;
+import ru.ftob.grostore.model.productlist.Brand;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
@@ -97,6 +98,10 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @OrderColumn(name = "weight")
     private Set<Product> recommended;
 
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
     public Product() {
     }
 
@@ -106,6 +111,10 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void setPrices(List<Price> prices) {
         this.prices = prices;
+    }
+
+    public void addPrice(Price price) {
+        this.prices.add(price);
     }
 
     public String getSku() {
@@ -190,6 +199,14 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void setRecommended(Set<Product> recommended) {
         this.recommended = recommended;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     @Override
