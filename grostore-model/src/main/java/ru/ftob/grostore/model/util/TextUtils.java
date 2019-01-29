@@ -44,6 +44,6 @@ public class TextUtils {
             });
         }
 
-        return builder.toString();
+        return builder.toString().toLowerCase();
     }
 }
