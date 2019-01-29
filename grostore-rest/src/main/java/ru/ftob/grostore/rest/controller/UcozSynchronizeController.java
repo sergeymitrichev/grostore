@@ -3,9 +3,6 @@ package ru.ftob.grostore.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poiji.bind.Poiji;
 import com.poiji.option.PoijiOptions;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
@@ -21,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ftob.grostore.model.image.CategoryImage;
-import ru.ftob.grostore.model.product.Price;
-import ru.ftob.grostore.model.product.Product;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
-import ru.ftob.grostore.model.productlist.Brand;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.rest.storage.StorageService;
+import ru.ftob.grostore.ucoz.UcozSynchronizeService;
 import ru.ftob.grostore.service.file.FileStorageServiceImpl;
+import ru.ftob.grostore.service.product.ProductService;
 import ru.ftob.grostore.service.productlist.CategoryService;
+import ru.ftob.grostore.service.stock.StockService;
 import ru.ftob.grostore.service.util.XlsHandlerUtil;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 import ru.ftob.grostore.service.xlsto.XlsProduct;
@@ -44,12 +41,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static ru.ftob.grostore.model.product.PriceType.*;
 
 @RestController
 @RequestMapping("/sync")
@@ -69,13 +65,22 @@ public class UcozSynchronizeController {
 
     private final CategoryService categoryService;
 
+    private final ProductService productService;
+
+    private final StockService stockService;
+
+    private final UcozSynchronizeService synchronizeService;
+
     @Autowired
-    public UcozSynchronizeController(StorageService storageService, FileStorageServiceImpl fileStorageService, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotHandler handler, CategoryService categoryService) {
+    public UcozSynchronizeController(StorageService storageService, FileStorageServiceImpl fileStorageService, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotHandler handler, CategoryService categoryService, ProductService productService, StockService stockService, UcozSynchronizeService synchronizeService) {
         this.storageService = storageService;
         this.fileStorageService = fileStorageService;
         this.snapshotCategoryRepository = snapshotCategoryRepository;
         this.handler = handler;
         this.categoryService = categoryService;
+        this.productService = productService;
+        this.stockService = stockService;
+        this.synchronizeService = synchronizeService;
     }
 
     @PostMapping("/products/snapshot")
@@ -232,7 +237,7 @@ public class UcozSynchronizeController {
     public ResponseEntity<?> syncCategoriesFromSnap() {
         List<Category> categories = new ArrayList<>();
         //TODO download backup and change to local host
-        snapshotCategoryRepository.findAllByOrderByLevelAsc().forEach(sc -> {
+        snapshotCategoryRepository.findAll().forEach(sc -> {
             categories.add(convertToDbCategory(sc));
         });
         categoryService.updateAll(categories);
@@ -284,56 +289,8 @@ public class UcozSynchronizeController {
         try {
             InputStream inputStream = new ByteArrayInputStream(file.getBytes());
             Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet firstSheet = workbook.getSheetAt(0);
+            synchronizeService.saveProducts(workbook);
 
-            Iterator<Row> iterator = firstSheet.iterator();
-            Row row = firstSheet.getRow(1);
-
-            Iterator<Cell> cellIterator = row.cellIterator();
-
-            List<Product> products = new ArrayList<>();
-            while (iterator.hasNext()) {
-                Product product = new Product();
-                product.addCategory(
-                        categoryService.get(
-                                new Double(row.getCell(1).getNumericCellValue()).intValue()));
-                product.setHgu(row.getCell(3).getStringCellValue());
-                product.setBrand(new Brand(row.getCell(4).getStringCellValue()));
-                product.setBrief(row.getCell(5).getStringCellValue());
-                product.setName(row.getCell(6).getStringCellValue());
-                product.setDescription(row.getCell(7).getStringCellValue());
-                product.addPrice(new Price(
-                        new Double(row.getCell(11).getNumericCellValue()).intValue(),
-                        PRICE_TYPE_SOLD
-                        ));
-                product.addPrice(new Price(
-                        new Double(row.getCell(12).getNumericCellValue()).intValue(),
-                        PRICE_TYPE_IN
-                ));
-                product.addPrice(new Price(
-                        new Double(row.getCell(13).getNumericCellValue()).intValue(),
-                        PRICE_TYPE_OLD_SOLD
-                ));
-                product.setEnabled(!row.getCell(15).getBooleanCellValue());
-                product.setMetaTitle(row.getCell(17).getStringCellValue());
-                product.setDescription(row.getCell(18).getStringCellValue());
-                product.setCreated(
-                        LocalDateTime.ofInstant(
-                                Instant.ofEpochMilli(
-                                        new Double(
-                                                row.getCell(21)
-                                                        .getNumericCellValue())
-                                                .intValue()), TimeZone
-                        .getDefault().toZoneId()));
-                product.setUpdated(
-                        LocalDateTime.ofInstant(
-                                Instant.ofEpochMilli(
-                                        new Double(
-                                                row.getCell(23)
-                                                        .getNumericCellValue())
-                                                .intValue()), TimeZone
-                                        .getDefault().toZoneId()));
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }

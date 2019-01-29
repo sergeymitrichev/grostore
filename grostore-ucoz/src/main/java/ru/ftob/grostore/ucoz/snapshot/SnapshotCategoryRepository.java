@@ -1,9 +1,11 @@
 package ru.ftob.grostore.ucoz.snapshot;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
+@Repository
 public interface SnapshotCategoryRepository extends CrudRepository<SnapshotCategory, Integer> {
 
     @Override
