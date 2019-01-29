@@ -27,6 +27,7 @@ import java.util.Set;
                 @NamedAttributeNode("ingredients"),
                 @NamedAttributeNode("alsoBuy"),
                 @NamedAttributeNode("recommended"),
+                @NamedAttributeNode("brand"),
                 @NamedAttributeNode("analytic")
         }
 )
@@ -98,9 +99,12 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @OrderColumn(name = "weight")
     private Set<Product> recommended;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    @Column(name = "weight")
+    private Integer weight;
 
     public Product() {
     }
@@ -207,6 +211,14 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     @Override
