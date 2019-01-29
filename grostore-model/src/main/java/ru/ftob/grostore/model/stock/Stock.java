@@ -39,6 +39,10 @@ public class Stock extends AbstractNamedEntity {
         this.products = products;
     }
 
+    public void addProduct(ProductInStock product) {
+        products.add(product);
+    }
+
     @Override
     public String toString() {
         return "Stock{" +
