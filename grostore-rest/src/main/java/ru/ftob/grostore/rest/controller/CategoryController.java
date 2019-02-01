@@ -31,7 +31,7 @@ public class CategoryController extends AbstractRestController<Category, Integer
     }
 
     @Override
-    @GetMapping(value = {"/", ""})
+    @GetMapping
     public ResponseEntity<?> getAll(Pageable pageable) {
         return ResponseEntity.ok(
                 ModelMapperUtils.mapPage(

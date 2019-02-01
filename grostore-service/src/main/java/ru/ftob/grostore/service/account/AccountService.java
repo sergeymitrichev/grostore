@@ -1,23 +1,12 @@
 package ru.ftob.grostore.service.account;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import ru.ftob.grostore.model.account.Account;
+import ru.ftob.grostore.service.BaseService;
 
-import java.util.Optional;
+public interface AccountService extends BaseService<Account, Integer> {
 
-public interface AccountService {
+    Account getByEmail(String email);
 
-    Account get(Integer id);
-
-    Page<Account> getAll(Pageable pageable);
-
-    void create(Account account);
-
-    void update(Account account);
-
-    void delete(Integer id);
-
-    Optional<Account> getByEmail(String email);
+    Account getByPhone(String phone);
 
 }

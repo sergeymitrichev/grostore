@@ -21,6 +21,10 @@ public class GuiProduct {
     private Set<GuiImage> images;
     private Set<GuiModificationStringValue> modificationStringValues;
     private Set<GuiModificationFloatValue> modificationFloatValues;
+    private Set<GuiIngredient> ingredients;
+    private GuiProductAnalytic analytic;
+    private Set<GuiProductSimple> recommended;
+    private Set<GuiProductSimple> alsoBuy;
 
     public GuiProduct() {
     }
@@ -157,5 +161,37 @@ public class GuiProduct {
 
     public void setModificationFloatValues(Set<GuiModificationFloatValue> modificationFloatValues) {
         this.modificationFloatValues = modificationFloatValues;
+    }
+
+    public Set<GuiIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<GuiIngredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public GuiProductAnalytic getAnalytic() {
+        return analytic;
+    }
+
+    public void setAnalytic(GuiProductAnalytic analytic) {
+        this.analytic = analytic;
+    }
+
+    public Set<GuiProductSimple> getRecommended() {
+        return recommended;
+    }
+
+    public void setRecommended(Set<GuiProductSimple> recommended) {
+        this.recommended = recommended;
+    }
+
+    public Set<GuiProductSimple> getAlsoBuy() {
+        return alsoBuy;
+    }
+
+    public void setAlsoBuy(Set<GuiProductSimple> alsoBuy) {
+        this.alsoBuy = alsoBuy;
     }
 }

@@ -1,54 +1,110 @@
-image: java:8-jdk
-
-services:
-- postgres:10.6
-
 stages:
-  - build
-  - test
-  - deploy
+- build
+- deploy
 
-variables:
-  POSTGRES_DB: grostore
-  POSTGRES_USER: admin
-  POSTGRES_PASSWORD: "password"
-
-before_script:
-#  - echo `pwd` # debug
-#  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
-  - export GRADLE_USER_HOME=`pwd`/.gradle
+build frontend:
+  image: node:8
+  stage: build
+  script:
+  - cd grostore-frontend
+  - yarn
+  - yarn run build
+  - ls -a
+  - echo "build front successfull"
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - grostore-frontend/.nuxt/dist
 
 cache:
   paths:
-    - .gradle/wrapper
-    - .gradle/caches
+  - .gradle/wrapper
+  - .gradle/caches
+  - grostore-frontend/node_modules
 
-build:
+build backend:
+  image: java:8-jdk
   stage: build
   script:
-    - ./gradlew assemble
+  - ./gradlew assemble
+  - ls -a
   artifacts:
     paths:
-      - grostore-rest/build/libs/*.jar
+    - grostore-rest/build/libs/*.jar
     expire_in: 1 week
-  only:
-    - master
 
-test:
-  stage: test
-  script:
-    - ./gradlew check --stacktrace
-  only:
-    - master
-    - develop
-
-deploy:
+deploy backend:
   stage: deploy
   script:
-    - ./gradlew ftp
+  - ls -a
+  - echo "deploy frontend"
   only:
-    - master
-    - develop
+  - master
+  - develop
+
+deploy frontend:
+  image: alpine
+  stage: deploy
+  script:
+  - ls -a
+  - echo "deploy frontend"
+  - apk add --no-cache rsync openssh
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+  - chmod 600 ~/.ssh/id_dsa
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - rsync -rav --delete dist/ gitlab@ovz1.j597433.m19vp.vps.myjino.ru:/var/www/domains/ovz1.j597433.m19vp.vps.myjino.ru/frontend/
+#image: java:8-jdk
+#
+#services:
+#- postgres:10.6
+#
+##stages:
+##  - build
+##  - test
+##  - deploy
+#
+#variables:
+#  POSTGRES_DB: grostore
+#  POSTGRES_USER: admin
+#  POSTGRES_PASSWORD: "password"
+#
+#before_script:
+##  - echo `pwd` # debug
+##  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
+#  - export GRADLE_USER_HOME=`pwd`/.gradle
+#
+#cache:
+#  paths:
+#    - .gradle/wrapper
+#    - .gradle/caches
+#
+#build:
+#  stage: build
+#  script:
+#    - ./gradlew assemble
+#  artifacts:
+#    paths:
+#      - grostore-rest/build/libs/*.jar
+#    expire_in: 1 week
+#  only:
+#    - master
+#
+#test:
+#  stage: test
+#  script:
+#    - ./gradlew check --stacktrace
+#  only:
+#    - master
+#    - develop
+#
+#deploy:
+#  stage: deploy
+#  script:
+#    - ./gradlew ftp
+#  only:
+#    - master
+#    - develop
 
 after_script:
 - echo "End CI"

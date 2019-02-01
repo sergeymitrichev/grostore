@@ -29,7 +29,7 @@ public class AuditorAwareImpl implements AuditorAware<Account> {
             try {
                 UserDetails userDetails =
                         (UserDetails) authentication.getPrincipal();
-                auditor = accountService.getByEmail(userDetails.getUsername());
+                auditor = Optional.of(accountService.getByEmail(userDetails.getUsername()));
             } catch (ClassCastException e) {
                 auditor = Optional.of(accountService.get(1));
                 log.error("Can't cast principal to userDetails");

@@ -1,25 +1,31 @@
 package ru.ftob.grostore.rest.webmodel;
 
+import ru.ftob.grostore.model.account.Role;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GuiAccount {
-    private int id;
+    private Integer id;
     private String name;
     private String email;
     private String phone;
+    private String password;
     private LocalDateTime created;
     private LocalDateTime updated;
     private LocalDateTime visited;
-
+    private Boolean enabled;
+    private Set<Role> roles = new HashSet<>();
 
     public GuiAccount() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -69,5 +75,47 @@ public class GuiAccount {
 
     public void setVisited(LocalDateTime visited) {
         this.visited = visited;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "GuiAccount{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", visited=" + visited +
+                ", roles=" + roles +
+                '}';
     }
 }

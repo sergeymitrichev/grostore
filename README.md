@@ -1,8 +1,29 @@
 # GroStore
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6eb0ff0c92f64ea78e6d53727bda57b9)](https://app.codacy.com/app/sergeymitrichev/grostore?utm_source=github.com&utm_medium=referral&utm_content=sergeymitrichev/grostore&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://travis-ci.org/sergeymitrichev/grostore.svg?branch=master)](https://travis-ci.org/sergeymitrichev/grostore)
+[![pipeline status](https://gitlab.com/sergeymitrichev/grostore/badges/master/pipeline.svg)](https://gitlab.com/sergeymitrichev/grostore/commits/master)
+[![coverage report](https://gitlab.com/sergeymitrichev/grostore/badges/master/coverage.svg)](https://gitlab.com/sergeymitrichev/grostore/commits/master)
 
 GroStore application based on Spring: Boot, MVC, Data JPA, Flyway, Security (OAuth); Jackson; Vue; NuxtJs.
+
+## v0.8
+**REST module**
+* Add swagger JSON api doc
+* Add account register controller
+* Create ucoz products parser from backup
+* Make edit/create methods default-secured (for admin only)
+
+**Model** 
+* Add product ingredients, barcode, weight
+* Add analytics to entities
+* Add "also buy" and "recommended" products
+* Add product brands
+
+**Frontend**
+Init NuxtJS SPA with SSR in universal mode.
+* Add example main page
+* Add Vuex store and routes by project folders
+* Setup axios and auth
 
 ## v0.7
 Update Spring versions

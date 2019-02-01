@@ -98,7 +98,7 @@ public class Category extends AbstractPublishedEntity<CategoryImage> {
         this.stringModifications = stringModifications;
     }
 
-    public void addFloatModification(ModificationString modification) {
+    public void addStringModification(ModificationString modification) {
         stringModifications.add(modification);
     }
 }

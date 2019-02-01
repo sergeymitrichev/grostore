@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.ftob.grostore.model.account.Account;
 import ru.ftob.grostore.persistence.account.AccountRepository;
+import ru.ftob.grostore.service.util.exception.NotFoundException;
 
-import java.util.Optional;
+import java.util.Collection;
 
 import static ru.ftob.grostore.service.util.ValidationUtil.checkNotFoundWithId;
 
@@ -34,15 +35,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void create(Account account) {
-        Assert.notNull(account, "Account must not be null");
-        accountRepository.save(account);
+    public Collection<Account> getAll() {
+        return accountRepository.findAll();
     }
 
     @Override
-    public void update(Account account) {
+    public Account create(Account account) {
         Assert.notNull(account, "Account must not be null");
-        accountRepository.save(account);
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Account update(Account account) {
+        Assert.notNull(account, "Account must not be null");
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Collection<Account> updateAll(Collection<Account> t) {
+        return accountRepository.saveAll(t);
     }
 
     @Override
@@ -51,7 +62,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> getByEmail(String email) {
-        return accountRepository.findByEmail(email);
+    public void deleteAll(Collection<Account> t) {
+        accountRepository.deleteAll(t);
+    }
+
+    @Override
+    public Account getByEmail(String email) {
+        return accountRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found entity with email = " + email));
+    }
+
+    @Override
+    public Account getByPhone(String phone) {
+        return accountRepository.findByPhone(phone).orElseThrow(() -> new NotFoundException("Not found entity with phone = " + phone));
     }
 }

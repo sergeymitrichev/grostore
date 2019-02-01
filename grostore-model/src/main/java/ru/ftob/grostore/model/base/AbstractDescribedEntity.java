@@ -1,6 +1,7 @@
 package ru.ftob.grostore.model.base;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +31,10 @@ public class AbstractDescribedEntity<T extends AbstractEntityImage> extends Abst
     private String description;
 
     public AbstractDescribedEntity() {
+    }
+
+    public AbstractDescribedEntity(@NotBlank @Size(min = 2, max = 100) String name) {
+        super(name);
     }
 
     public Set<T> getImages() {

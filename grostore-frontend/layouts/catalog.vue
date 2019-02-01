@@ -1,5 +1,6 @@
 <template>
   <div>
+    <category-tree :drawer="categoryTree.drawer"/>
     <v-container 
       mt-5
       grid-list-md 
@@ -30,6 +31,13 @@
             dark 
             color="primary">
             <v-card-text class="px-0">Content</v-card-text>
+            <v-btn 
+              flat
+              large
+              round 
+              color="success"
+              @click.stop="showCategoryTree"
+            >Каталог продуктов</v-btn>
           </v-card>
         </v-flex>
       </v-layout>
@@ -37,5 +45,29 @@
     <nuxt/>
   </div>
 </template>
+<script>
+import CategoryTree from '~/components/category/CategoryTree'
+import { mapGetters } from 'vuex'
+
+export default {
+  components: {
+    CategoryTree
+  },
+  data() {
+    return {
+      categoryTree: {
+        drawer: false
+      }
+    }
+  },
+  methods: {
+    showCategoryTree() {
+      this.categoryTree.drawer = null
+      this.categoryTree.drawer = true
+    }
+  }
+}
+</script>
+
 <style>
 </style>

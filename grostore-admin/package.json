@@ -1,6 +1,6 @@
 {
   "name": "grostore-admin",
-  "version": "0.7.6",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "build": "node build/build.js",
@@ -14,7 +14,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "lodash": "latest",
-    "sl-vue-tree": "^1.7.1",
+    "sl-vue-tree": "1.7.1",
     "vue": "2.5.17",
     "vue-drag-tree": "^1.1.0",
     "vue-router": "^3.0.1",
@@ -44,7 +44,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.1",
     "cross-spawn": "^5.0.1",
-    "css-loader": "^0.28.0",
+    "css-loader": "1.0.0",
     "eslint": "^4.15.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",

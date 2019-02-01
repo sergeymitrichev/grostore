@@ -1,5 +1,7 @@
 package ru.ftob.grostore.rest.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +15,10 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO add base validator for create/update
 public class AbstractRestController<T, ID, G> {
 
-    //TODO add logger
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Class<G> guiClass;
 
@@ -34,8 +37,9 @@ public class AbstractRestController<T, ID, G> {
         this.service = service;
     }
 
-    @GetMapping(value = {"/", ""})
+    @GetMapping
     public ResponseEntity<?> getAll(Pageable pageable) {
+        log.info("Get all entities by pageable. " + pageable);
         return ResponseEntity.ok(ModelMapperUtils.mapPage(service.getAll(pageable), guiClass, pageable));
     }
 
@@ -44,10 +48,13 @@ public class AbstractRestController<T, ID, G> {
         ResponseEntity<G> response = null;
         try {
             response = ResponseEntity.ok(ModelMapperUtils.map(service.get(id), guiClass));
+            log.info("Get entity by id = " + id);
         } catch (NotFoundException e) {
             response = ResponseEntity.notFound().build();
+            log.error(e.getMessage());
         } catch (Exception e) {
             response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            log.error(e.getMessage());
         }
         return response;
     }
@@ -55,8 +62,9 @@ public class AbstractRestController<T, ID, G> {
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> create(@RequestBody G guiEntity) {
-        T dbEntity = ModelMapperUtils.map(guiEntity, dbClass);
-        return ResponseEntity.ok(ModelMapperUtils.map(service.create(dbEntity), guiClass));
+        T saved = service.create(ModelMapperUtils.map(guiEntity, dbClass));
+        log.info("Entity created. " + saved);
+        return ResponseEntity.ok(ModelMapperUtils.map(saved, guiClass));
     }
 
     @PostMapping("/{id}")
@@ -65,30 +73,28 @@ public class AbstractRestController<T, ID, G> {
             @PathVariable ID id,
             @RequestBody G guiEntity
     ) {
-        T dbEntity = service.update(ModelMapperUtils.map(guiEntity, dbClass));
-        ResponseEntity<G> response = null;
-        try {
-            response = ResponseEntity.ok(ModelMapperUtils.map(dbEntity, guiClass));
-        } catch (NotFoundException e) {
-            response = ResponseEntity.notFound().build();
-        }
+        T updated = service.update(ModelMapperUtils.map(guiEntity, dbClass));
+        ResponseEntity<G> response = ResponseEntity.ok(ModelMapperUtils.map(updated, guiClass));
+        log.info("Entity with id = " + id + " updated. " + updated);
         return response;
     }
 
-    @PostMapping(value = {"/", ""})
+    @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateAll(
             @RequestBody List<G> guiEntities
     ) {
-        List<T> dbEntities = new ArrayList<>(service.updateAll(ModelMapperUtils.mapAll(guiEntities, dbClass)));
-        return ResponseEntity.ok(ModelMapperUtils.mapAll(dbEntities, guiClass));
+        List<T> updated = new ArrayList<>(service.updateAll(ModelMapperUtils.mapAll(guiEntities, dbClass)));
+        log.info("Entities updated. " + updated);
+        return ResponseEntity.ok(ModelMapperUtils.mapAll(updated, guiClass));
     }
 
-    @DeleteMapping(value = {"/", ""})
+    @DeleteMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteAll(@RequestBody List<G> guiList) {
         List<T> dbList = ModelMapperUtils.mapAll(guiList, dbClass);
         service.deleteAll(dbList);
+        log.info("Entities deleted. " + dbList);
         return ResponseEntity.ok().build();
     }
 }

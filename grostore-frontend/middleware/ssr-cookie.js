@@ -1,10 +1,8 @@
 import axios from 'axios'
 
 export default function({ isServer, req, res }) {
-  console.log('**** All ssr cookie')
-  console.log(res)
-
   if (isServer) {
+    console.log('*** is server')
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
     res.header('Access-Control-Allow-Credentials', true)
     res.header(

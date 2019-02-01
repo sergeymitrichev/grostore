@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = '/tasks';
+const BASE_URL = '/api/tasks';
 
 export default class TaskService {
 

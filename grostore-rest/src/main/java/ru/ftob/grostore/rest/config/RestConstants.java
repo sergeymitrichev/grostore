@@ -19,4 +19,11 @@ public class RestConstants {
 
     public static final String UCOZ_API_KEY = "ucoz";
 
+    public static final String VALIDATION_FIELD_EMAIL = "email";
+    public static final String VALIDATION_FIELD_PHONE = "phone";
+    public static final String VALIDATION_FIELD_EMPTY = "не указано";
+
+    public static final String VALIDATION_ERROR_NOT_EMPTY = "not_empty";
+    public static final String VALIDATION_ERROR_ALREADY_USE = "already_use";
+
 }
