@@ -40,6 +40,8 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
     @Transactional
     <S extends Product> List<S> saveAll(Iterable<S> entities);
 
+    @EntityGraph(value = "Product.detail", type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT p FROM Product p WHERE p.sku=?1")
     Optional<Product> findBySku(String sku);
 
     List<Product> findAll();

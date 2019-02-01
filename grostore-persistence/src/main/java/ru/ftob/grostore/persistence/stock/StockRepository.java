@@ -24,11 +24,11 @@ public interface StockRepository extends PagingAndSortingRepository<Stock, Integ
     @Override
     @Transactional
     @NonNull
-    <S extends Stock> S save(S stock);
+    <S extends Stock> S save(@NonNull S stock);
 
     @Override
     @NonNull
-    Optional<Stock> findById(Integer integer);
+    Optional<Stock> findById(@NonNull Integer integer);
 
     Optional<Stock> findByName(String name);
 
@@ -39,7 +39,7 @@ public interface StockRepository extends PagingAndSortingRepository<Stock, Integ
     @Override
     @Transactional
     @NonNull
-    <S extends Stock> Collection<S> saveAll(Iterable<S> entities);
+    <S extends Stock> Collection<S> saveAll(@NonNull Iterable<S> entities);
 
     @EntityGraph(attributePaths = {"products"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT s FROM Stock s WHERE s.id=?1")

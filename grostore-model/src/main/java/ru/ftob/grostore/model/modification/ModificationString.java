@@ -4,7 +4,10 @@ import ru.ftob.grostore.model.base.AbstractNamedEntity;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +18,12 @@ import java.util.List;
 public class ModificationString extends AbstractNamedEntity {
 
     @NotNull(message = "Modification string values list must not be null")
-    @OneToMany(mappedBy = "modificationString", fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<ModificationStringValue> values;
+    @OneToMany(
+            mappedBy = "modificationString",
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
+    private List<ModificationStringValue> values = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "category_string_modification",
@@ -25,6 +32,10 @@ public class ModificationString extends AbstractNamedEntity {
     private List<Category> categories;
 
     public ModificationString() {
+    }
+
+    public ModificationString(@NotBlank @Size(min = 2, max = 100) String name) {
+        super(name);
     }
 
     public List<ModificationStringValue> getValues() {

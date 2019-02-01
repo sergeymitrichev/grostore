@@ -12,12 +12,17 @@ import java.util.List;
         uniqueConstraints = {@UniqueConstraint(
                 columnNames = {"forename"},
                 name = "stock_unique_name_idx")})
+@NamedEntityGraph(name = "Stock.detail",
+        attributeNodes = {
+                @NamedAttributeNode("products")
+        }
+)
 public class Stock extends AbstractNamedEntity {
 
     @Column(name = "type", columnDefinition = "int default 0")
     private StockType type;
 
-    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductInStock> products = new ArrayList<>();
 
     public Stock() {

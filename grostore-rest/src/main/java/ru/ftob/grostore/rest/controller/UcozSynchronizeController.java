@@ -292,7 +292,7 @@ public class UcozSynchronizeController {
             synchronizeService.saveProducts(workbook);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Can't parse products from backup", e);
         }
         return ResponseEntity.ok().build();
     }

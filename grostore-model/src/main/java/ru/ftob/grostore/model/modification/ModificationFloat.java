@@ -4,6 +4,7 @@ import ru.ftob.grostore.model.base.AbstractNamedEntity;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -28,9 +29,14 @@ public class ModificationFloat extends AbstractNamedEntity {
     @JoinTable(name = "category_float_modification",
             joinColumns = @JoinColumn(name = "modification_float_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories;
+    private List<Category> categories = new ArrayList<>();
 
     public ModificationFloat() {
+    }
+
+    public ModificationFloat(@NotBlank @Size(min = 2, max = 100) String name, @Size(max = 56) String unit) {
+        super(name);
+        this.unit = unit;
     }
 
     public String getUnit() {

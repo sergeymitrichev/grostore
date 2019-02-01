@@ -21,6 +21,11 @@ public class ModificationFloatValue extends AbstractBaseEntity {
     public ModificationFloatValue() {
     }
 
+    public ModificationFloatValue(@NotNull(message = "Modification value must not be null") Float value, @NotNull(message = "Modification float must not be null") ModificationFloat modificationFloat) {
+        this.value = value;
+        this.modificationFloat = modificationFloat;
+    }
+
     public Float getValue() {
         return value;
     }

@@ -19,7 +19,7 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @NotBlank
     @Size(min = 3, max = 100)
-    @Column(name = "forename", nullable = false) //TODO add unique=true
+    @Column(name = "forename", nullable = false) //TODO add unique=true and fix equals/hashCode
     private String name;
 
     @Column(name = "enabled", columnDefinition = "boolean default true")
