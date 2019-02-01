@@ -13,11 +13,18 @@ public class GuiNodeCategorySerializer extends JsonSerializer<GuiNodeCategory> {
         pojo.setId(value.getId());
         pojo.setName(value.getName());
         pojo.setDescription(value.getDescription());
+        pojo.setHgu(value.getHgu());
         GuiNodeCategoryPojo pojoParent;
-        if(value.getParent() != null) {
+        if (value.getParent() != null) {
             pojoParent = new GuiNodeCategoryPojo(value.getParent().getId(), value.getParent().getName());
         } else {
             pojoParent = new GuiNodeCategoryPojo(null, null);
+        }
+        if (value.getImages().size() > 0) {
+            GuiImage image = value.getImages().get(0);
+            pojo.setImageUrl(image.getUrl());
+            pojo.setImageAlt(image.getAlt());
+            pojo.setImageTitle(image.getTitle());
         }
         pojo.setParent(pojoParent);
 

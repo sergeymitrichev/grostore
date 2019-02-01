@@ -11,10 +11,12 @@ public class GuiNodeCategory {
     private Integer id;
     private Category parent;
     private List<GuiNodeCategory> children;
+    private List<GuiImage> images;
     private String name;
     private String description;
     private Object data;
     private Integer entriesCount;
+    private String hgu;
 
     public GuiNodeCategory() {
     }
@@ -73,5 +75,21 @@ public class GuiNodeCategory {
 
     public void setEntriesCount(Integer entriesCount) {
         this.entriesCount = entriesCount;
+    }
+
+    public List<GuiImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<GuiImage> images) {
+        this.images = images;
+    }
+
+    public String getHgu() {
+        return hgu;
+    }
+
+    public void setHgu(String hgu) {
+        this.hgu = hgu;
     }
 }

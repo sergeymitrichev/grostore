@@ -60,12 +60,19 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      menu: false
+    }
+  },
   computed: {
     ...mapGetters(['loggedInUser'])
   },
   methods: {
     async logout() {
+      this.$store.commit('SET_LOADING', true)
       await this.$auth.logout()
+      this.$store.commit('SET_LOADING', false)
     }
   }
 }

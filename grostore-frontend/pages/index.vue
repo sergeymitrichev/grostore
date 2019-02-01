@@ -2,6 +2,7 @@
   <div>
     <v-parallax 
       height="700"
+      class="warning"
       src="/index.png">
       <v-container 
         fluid>
@@ -58,7 +59,17 @@
                 round
                 color="info"
                 @click="dialog = true"
-              >Вход</v-btn>
+              >
+                <template v-if="isLoading">
+                  <v-progress-circular
+                    indeterminate
+                    color="white"
+                  />
+                </template>
+                <template v-else>
+                  Вход
+                </template>
+              </v-btn>
               <account-menu v-if="isAuthenticated" />
             </div>
           </v-flex>
@@ -93,6 +104,7 @@
           </v-card>
         </v-dialog>
         <v-layout 
+          v-if="!isLoading"
           row 
           justify-center>
           <v-flex 
@@ -122,7 +134,9 @@
                     flat
                     large
                     round 
-                    color="success">Каталог продуктов</v-btn>
+                    color="success"
+                    @click.stop="showCategoryTree"
+                  >Каталог продуктов</v-btn>
                   <v-btn 
                     large
                     round
@@ -247,6 +261,7 @@
         </v-layout>
       </v-container>
     </v-container>
+    <category-tree :drawer="categoryTree.drawer"/>
   </div>
 </template>
 
@@ -256,6 +271,7 @@ import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import RegisterForm from '~/components/account/RegisterForm.vue'
 import Notification from '~/components/Notification.vue'
 import AccountMenu from '~/components/account/AccountMenu'
+import CategoryTree from '~/components/category/CategoryTree.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -265,10 +281,14 @@ export default {
     VuetifyLogo,
     RegisterForm,
     Notification,
-    AccountMenu
+    AccountMenu,
+    CategoryTree
   },
   data() {
     return {
+      categoryTree: {
+        drawer: false
+      },
       dialog: false,
       valid: true,
       email: 'sergeymitrichev@gmail.com',
@@ -282,10 +302,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['isAuthenticated', 'isLoading'])
+  },
+  mounted() {
+    this.$store.commit('SET_LOADING', false)
   },
   methods: {
     async login() {
+      this.$store.commit('SET_LOADING', true)
       try {
         await this.$auth.loginWith('local', {
           data: {
@@ -296,10 +320,15 @@ export default {
         this.$router.push('/')
         this.dialog = false
       } catch (e) {
-        console.log(Cookie.get('auth._token.local'))
         console.log(e)
         this.error = e.response.data.message
+      } finally {
+        this.$store.commit('SET_LOADING', false)
       }
+    },
+    showCategoryTree() {
+      this.categoryTree.drawer = null
+      this.categoryTree.drawer = true
     }
   }
 }

@@ -237,7 +237,7 @@ public class UcozSynchronizeController {
     public ResponseEntity<?> syncCategoriesFromSnap() {
         List<Category> categories = new ArrayList<>();
         //TODO download backup and change to local host
-        snapshotCategoryRepository.findAll().forEach(sc -> {
+        snapshotCategoryRepository.findAllByOrderByLevelAsc().forEach(sc -> {
             categories.add(convertToDbCategory(sc));
         });
         categoryService.updateAll(categories);
