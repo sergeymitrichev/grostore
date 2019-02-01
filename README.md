@@ -6,6 +6,25 @@
 
 GroStore application based on Spring: Boot, MVC, Data JPA, Flyway, Security (OAuth); Jackson; Vue; NuxtJs.
 
+## v0.8
+**REST module**
+* Add swagger JSON api doc
+* Add account register controller
+* Create ucoz products parser from backup
+* Make edit/create methods default-secured (for admin only)
+
+**Model** 
+* Add product ingredients, barcode, weight
+* Add analytics to entities
+* Add "also buy" and "recommended" products
+* Add product brands
+
+**Frontend**
+Init NuxtJS SPA with SSR in universal mode.
+* Add example main page
+* Add Vuex store and routes by project folders
+* Setup axios and auth
+
 ## v0.7
 Update Spring versions
 
