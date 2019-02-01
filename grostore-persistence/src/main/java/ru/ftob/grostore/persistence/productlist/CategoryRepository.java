@@ -19,6 +19,9 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
     @Query("SELECT c FROM Category c WHERE c.id=?1")
     Optional<Category> findById(@NonNull Integer id);
 
+    @NonNull
+    @EntityGraph(value = "Category.detail", type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT c FROM Category c WHERE c.name=?1")
     Optional<Category> findByName(String name);
 
     List<Category> findAllByParent(Category category);

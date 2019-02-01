@@ -3,7 +3,8 @@ package ru.ftob.grostore.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poiji.bind.Poiji;
 import com.poiji.option.PoijiOptions;
-import javassist.compiler.NoFieldException;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,11 @@ import ru.ftob.grostore.model.image.CategoryImage;
 import ru.ftob.grostore.model.product.ProductImportFieldType;
 import ru.ftob.grostore.model.productlist.Category;
 import ru.ftob.grostore.rest.storage.StorageService;
-import ru.ftob.grostore.service.file.FileStorageService;
+import ru.ftob.grostore.ucoz.UcozSynchronizeService;
 import ru.ftob.grostore.service.file.FileStorageServiceImpl;
+import ru.ftob.grostore.service.product.ProductService;
 import ru.ftob.grostore.service.productlist.CategoryService;
+import ru.ftob.grostore.service.stock.StockService;
 import ru.ftob.grostore.service.util.XlsHandlerUtil;
 import ru.ftob.grostore.service.util.exception.NotFoundException;
 import ru.ftob.grostore.service.xlsto.XlsProduct;
@@ -32,8 +35,10 @@ import ru.ftob.grostore.ucoz.snapshot.SnapshotCategory;
 import ru.ftob.grostore.ucoz.snapshot.SnapshotCategoryRepository;
 import ru.ftob.grostore.ucoz.snapshot.SnapshotProduct;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -60,13 +65,22 @@ public class UcozSynchronizeController {
 
     private final CategoryService categoryService;
 
+    private final ProductService productService;
+
+    private final StockService stockService;
+
+    private final UcozSynchronizeService synchronizeService;
+
     @Autowired
-    public UcozSynchronizeController(StorageService storageService, FileStorageServiceImpl fileStorageService, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotHandler handler, CategoryService categoryService) {
+    public UcozSynchronizeController(StorageService storageService, FileStorageServiceImpl fileStorageService, SnapshotCategoryRepository snapshotCategoryRepository, SnapshotHandler handler, CategoryService categoryService, ProductService productService, StockService stockService, UcozSynchronizeService synchronizeService) {
         this.storageService = storageService;
         this.fileStorageService = fileStorageService;
         this.snapshotCategoryRepository = snapshotCategoryRepository;
         this.handler = handler;
         this.categoryService = categoryService;
+        this.productService = productService;
+        this.stockService = stockService;
+        this.synchronizeService = synchronizeService;
     }
 
     @PostMapping("/products/snapshot")
@@ -186,8 +200,8 @@ public class UcozSynchronizeController {
             File tmp = new File(storageService.getRootLocation() + "/" + file.getOriginalFilename());
             ArrayList<ProductImportFieldType> fields = new ArrayList<>();
             int i = 0;
-            while(i <= Math.max(skuColumn, priceColumn)) {
-                if(i == skuColumn) {
+            while (i <= Math.max(skuColumn, priceColumn)) {
+                if (i == skuColumn) {
                     fields.add(ProductImportFieldType.SKU);
                 } else if (i == priceColumn) {
                     fields.add(ProductImportFieldType.PRICE_IN);
@@ -237,15 +251,13 @@ public class UcozSynchronizeController {
         category.setName(sc.getName());
         //TODO something
 //        category.setMetaTitle(sc.getName());
-
-        Integer parentId = sc.getParentId();
-        SnapshotCategory sParent = snapshotCategoryRepository.findById(parentId).orElse(null);
-        Category parent = null;
-        if(sParent != null) {
-            parent = convertToDbCategory(sParent);
+        if (sc.getParentId() != 0) {
+            category.setParent(
+                    categoryService.getByName(
+                            snapshotCategoryRepository.findById(
+                                    sc.getParentId()).get().getName()));
         }
-        category.setParent(parent);
-        if(!StringUtils.isEmpty(sc.getImageUrl())) {
+        if (!StringUtils.isEmpty(sc.getImageUrl())) {
             try {
                 CategoryImage image = new CategoryImage();
                 String imageName = "/img/c/" + sc.getId() + "." + fileStorageService.getFileExtension(sc.getImageUrl());
@@ -260,7 +272,7 @@ public class UcozSynchronizeController {
             }
         }
         try {
-            if(null == categoryService.getByName(category.getName())) {
+            if (null == categoryService.getByName(category.getName())) {
                 category = categoryService.create(category);
             } else {
                 category = categoryService.update(category);
@@ -270,5 +282,18 @@ public class UcozSynchronizeController {
         }
 
         return category;
+    }
+
+    @PostMapping("/products-from-backup")
+    public ResponseEntity<?> productsFromBackup(@RequestParam("file") MultipartFile file) {
+        try {
+            InputStream inputStream = new ByteArrayInputStream(file.getBytes());
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            synchronizeService.saveProducts(workbook);
+
+        } catch (IOException e) {
+            log.error("Can't parse products from backup", e);
+        }
+        return ResponseEntity.ok().build();
     }
 }

@@ -23,6 +23,15 @@ public class ModificationStringValue extends AbstractBaseEntity {
     public ModificationStringValue() {
     }
 
+    public ModificationStringValue(@Size(max = 255) @NotNull(message = "Modification value must not be null") String value) {
+        this.value = value;
+    }
+
+    public ModificationStringValue(@Size(max = 255) @NotNull(message = "Modification value must not be null") String value, @NotNull(message = "Modification string must not be null") ModificationString modificationString) {
+        this.value = value;
+        this.modificationString = modificationString;
+    }
+
     public String getValue() {
         return value;
     }

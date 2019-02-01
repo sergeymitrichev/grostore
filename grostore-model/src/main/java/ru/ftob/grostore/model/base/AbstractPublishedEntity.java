@@ -27,6 +27,15 @@ public abstract class AbstractPublishedEntity<T extends AbstractEntityImage> ext
     @Column(name = "meta_keywords")
     private String metaKeywords;
 
+    @Column(name = "rating_sum", columnDefinition = "default 0")
+    private Integer ratingSum;
+
+    @Column(name = "rating_count", columnDefinition = "default 0")
+    private Integer ratingCount;
+
+    @Column(name = "rating_average", columnDefinition = "default 0")
+    private Double ratingAverage;
+
     @Transient
 //    @Embedded
 //    @AttributeOverrides({
@@ -38,6 +47,10 @@ public abstract class AbstractPublishedEntity<T extends AbstractEntityImage> ext
     private AbstractEntityImage metaImage;
 
     public AbstractPublishedEntity() {
+    }
+
+    public AbstractPublishedEntity(@NotBlank @Size(min = 2, max = 100) String name) {
+        super(name);
     }
 
     public AbstractEntityImage getMetaImage() {
@@ -80,7 +93,29 @@ public abstract class AbstractPublishedEntity<T extends AbstractEntityImage> ext
         this.metaKeywords = metaKeywords;
     }
 
+    public Integer getRatingSum() {
+        return ratingSum;
+    }
 
+    public void setRatingSum(Integer ratingSum) {
+        this.ratingSum = ratingSum;
+    }
+
+    public Integer getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(Integer ratingCount) {
+        this.ratingCount = ratingCount;
+    }
+
+    public Double getRatingAverage() {
+        return ratingAverage;
+    }
+
+    public void setRatingAverage(Double ratingAverage) {
+        this.ratingAverage = ratingAverage;
+    }
 
     @Override
     public String toString() {

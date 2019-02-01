@@ -32,6 +32,11 @@ public class ProductInStock extends AbstractBaseEntity {
     public ProductInStock() {
     }
 
+    public ProductInStock(Product product, @NotBlank @Size(min = 1, max = 16) String shelf) {
+        this.product = product;
+        this.shelf = shelf;
+    }
+
     public Stock getStock() {
         return stock;
     }

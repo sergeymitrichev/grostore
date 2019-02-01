@@ -6,6 +6,7 @@ import ru.ftob.grostore.model.image.ProductImage;
 import ru.ftob.grostore.model.ingredient.Ingredient;
 import ru.ftob.grostore.model.modification.ModificationFloatValue;
 import ru.ftob.grostore.model.modification.ModificationStringValue;
+import ru.ftob.grostore.model.productlist.Brand;
 import ru.ftob.grostore.model.productlist.Category;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ import java.util.Set;
                 @NamedAttributeNode("ingredients"),
                 @NamedAttributeNode("alsoBuy"),
                 @NamedAttributeNode("recommended"),
+                @NamedAttributeNode("brand"),
                 @NamedAttributeNode("analytic")
         }
 )
@@ -52,7 +54,7 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @NotNull(message = "Product prices must not be null")
     private List<Price> prices = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable
             (
                     name = "product_modification_float_value",
@@ -62,7 +64,7 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @OrderBy("modification_float_id")
     private Set<ModificationFloatValue> modificationFloatValues = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable
             (
                     name = "product_modification_string_value",
@@ -72,7 +74,7 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @OrderBy("modification_string_id")
     private Set<ModificationStringValue> modificationStringValues = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "product_ingredient",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
@@ -97,7 +99,21 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
     @OrderColumn(name = "weight")
     private Set<Product> recommended;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    @Column(name = "weight")
+    private Integer weight;
+
+    @Column(name = "barcode")
+    private String barcode;
+
     public Product() {
+    }
+
+    public Product(@Size(min = 4, max = 56) @NotNull(message = "Product SKU must not be null") String sku) {
+        this.sku = sku;
     }
 
     public List<Price> getPrices() {
@@ -106,6 +122,10 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void setPrices(List<Price> prices) {
         this.prices = prices;
+    }
+
+    public void addPrice(Price price) {
+        this.prices.add(price);
     }
 
     public String getSku() {
@@ -190,6 +210,30 @@ public class Product extends AbstractPublishedEntity<ProductImage> {
 
     public void setRecommended(Set<Product> recommended) {
         this.recommended = recommended;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     @Override
